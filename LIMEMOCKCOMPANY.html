@@ -1,0 +1,940 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>lime.com</title>
+  <style>
+    /* ===== FONT IMPORTS ===== */
+    @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap');
+
+    /* ===== CSS VARIABLES ===== */
+    :root {
+      --color-black: #0a0a0a;
+      --color-navy: #0f1419;
+      --color-white: #ffffff;
+      --color-grey-light: #e8e8e8;
+      --color-grey-med: #8a8a8a;
+      --color-lime: #00ff41;
+      --color-lime-hover: #00dd38;
+      --color-lime-glow: rgba(0, 255, 65, 0.2);
+      --color-border: rgba(0, 255, 65, 0.15);
+
+      --font-display: 'Space Grotesk', sans-serif;
+      --font-body: 'Inter', sans-serif;
+
+      --spacing-xs: 0.5rem;
+      --spacing-sm: 1rem;
+      --spacing-md: 1.5rem;
+      --spacing-lg: 2rem;
+      --spacing-xl: 3rem;
+
+      --transition: 150ms cubic-bezier(0.2, 0, 0.38, 0.9);
+    }
+
+    /* ===== RESET ===== */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background-color: #0a0a0a;
+      color: var(--color-grey-light);
+      font-family: var(--font-body);
+      font-size: 1rem;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      min-height: 100vh;
+      position: relative;
+      overflow-x: hidden;
+    }
+
+
+    /* ===== CONTAINER ===== */
+    .page-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: var(--spacing-lg);
+      position: relative;
+      z-index: 1;
+    }
+
+    /* ===== HEADER ===== */
+    .page-header {
+      display: flex;
+      align-items: center;
+      gap: var(--spacing-md);
+      margin-bottom: var(--spacing-xl);
+    }
+
+    .back-button {
+      width: 44px;
+      height: 44px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(0, 255, 65, 0.15);
+      border-radius: 6px;
+      color: var(--color-grey-light);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all var(--transition);
+      flex-shrink: 0;
+    }
+
+    .back-button:hover {
+      background: rgba(0, 255, 65, 0.1);
+      border-color: rgba(0, 255, 65, 0.3);
+      color: var(--color-lime);
+    }
+
+    .back-button:focus-visible {
+      outline: 2px solid var(--color-lime);
+      outline-offset: 2px;
+    }
+
+    .breadcrumb {
+      color: var(--color-grey-med);
+      font-size: 0.9rem;
+    }
+
+    .breadcrumb a {
+      color: var(--color-lime);
+      text-decoration: none;
+      transition: color var(--transition);
+    }
+
+    .breadcrumb a:hover {
+      color: var(--color-lime-hover);
+      text-decoration: underline;
+    }
+
+    /* ===== COMPANY HERO ===== */
+    .company-hero {
+      background: rgba(15, 20, 29, 0.75);
+      backdrop-filter: blur(20px);
+      border: 1px solid var(--color-border);
+      border-radius: 6px;
+      padding: var(--spacing-xl);
+      margin-bottom: var(--spacing-xl);
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      gap: var(--spacing-xl);
+      align-items: flex-start;
+    }
+
+    .company-hero::before {
+      content: '';
+      position: absolute;
+      top: -2px;
+      right: -2px;
+      width: 150px;
+      height: 150px;
+      border-right: 2px solid var(--color-lime);
+      border-top: 2px solid var(--color-lime);
+      transform: rotate(45deg);
+      opacity: 0.2;
+      pointer-events: none;
+    }
+
+    .company-hero::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: radial-gradient(circle at top right, rgba(0, 255, 65, 0.05) 0%, transparent 70%);
+      pointer-events: none;
+      border-radius: 6px;
+    }
+
+    .company-logo-section {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: var(--spacing-md);
+    }
+
+    .company-logo {
+      width: 120px;
+      height: 120px;
+      border-radius: 6px;
+      background: linear-gradient(135deg, var(--color-lime), rgba(0, 255, 65, 0.5));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      color: var(--color-black);
+      font-size: 2.5rem;
+    }
+
+    .company-info {
+      position: relative;
+      z-index: 1;
+      flex: 1;
+    }
+
+    .company-name {
+      font-family: var(--font-display);
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--color-white);
+      margin-bottom: var(--spacing-sm);
+      letter-spacing: -0.01em;
+    }
+
+    .company-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--spacing-md);
+      margin-bottom: var(--spacing-lg);
+      color: var(--color-grey-med);
+      font-size: 0.95rem;
+    }
+
+    .meta-item {
+      display: flex;
+      align-items: center;
+      gap: var(--spacing-xs);
+    }
+
+    .company-rating {
+      display: flex;
+      align-items: center;
+      gap: var(--spacing-xs);
+      color: var(--color-lime);
+      font-weight: 600;
+      font-size: 1rem;
+    }
+
+    .company-description {
+      color: var(--color-grey-light);
+      margin-bottom: var(--spacing-lg);
+      line-height: 1.7;
+    }
+
+    .company-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--spacing-sm);
+      margin-bottom: var(--spacing-lg);
+    }
+
+    .company-tag {
+      background: rgba(0, 255, 65, 0.1);
+      color: var(--color-lime);
+      padding: 0.4rem 0.9rem;
+      border-radius: 6px;
+      font-size: 0.85rem;
+      font-weight: 500;
+    }
+
+    .company-actions {
+      display: flex;
+      gap: var(--spacing-md);
+      flex-wrap: wrap;
+    }
+
+    .action-button {
+      padding: var(--spacing-md) var(--spacing-lg);
+      background: var(--color-lime);
+      color: var(--color-black);
+      border: none;
+      border-radius: 6px;
+      font-family: var(--font-display);
+      font-weight: 600;
+      font-size: 0.95rem;
+      cursor: pointer;
+      transition: all var(--transition);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      min-height: 44px;
+    }
+
+    .action-button:hover {
+      background: var(--color-lime-hover);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 16px rgba(0, 255, 65, 0.3);
+    }
+
+    .action-button:focus-visible {
+      outline: 2px solid var(--color-lime);
+      outline-offset: 2px;
+    }
+
+    .action-button-secondary {
+      background: transparent;
+      color: var(--color-lime);
+      border: 1px solid rgba(0, 255, 65, 0.3);
+    }
+
+    .action-button-secondary:hover {
+      background: rgba(0, 255, 65, 0.1);
+      border-color: rgba(0, 255, 65, 0.6);
+    }
+
+    /* ===== SECTIONS ===== */
+    .section {
+      margin-bottom: var(--spacing-xl);
+    }
+
+    .section-title {
+      font-family: var(--font-display);
+      font-size: 1.4rem;
+      font-weight: 600;
+      color: var(--color-white);
+      margin-bottom: var(--spacing-lg);
+      letter-spacing: -0.01em;
+    }
+
+    .section-content {
+      background: rgba(15, 20, 29, 0.75);
+      backdrop-filter: blur(20px);
+      border: 1px solid var(--color-border);
+      border-radius: 6px;
+      padding: var(--spacing-lg);
+    }
+
+    .about-text {
+      color: var(--color-grey-light);
+      line-height: 1.8;
+      margin-bottom: var(--spacing-md);
+    }
+
+    .about-text:last-child {
+      margin-bottom: 0;
+    }
+
+    /* ===== ROLES GRID ===== */
+    .roles-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: var(--spacing-lg);
+    }
+
+    .role-card {
+      background: rgba(15, 20, 29, 0.6);
+      border: 1px solid rgba(0, 255, 65, 0.2);
+      border-radius: 6px;
+      padding: var(--spacing-lg);
+      transition: all var(--transition);
+      cursor: pointer;
+    }
+
+    .role-card:hover {
+      border-color: rgba(0, 255, 65, 0.4);
+      box-shadow: 0 8px 32px rgba(0, 255, 65, 0.12);
+      transform: translateY(-4px);
+    }
+
+    .role-title {
+      font-family: var(--font-display);
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: var(--color-white);
+      margin-bottom: var(--spacing-sm);
+    }
+
+    .role-level {
+      display: inline-block;
+      background: rgba(0, 255, 65, 0.15);
+      color: var(--color-lime);
+      padding: 0.25rem 0.6rem;
+      border-radius: 4px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      margin-bottom: var(--spacing-md);
+    }
+
+    .role-description {
+      color: var(--color-grey-med);
+      font-size: 0.95rem;
+      margin-bottom: var(--spacing-md);
+      line-height: 1.6;
+    }
+
+    .role-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--spacing-sm);
+      margin-bottom: var(--spacing-md);
+      font-size: 0.85rem;
+      color: var(--color-grey-med);
+    }
+
+    .role-apply {
+      display: inline-block;
+      padding: var(--spacing-sm) var(--spacing-md);
+      background: var(--color-lime);
+      color: var(--color-black);
+      border: none;
+      border-radius: 6px;
+      font-weight: 600;
+      font-size: 0.85rem;
+      cursor: pointer;
+      transition: all var(--transition);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .role-apply:hover {
+      background: var(--color-lime-hover);
+      transform: translateY(-2px);
+    }
+
+    .role-apply:focus-visible {
+      outline: 2px solid var(--color-lime);
+      outline-offset: 2px;
+    }
+
+    /* ===== TECH STACK ===== */
+    .tech-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+      gap: var(--spacing-md);
+    }
+
+    .tech-item {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(0, 255, 65, 0.15);
+      border-radius: 6px;
+      padding: var(--spacing-md);
+      text-align: center;
+      transition: all var(--transition);
+    }
+
+    .tech-item:hover {
+      border-color: rgba(0, 255, 65, 0.3);
+      background: rgba(255, 255, 255, 0.08);
+    }
+
+    .tech-name {
+      font-weight: 600;
+      color: var(--color-white);
+    }
+
+    /* ===== PERKS ===== */
+    .perks-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: var(--spacing-lg);
+    }
+
+    .perk-card {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(0, 255, 65, 0.15);
+      border-radius: 6px;
+      padding: var(--spacing-lg);
+      text-align: center;
+    }
+
+    .perk-icon {
+      font-size: 2.5rem;
+      margin-bottom: var(--spacing-sm);
+    }
+
+    .perk-title {
+      font-weight: 600;
+      color: var(--color-white);
+      margin-bottom: var(--spacing-xs);
+    }
+
+    .perk-description {
+      color: var(--color-grey-med);
+      font-size: 0.9rem;
+    }
+
+    /* ===== REVIEWS ===== */
+    .reviews-list {
+      display: flex;
+      flex-direction: column;
+      gap: var(--spacing-lg);
+    }
+
+    .review-card {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(0, 255, 65, 0.15);
+      border-radius: 6px;
+      padding: var(--spacing-lg);
+    }
+
+    .review-header {
+      display: flex;
+      align-items: center;
+      gap: var(--spacing-md);
+      margin-bottom: var(--spacing-md);
+    }
+
+    .review-avatar {
+      width: 44px;
+      height: 44px;
+      border-radius: 4px;
+      background: linear-gradient(135deg, var(--color-lime), rgba(0, 255, 65, 0.5));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 600;
+      color: var(--color-black);
+      font-size: 0.9rem;
+      flex-shrink: 0;
+    }
+
+    .review-info {
+      flex: 1;
+    }
+
+    .review-name {
+      font-weight: 600;
+      color: var(--color-white);
+    }
+
+    .review-meta {
+      font-size: 0.85rem;
+      color: var(--color-grey-med);
+    }
+
+    .review-rating {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.25rem;
+      color: var(--color-lime);
+      font-weight: 600;
+    }
+
+    .review-rating .star-icon {
+      display: inline-flex;
+      width: 1rem;
+      height: 1rem;
+    }
+
+    .review-rating .star-icon svg {
+      width: 100%;
+      height: 100%;
+      fill: currentColor;
+    }
+
+    .review-text {
+      color: var(--color-grey-light);
+      line-height: 1.6;
+    }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 1024px) {
+      .company-hero {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+      }
+
+      .company-meta {
+        justify-content: center;
+      }
+
+      .company-actions {
+        justify-content: center;
+      }
+
+      .section-title {
+        font-size: 1.2rem;
+      }
+
+      .roles-grid {
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      }
+    }
+
+    @media (max-width: 768px) {
+      .page-container {
+        padding: var(--spacing-md);
+      }
+
+      .company-hero {
+        padding: var(--spacing-lg);
+        margin-bottom: var(--spacing-lg);
+      }
+
+      .company-logo {
+        width: 100px;
+        height: 100px;
+        font-size: 2rem;
+      }
+
+      .company-name {
+        font-size: 1.5rem;
+      }
+
+      .section-content {
+        padding: var(--spacing-md);
+      }
+
+      .roles-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .tech-grid {
+        grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+      }
+
+      .perks-grid {
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      }
+
+      .action-button {
+        width: 100%;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .page-header {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .page-container {
+        padding: var(--spacing-sm);
+      }
+
+      .company-hero {
+        padding: var(--spacing-md);
+      }
+
+      .company-logo {
+        width: 80px;
+        height: 80px;
+        font-size: 1.5rem;
+      }
+
+      .company-name {
+        font-size: 1.25rem;
+      }
+
+      .company-meta {
+        flex-direction: column;
+        gap: var(--spacing-sm);
+      }
+
+      .company-actions {
+        flex-direction: column;
+        width: 100%;
+      }
+
+      .action-button {
+        width: 100%;
+      }
+
+      .section-title {
+        font-size: 1.1rem;
+      }
+
+      .section-content {
+        padding: var(--spacing-md);
+      }
+
+      .tech-grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+
+      .perks-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .review-header {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+    }
+
+    /* ===== ACCESSIBILITY ===== */
+    @media (prefers-reduced-motion: reduce) {
+      * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+
+      .orb {
+        animation: none !important;
+      }
+    }
+  </style>
+  <link rel="stylesheet" href="lime-nav.css">
+  <link rel="stylesheet" href="lime-background.css">
+</head>
+<body>
+  <div class="lime-bg-image"></div>
+  <div class="lime-bg-overlay"></div>
+
+  <div id="lime-nav-root"></div>
+
+  <div class="page-container">
+    <!-- Header -->
+    <div class="page-header">
+      <button class="back-button" onclick="window.history.back()" aria-label="Go back">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width: 20px; height: 20px;">
+          <path d="M19 12H5M12 19l-7-7 7-7"/>
+        </svg>
+      </button>
+      <div class="breadcrumb">
+        <a href="#search">Search</a> / <span id="companyNameBreadcrumb">TechCorp</span>
+      </div>
+    </div>
+
+    <!-- Company Hero -->
+    <div class="company-hero">
+      <div class="company-logo-section">
+        <div class="company-logo" id="companyLogo">TC</div>
+      </div>
+      <div class="company-info">
+        <h1 class="company-name" id="companyName">TechCorp</h1>
+        
+        <div class="company-meta">
+          <div class="meta-item"><span class="icon icon-location"></span><span id="companyLocation">San Francisco, CA</span></div>
+          <div class="meta-item"><span class="icon icon-building"></span><span id="companySize">Growth (51-500)</span></div>
+          <div class="meta-item"><span class="icon icon-calendar"></span><span id="companyFounded">Founded 2018</span></div>
+          <div class="company-rating"><span class="icon icon-star"></span><span id="companyRating">4.8</span><span style="color: var(--color-grey-med);">(324 reviews)</span></div>
+        </div>
+
+        <p class="company-description" id="companyDescription">
+          We're building next-generation cloud infrastructure solutions for enterprise clients. Our mission is to empower businesses with cutting-edge technology and exceptional support.
+        </p>
+
+        <div class="company-tags" id="companyTagsContainer">
+          <div class="company-tag">Series B Funded</div>
+          <div class="company-tag">Remote-First</div>
+          <div class="company-tag">Fast Growing</div>
+        </div>
+
+        <div class="company-actions">
+          <button class="action-button" onclick="handleConnect()">Connect</button>
+          <button class="action-button action-button-secondary" onclick="handleVisitWebsite()">Visit Website</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- About Section -->
+    <section class="section">
+      <h2 class="section-title">About TechCorp</h2>
+      <div class="section-content">
+        <p class="about-text">
+          TechCorp is a Series B-funded cloud infrastructure company focused on making enterprise software deployment simpler and faster. Since 2018, we've grown to serve over 5,000 companies across 40+ countries.
+        </p>
+        <p class="about-text">
+          Our team of 150+ engineers, designers, and product experts work collaboratively to solve real customer problems. We believe in radical transparency, continuous learning, and building products that matter.
+        </p>
+      </div>
+    </section>
+
+    <!-- Open Roles Section -->
+    <section class="section">
+      <h2 class="section-title">Open Positions</h2>
+      <div class="roles-grid">
+        <div class="role-card">
+          <div class="role-level">Senior</div>
+          <h3 class="role-title">Senior Full Stack Engineer</h3>
+          <p class="role-description">Lead development of our cloud platform. Work on API design, system architecture, and mentoring junior engineers.</p>
+          <div class="role-meta"><span class="icon icon-money"></span><span>$150k - $200k</span><span class="icon icon-location-sm"></span><span>San Francisco, CA</span></div>
+          <button class="role-apply" onclick="handleCompanyApply(this, 'Senior Full Stack Engineer', 'TechCorp', 'San Francisco, CA')">Apply Now</button>
+          <button class="role-apply" style="background: transparent; color: var(--color-lime); border: 1px solid rgba(0, 255, 65, 0.3);" onclick="handleSaveJobFromCompany('Senior Full Stack Engineer', 'TechCorp', 'San Francisco, CA', '$150k - $200k')">Save</button>
+        </div>
+
+        <div class="role-card">
+          <div class="role-level">Mid-Level</div>
+          <h3 class="role-title">Product Designer</h3>
+          <p class="role-description">Design user-facing features for our web and mobile applications. Collaborate with product and engineering teams.</p>
+          <div class="role-meta"><span class="icon icon-money"></span><span>$100k - $140k</span><span class="icon icon-location-sm"></span><span>San Francisco, CA</span></div>
+          <button class="role-apply" onclick="handleCompanyApply(this, 'Product Designer', 'TechCorp', 'San Francisco, CA')">Apply Now</button>
+          <button class="role-apply" style="background: transparent; color: var(--color-lime); border: 1px solid rgba(0, 255, 65, 0.3);" onclick="handleSaveJobFromCompany('Product Designer', 'TechCorp', 'San Francisco, CA', '$100k - $140k')">Save</button>
+        </div>
+
+        <div class="role-card">
+          <div class="role-level">Junior</div>
+          <h3 class="role-title">Junior Frontend Developer</h3>
+          <p class="role-description">Build beautiful, responsive user interfaces. Great opportunity to grow your skills in a supportive environment.</p>
+          <div class="role-meta"><span class="icon icon-money"></span><span>$80k - $110k</span><span class="icon icon-location-sm"></span><span>Remote</span></div>
+          <button class="role-apply" onclick="handleCompanyApply(this, 'Junior Frontend Developer', 'TechCorp', 'Remote')">Apply Now</button>
+          <button class="role-apply" style="background: transparent; color: var(--color-lime); border: 1px solid rgba(0, 255, 65, 0.3);" onclick="handleSaveJobFromCompany('Junior Frontend Developer', 'TechCorp', 'Remote', '$80k - $110k')">Save</button>
+        </div>
+
+        <div class="role-card">
+          <div class="role-level">Senior</div>
+          <h3 class="role-title">DevOps Engineer</h3>
+          <p class="role-description">Design and maintain our Kubernetes infrastructure. Optimize deployment pipelines and ensure system reliability.</p>
+          <div class="role-meta"><span class="icon icon-money"></span><span>$140k - $190k</span><span class="icon icon-location-sm"></span><span>San Francisco, CA</span></div>
+          <button class="role-apply" onclick="handleCompanyApply(this, 'DevOps Engineer', 'TechCorp', 'San Francisco, CA')">Apply Now</button>
+          <button class="role-apply" style="background: transparent; color: var(--color-lime); border: 1px solid rgba(0, 255, 65, 0.3);" onclick="handleSaveJobFromCompany('DevOps Engineer', 'TechCorp', 'San Francisco, CA', '$140k - $190k')">Save</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Tech Stack Section -->
+    <section class="section">
+      <h2 class="section-title">Tech Stack</h2>
+      <div class="section-content">
+        <div class="tech-grid">
+          <div class="tech-item"><span class="tech-icon tech-react"></span><div class="tech-name">React</div></div>
+          <div class="tech-item"><span class="tech-icon tech-node"></span><div class="tech-name">Node.js</div></div>
+          <div class="tech-item"><span class="tech-icon tech-postgres"></span><div class="tech-name">PostgreSQL</div></div>
+          <div class="tech-item"><span class="tech-icon tech-k8s"></span><div class="tech-name">Kubernetes</div></div>
+          <div class="tech-item"><span class="tech-icon tech-ts"></span><div class="tech-name">TypeScript</div></div>
+          <div class="tech-item"><span class="tech-icon tech-docker"></span><div class="tech-name">Docker</div></div>
+          <div class="tech-item"><span class="tech-icon tech-aws"></span><div class="tech-name">AWS</div></div>
+          <div class="tech-item"><span class="tech-icon tech-graphql"></span><div class="tech-name">GraphQL</div></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Perks & Benefits Section -->
+    <section class="section">
+      <h2 class="section-title">Why Join TechCorp?</h2>
+      <div class="section-content">
+        <div class="perks-grid">
+          <div class="perk-card"><div class="perk-icon perk-remote"></div><div class="perk-title">100% Remote Options</div><div class="perk-description">Work from anywhere. Flexible location policies for all roles.</div></div>
+          <div class="perk-card"><div class="perk-icon perk-learning"></div><div class="perk-title">Learning Budget</div><div class="perk-description">$3k annually for courses, conferences, and skill development.</div></div>
+          <div class="perk-card"><div class="perk-icon perk-health"></div><div class="perk-title">Health & Wellness</div><div class="perk-description">100% covered health insurance + wellness stipend.</div></div>
+          <div class="perk-card"><div class="perk-icon perk-office"></div><div class="perk-title">Home Office Setup</div><div class="perk-description">$1k equipment budget to set up your perfect workspace.</div></div>
+          <div class="perk-card"><div class="perk-icon perk-equity"></div><div class="perk-title">Equity Package</div><div class="perk-description">Competitive stock options for all full-time employees.</div></div>
+          <div class="perk-card"><div class="perk-icon perk-retreat"></div><div class="perk-title">Team Retreats</div><div class="perk-description">2 company retreats per year at amazing destinations.</div></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Reviews Section -->
+    <section class="section">
+      <h2 class="section-title">Student Reviews</h2>
+      <div class="section-content">
+        <div class="reviews-list">
+          <div class="review-card">
+            <div class="review-header">
+              <div class="review-avatar">SM</div>
+              <div class="review-info">
+                <div class="review-name">Sarah Mitchell</div>
+                <div class="review-meta">Senior Product Designer • Joined 6 months ago</div>
+              </div>
+              <div class="review-rating"><span class="star-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.63-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.45 4.73L5.82 21z"></path></svg></span><span class="sr-only">5 out of 5 stars</span></div>
+            </div>
+            <div class="review-text">
+              TechCorp has been an incredible place to grow. The team is supportive, the work is meaningful, and I've learned more in 6 months than I did in years at my previous role.
+            </div>
+          </div>
+
+          <div class="review-card">
+            <div class="review-header">
+              <div class="review-avatar">JL</div>
+              <div class="review-info">
+                <div class="review-name">James Lee</div>
+                <div class="review-meta">Full Stack Engineer • Joined 1 year ago</div>
+              </div>
+              <div class="review-rating"><span class="star-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.63-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.45 4.73L5.82 21z"></path></svg></span><span class="sr-only">5 out of 5 stars</span></div>
+            </div>
+            <div class="review-text">
+              Great company with a real focus on engineering excellence. The codebase is clean, the processes are well-organized, and everyone genuinely cares about the product.
+            </div>
+          </div>
+
+          <div class="review-card">
+            <div class="review-header">
+              <div class="review-avatar">AJ</div>
+              <div class="review-info">
+                <div class="review-name">Alex Johnson</div>
+                <div class="review-meta">Junior Frontend Developer • Joined 3 months ago</div>
+              </div>
+              <div class="review-rating"><span class="star-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.63-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.45 4.73L5.82 21z"></path></svg></span><span class="sr-only">5 out of 5 stars</span></div>
+            </div>
+            <div class="review-text">
+              As a junior, I was worried about being the least experienced person in the room. But the mentorship and onboarding here is exceptional. Highly recommend!
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Bottom CTA -->
+    <section class="section" style="text-align: center;">
+      <h2 class="section-title">Ready to Join the Team?</h2>
+      <div class="section-content">
+        <p style="margin-bottom: var(--spacing-lg); color: var(--color-grey-light); font-size: 1.05rem;">
+          Check out our open positions and apply today. We're always excited to meet talented engineers and designers.
+        </p>
+        <button class="action-button" onclick="document.querySelector('.roles-grid').scrollIntoView({ behavior: 'smooth' })">
+          View All Positions
+        </button>
+      </div>
+    </section>
+  </div>
+
+  <script>
+    // Handle connect button
+    function handleConnect() {
+      console.log('Connect action triggered');
+      alert('Connection request sent! TechCorp will review your profile.');
+    }
+
+    // Handle website visit
+    function handleVisitWebsite() {
+      console.log('Visit website action triggered');
+      // Replace with actual company website URL
+      alert('Opening TechCorp website...');
+    }
+
+    // Handle apply to role
+    function handleApply(roleName) {
+      console.log('Apply to role:', roleName);
+      alert(`You applied for: ${roleName}\n\nYour profile and portfolio will be reviewed by TechCorp.`);
+    }
+
+    // In a real implementation, fetch project data from API:
+    // const projectId = new URLSearchParams(window.location.search).get('id');
+    // fetch(`/api/projects/${projectId}`)
+    //   .then(r => r.json())
+    //   .then(data => {
+    //     document.getElementById('projectTitle').textContent = data.title;
+    //     document.getElementById('projectTagline').textContent = data.tagline;
+    //     // ... populate all sections
+    //   });
+
+    // Handle apply from company page
+    function handleCompanyApply(button, role, company, location) {
+      const success = applyToJob({
+        companyName: company,
+        companyLogo: company.substring(0, 2).toUpperCase(),
+        role: role,
+        location: location,
+        salary: 'Competitive'
+      });
+
+      if (success) {
+        button.disabled = true;
+        button.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:14px;height:14px;vertical-align:-2px;margin-right:4px;"><polyline points="20 6 9 17 4 12"></polyline></svg>Applied';
+        button.style.opacity = '0.6';
+      }
+    }
+
+    // Handle save job from company page
+    function handleSaveJobFromCompany(role, company, location, salary) {
+      saveJob({
+        title: role,
+        company: company,
+        logo: company.substring(0, 2).toUpperCase(),
+        location: location,
+        salary: salary,
+        category: 'tech',
+      });
+    }
+  </script>
+  <script src="lime-nav.js"></script>
+
+  <script src="lime-applications-helper.js"></script>
+</body>
+</html>

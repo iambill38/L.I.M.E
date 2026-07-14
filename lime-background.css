@@ -1,0 +1,29 @@
+/* ===== L.I.M.E Shared Background ===== */
+/* Single consistent background treatment across every page: a static image,
+   fixed and centered, with a dark overlay layered on top for readability. */
+
+.lime-bg-image {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  background-image: url('LIMEBGPIC.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  pointer-events: none;
+}
+
+.lime-bg-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  background: linear-gradient(180deg, rgba(7, 11, 20, 0.82), rgba(7, 11, 20, 0.92));
+  pointer-events: none;
+}
+
+@media (max-width: 768px) {
+  .lime-bg-image {
+    background-attachment: scroll;
+  }
+}

@@ -1,0 +1,865 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Notifications - lime.com</title>
+  <style>
+    /* ===== FONT IMPORTS ===== */
+    @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap');
+
+    /* ===== CSS VARIABLES ===== */
+    :root {
+      --color-black: #0a0a0a;
+      --color-navy: #0f1419;
+      --color-white: #ffffff;
+      --color-grey-light: #e8e8e8;
+      --color-grey-med: #8a8a8a;
+      --color-lime: #00ff41;
+      --color-lime-hover: #00dd38;
+      --color-border: rgba(0, 255, 65, 0.15);
+      
+      /* Notification type colors */
+      --type-job: #4A90E2;
+      --type-message: #F5A623;
+      --type-application: #7ED321;
+      --type-profile: #9013FE;
+      --type-interview: #FF6B6B;
+
+      --font-display: 'Space Grotesk', sans-serif;
+      --font-body: 'Inter', sans-serif;
+
+      --spacing-xs: 0.5rem;
+      --spacing-sm: 1rem;
+      --spacing-md: 1.5rem;
+      --spacing-lg: 2rem;
+      --spacing-xl: 3rem;
+
+      --transition: 150ms cubic-bezier(0.2, 0, 0.38, 0.9);
+    }
+
+    /* ===== RESET ===== */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background-color: #0a0a0a;
+      color: var(--color-grey-light);
+      font-family: var(--font-body);
+      font-size: 1rem;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      min-height: 100vh;
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    /* ===== ANIMATED BACKGROUND ORBS ===== */
+
+    /* ===== TOP NAVIGATION ===== */
+    .page-nav {
+      position: fixed;
+      inset: 0 auto auto 0;
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      gap: 0.75rem;
+      align-items: center;
+      padding: 1rem 1.5rem;
+      background: rgba(15, 20, 29, 0.92);
+      border-bottom: 1px solid var(--color-border);
+      backdrop-filter: blur(16px);
+      z-index: 20;
+    }
+
+    .nav-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      align-items: center;
+    }
+
+    .nav-user {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.5rem 0.75rem;
+      border-radius: 3px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid transparent;
+      transition: all var(--transition);
+    }
+
+    .user-avatar {
+      width: 42px;
+      height: 42px;
+      border-radius: 4px;
+      background: linear-gradient(135deg, var(--color-lime), rgba(0, 255, 65, 0.5));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--color-black);
+      font-weight: 700;
+      font-size: 0.95rem;
+      flex-shrink: 0;
+    }
+
+    .user-name {
+      font-weight: 600;
+      color: var(--color-white);
+      font-size: 0.95rem;
+    }
+
+    .user-status {
+      font-size: 0.75rem;
+      color: var(--color-grey-med);
+    }
+
+    .page-nav a {
+      color: var(--color-grey-light);
+      text-decoration: none;
+      padding: 0.75rem 1rem;
+      border-radius: 3px;
+      border: 1px solid transparent;
+      transition: all var(--transition);
+      font-weight: 600;
+      background: rgba(255, 255, 255, 0.03);
+    }
+
+    .page-nav a:hover,
+    .page-nav a.active {
+      color: var(--color-lime);
+      background: rgba(0, 255, 65, 0.12);
+      border-color: rgba(0, 255, 65, 0.15);
+    }
+
+    /* ===== MAIN CONTENT ===== */
+    .main-content {
+      max-width: 1000px;
+      margin: 76px auto 0;
+      padding: var(--spacing-lg);
+      position: relative;
+      z-index: 1;
+    }
+
+    .content-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: var(--spacing-xl);
+      gap: var(--spacing-md);
+      flex-wrap: wrap;
+    }
+
+    .page-title {
+      font-family: var(--font-display);
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--color-white);
+      letter-spacing: -0.01em;
+    }
+
+    .page-subtitle {
+      color: var(--color-grey-med);
+      font-size: 0.95rem;
+    }
+
+    .header-actions {
+      display: flex;
+      gap: var(--spacing-sm);
+      flex-wrap: wrap;
+    }
+
+    .btn-small {
+      padding: 0.65rem 1.2rem;
+      background: transparent;
+      border: 1px solid rgba(0, 255, 65, 0.3);
+      color: var(--color-lime);
+      border-radius: 6px;
+      font-family: var(--font-body);
+      font-weight: 600;
+      font-size: 0.85rem;
+      cursor: pointer;
+      transition: all var(--transition);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .btn-small:hover {
+      background: rgba(0, 255, 65, 0.1);
+      border-color: rgba(0, 255, 65, 0.6);
+    }
+
+    /* ===== FILTER SECTION ===== */
+    .filter-section {
+      display: flex;
+      gap: var(--spacing-md);
+      margin-bottom: var(--spacing-xl);
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .filter-button {
+      padding: 0.65rem 1.2rem;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(0, 255, 65, 0.15);
+      border-radius: 6px;
+      color: var(--color-grey-light);
+      font-family: var(--font-body);
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: all var(--transition);
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      min-height: 40px;
+    }
+
+    .filter-button:hover {
+      border-color: rgba(0, 255, 65, 0.3);
+      background: rgba(0, 255, 65, 0.1);
+    }
+
+    .filter-button.active {
+      background: var(--color-lime);
+      color: var(--color-black);
+      border-color: var(--color-lime);
+    }
+
+    /* ===== NOTIFICATIONS LIST ===== */
+    .notifications-list {
+      display: flex;
+      flex-direction: column;
+      gap: var(--spacing-md);
+    }
+
+    .notification-item {
+      background: rgba(15, 20, 29, 0.75);
+      backdrop-filter: blur(20px);
+      border: 1px solid var(--color-border);
+      border-radius: 6px;
+      padding: var(--spacing-md);
+      display: flex;
+      gap: var(--spacing-md);
+      align-items: flex-start;
+      transition: all var(--transition);
+      cursor: pointer;
+      position: relative;
+    }
+
+    .notification-item:hover {
+      border-color: rgba(0, 255, 65, 0.3);
+      box-shadow: 0 8px 32px rgba(0, 255, 65, 0.12);
+    }
+
+    .notification-item.unread {
+      background: rgba(0, 255, 65, 0.05);
+      border-color: rgba(0, 255, 65, 0.2);
+    }
+
+    .notification-item.unread::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 4px;
+      background: var(--color-lime);
+      border-radius: 4px 0 0 4px;
+    }
+
+    .notification-icon {
+      width: 50px;
+      height: 50px;
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .notification-icon.job {
+      background: rgba(74, 144, 226, 0.2);
+      color: #4A90E2;
+    }
+
+    .notification-icon.message {
+      background: rgba(245, 166, 35, 0.2);
+      color: #F5A623;
+    }
+
+    .notification-icon.application {
+      background: rgba(126, 211, 33, 0.2);
+      color: #7ED321;
+    }
+
+    .notification-icon.profile {
+      background: rgba(144, 19, 254, 0.2);
+      color: #9013FE;
+    }
+
+    .notification-icon.interview {
+      background: rgba(255, 107, 107, 0.2);
+      color: #FF6B6B;
+    }
+
+    .notification-content {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .notification-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: var(--spacing-sm);
+      margin-bottom: var(--spacing-xs);
+    }
+
+    .notification-title {
+      font-weight: 600;
+      color: var(--color-white);
+      font-size: 0.95rem;
+    }
+
+    .notification-type {
+      display: inline-block;
+      padding: 0.3rem 0.8rem;
+      border-radius: 6px;
+      font-size: 0.7rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      white-space: nowrap;
+    }
+
+    .notification-type.job {
+      background: rgba(74, 144, 226, 0.15);
+      color: var(--type-job);
+      border: 1px solid rgba(74, 144, 226, 0.3);
+    }
+
+    .notification-type.message {
+      background: rgba(245, 166, 35, 0.15);
+      color: var(--type-message);
+      border: 1px solid rgba(245, 166, 35, 0.3);
+    }
+
+    .notification-type.application {
+      background: rgba(126, 211, 33, 0.15);
+      color: var(--type-application);
+      border: 1px solid rgba(126, 211, 33, 0.3);
+    }
+
+    .notification-type.profile {
+      background: rgba(144, 19, 254, 0.15);
+      color: var(--type-profile);
+      border: 1px solid rgba(144, 19, 254, 0.3);
+    }
+
+    .notification-type.interview {
+      background: rgba(255, 107, 107, 0.15);
+      color: var(--type-interview);
+      border: 1px solid rgba(255, 107, 107, 0.3);
+    }
+
+    .notification-message {
+      color: var(--color-grey-light);
+      font-size: 0.9rem;
+      margin-bottom: var(--spacing-sm);
+    }
+
+    .notification-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.8rem;
+      color: var(--color-grey-med);
+    }
+
+    .notification-time {
+      display: flex;
+      align-items: center;
+      gap: var(--spacing-xs);
+    }
+
+    .notification-actions {
+      display: flex;
+      gap: var(--spacing-xs);
+      align-items: center;
+    }
+
+    .action-icon-btn {
+      background: none;
+      border: none;
+      color: var(--color-grey-med);
+      cursor: pointer;
+      font-size: 1rem;
+      transition: all var(--transition);
+      padding: 0.4rem;
+    }
+
+    .action-icon-btn:hover {
+      color: var(--color-lime);
+    }
+
+    /* ===== EMPTY STATE ===== */
+    .empty-state {
+      text-align: center;
+      padding: var(--spacing-xl) var(--spacing-lg);
+      background: rgba(15, 20, 29, 0.75);
+      backdrop-filter: blur(20px);
+      border: 1px solid var(--color-border);
+      border-radius: 6px;
+    }
+
+    .empty-state-icon {
+      width: 56px;
+      height: 56px;
+      margin: 0 auto var(--spacing-md);
+      color: var(--color-lime);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .empty-state-icon svg {
+      width: 100%;
+      height: 100%;
+    }
+
+    .empty-state-title {
+      font-family: var(--font-display);
+      font-size: 1.3rem;
+      font-weight: 600;
+      color: var(--color-white);
+      margin-bottom: var(--spacing-sm);
+    }
+
+    .empty-state-text {
+      color: var(--color-grey-med);
+      margin-bottom: var(--spacing-lg);
+    }
+
+    /* ===== STATS ===== */
+    .notification-stats {
+      display: flex;
+      gap: var(--spacing-md);
+      margin-bottom: var(--spacing-xl);
+      flex-wrap: wrap;
+    }
+
+    .stat-item {
+      background: rgba(15, 20, 29, 0.75);
+      backdrop-filter: blur(20px);
+      border: 1px solid var(--color-border);
+      border-radius: 6px;
+      padding: var(--spacing-md);
+      text-align: center;
+      min-width: 120px;
+    }
+
+    .stat-number {
+      font-family: var(--font-display);
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: var(--color-lime);
+      margin-bottom: var(--spacing-xs);
+    }
+
+    .stat-label {
+      font-size: 0.8rem;
+      color: var(--color-grey-med);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 768px) {
+      .main-content {
+        padding: var(--spacing-md);
+      }
+
+      .page-title {
+        font-size: 1.5rem;
+      }
+
+      .content-header {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .header-actions {
+        width: 100%;
+      }
+
+      .btn-small {
+        flex: 1;
+      }
+
+      .notification-item {
+        padding: var(--spacing-sm);
+      }
+
+      .filter-section {
+        overflow-x: auto;
+        padding-bottom: var(--spacing-sm);
+      }
+
+      .notification-stats {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 480px) {
+      .page-title {
+        font-size: 1.25rem;
+      }
+
+      .notification-item {
+        gap: var(--spacing-sm);
+      }
+
+      .notification-icon {
+        width: 40px;
+        height: 40px;
+        font-size: 1.2rem;
+      }
+
+      .notification-header {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .notification-type {
+        align-self: flex-start;
+      }
+
+      .notification-meta {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+  </style>
+  <link rel="stylesheet" href="lime-nav.css">
+  <link rel="stylesheet" href="lime-background.css">
+</head>
+<body>
+  <div class="lime-bg-image"></div>
+  <div class="lime-bg-overlay"></div>
+
+  <div id="lime-nav-root"></div>
+
+  <!-- Top Navigation -->
+
+  <!-- Main Content -->
+  <main class="main-content">
+    <!-- Header -->
+    <div class="content-header">
+      <div>
+        <h1 class="page-title">Notifications</h1>
+        <p class="page-subtitle">Stay updated on your activity</p>
+      </div>
+      <div class="header-actions">
+        <button class="btn-small" onclick="markAllAsRead()">Mark All Read</button>
+        <button class="btn-small" onclick="clearAllNotifications()">Clear All</button>
+      </div>
+    </div>
+
+    <!-- Statistics -->
+    <div class="notification-stats">
+      <div class="stat-item">
+        <div class="stat-number" id="totalNotifications">0</div>
+        <div class="stat-label">Total</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number" id="unreadCount">0</div>
+        <div class="stat-label">Unread</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number" id="todayCount">0</div>
+        <div class="stat-label">Today</div>
+      </div>
+    </div>
+
+    <!-- Filter Section -->
+    <div class="filter-section">
+      <button class="filter-button active" data-filter="all">All</button>
+      <button class="filter-button" data-filter="job">Jobs</button>
+      <button class="filter-button" data-filter="message">Messages</button>
+      <button class="filter-button" data-filter="application">Applications</button>
+      <button class="filter-button" data-filter="profile">Profile</button>
+      <button class="filter-button" data-filter="interview">Interviews</button>
+    </div>
+
+    <!-- Notifications List -->
+    <div class="notifications-list" id="notificationsList">
+      <!-- Notifications rendered here -->
+    </div>
+
+    <!-- Empty State -->
+    <div class="empty-state" id="emptyState" style="display: none;">
+      <div class="empty-state-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:24px;height:24px;"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg></div>
+      <h2 class="empty-state-title">No notifications</h2>
+      <p class="empty-state-text">You're all caught up! Check back later for updates</p>
+    </div>
+  </main>
+
+  <!-- Scripts -->
+  <script src="lime-nav.js"></script>
+
+  <script src="lime-applications-helper.js"></script>
+  <script src="lime-form-validation.js"></script>
+  <script>
+    // Sample notifications data
+    const sampleNotifications = [
+      {
+        id: 1,
+        type: 'job',
+        icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:24px;height:24px;"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path></svg>',
+        title: 'New Job Match',
+        message: 'TechCorp is hiring for Senior Full Stack Engineer - matches your skills!',
+        timestamp: new Date(Date.now() - 15 * 60000), // 15 mins ago
+        read: false,
+      },
+      {
+        id: 2,
+        type: 'message',
+        icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:24px;height:24px;"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>',
+        title: 'New Message',
+        message: 'StartupXYZ: "Thanks for your application! We\'ll review and get back to you soon."',
+        timestamp: new Date(Date.now() - 45 * 60000), // 45 mins ago
+        read: false,
+      },
+      {
+        id: 3,
+        type: 'application',
+        icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:24px;height:24px;"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>',
+        title: 'Application Accepted',
+        message: 'Digital Innovations has accepted your application for AI/ML Engineer position!',
+        timestamp: new Date(Date.now() - 2 * 60 * 60000), // 2 hours ago
+        read: false,
+      },
+      {
+        id: 4,
+        type: 'profile',
+        icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:24px;height:24px;"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>',
+        title: 'Profile Viewed',
+        message: 'CloudBase viewed your profile',
+        timestamp: new Date(Date.now() - 4 * 60 * 60000), // 4 hours ago
+        read: true,
+      },
+      {
+        id: 5,
+        type: 'interview',
+        icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:24px;height:24px;"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>',
+        title: 'Interview Scheduled',
+        message: 'Your interview with TechCorp is scheduled for tomorrow at 2:00 PM',
+        timestamp: new Date(Date.now() - 1 * 24 * 60 * 60000), // 1 day ago
+        read: true,
+      },
+      {
+        id: 6,
+        type: 'job',
+        icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:24px;height:24px;"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path></svg>',
+        title: 'Job Recommendation',
+        message: 'Backend Developer role at CloudBase matches your experience level',
+        timestamp: new Date(Date.now() - 2 * 24 * 60 * 60000), // 2 days ago
+        read: true,
+      },
+      {
+        id: 7,
+        type: 'message',
+        icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:24px;height:24px;"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>',
+        title: 'Message from Company',
+        message: 'Digital Innovations: "We\'re impressed with your profile. Are you interested in discussing the role?"',
+        timestamp: new Date(Date.now() - 3 * 24 * 60 * 60000), // 3 days ago
+        read: true,
+      },
+      {
+        id: 8,
+        type: 'application',
+        icon: '⏳',
+        title: 'Application Under Review',
+        message: 'TechCorp is currently reviewing your application for Senior Full Stack Engineer',
+        timestamp: new Date(Date.now() - 4 * 24 * 60 * 60000), // 4 days ago
+        read: true,
+      },
+    ];
+
+    let allNotifications = [...sampleNotifications];
+    let currentFilter = 'all';
+
+    // Load notifications from localStorage
+    function loadNotifications() {
+      const stored = localStorage.getItem('limeNotifications');
+      if (stored) {
+        try {
+          allNotifications = JSON.parse(stored);
+        } catch (e) {
+          allNotifications = [...sampleNotifications];
+        }
+      }
+    }
+
+    // Save notifications to localStorage
+    function saveNotifications() {
+      localStorage.setItem('limeNotifications', JSON.stringify(allNotifications));
+    }
+
+    // Format time
+    function formatTime(date) {
+      const now = new Date();
+      const diffMs = now - date;
+      const diffMins = Math.floor(diffMs / 60000);
+      const diffHours = Math.floor(diffMs / 3600000);
+      const diffDays = Math.floor(diffMs / 86400000);
+
+      if (diffMins < 1) return 'Just now';
+      if (diffMins < 60) return `${diffMins}m ago`;
+      if (diffHours < 24) return `${diffHours}h ago`;
+      if (diffDays < 7) return `${diffDays}d ago`;
+      
+      return date.toLocaleDateString('en-US', {
+        month: 'short',
+        day: 'numeric',
+      });
+    }
+
+    // Render notifications
+    function renderNotifications() {
+      const listContainer = document.getElementById('notificationsList');
+      const emptyState = document.getElementById('emptyState');
+
+      let filtered = allNotifications;
+      if (currentFilter !== 'all') {
+        filtered = allNotifications.filter((n) => n.type === currentFilter);
+      }
+
+      // Sort by date (newest first)
+      filtered.sort((a, b) => b.timestamp - a.timestamp);
+
+      updateStats();
+
+      if (filtered.length === 0) {
+        listContainer.style.display = 'none';
+        emptyState.style.display = 'block';
+      } else {
+        listContainer.style.display = 'flex';
+        emptyState.style.display = 'none';
+
+        listContainer.innerHTML = filtered
+          .map(
+            (notif) => `
+          <div class="notification-item ${notif.read ? '' : 'unread'}" onclick="markAsRead(${notif.id})">
+            <div class="notification-icon ${notif.type}">
+              ${notif.icon}
+            </div>
+            <div class="notification-content">
+              <div class="notification-header">
+                <h3 class="notification-title">${notif.title}</h3>
+                <span class="notification-type ${notif.type}">${notif.type}</span>
+              </div>
+              <p class="notification-message">${notif.message}</p>
+              <div class="notification-meta">
+                <div class="notification-time">
+                  ${formatTime(new Date(notif.timestamp))}
+                </div>
+                <div class="notification-actions">
+                  <button class="action-icon-btn" onclick="event.stopPropagation(); deleteNotification(${notif.id})" title="Delete">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:16px;height:16px;"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        `
+          )
+          .join('');
+      }
+    }
+
+    // Update statistics
+    function updateStats() {
+      const total = allNotifications.length;
+      const unread = allNotifications.filter((n) => !n.read).length;
+      const today = allNotifications.filter((n) => {
+        const notifDate = new Date(n.timestamp);
+        const todayStart = new Date();
+        todayStart.setHours(0, 0, 0, 0);
+        return notifDate >= todayStart;
+      }).length;
+
+      document.getElementById('totalNotifications').textContent = total;
+      document.getElementById('unreadCount').textContent = unread;
+      document.getElementById('todayCount').textContent = today;
+    }
+
+    // Mark as read
+    window.markAsRead = function (id) {
+      const notif = allNotifications.find((n) => n.id === id);
+      if (notif) {
+        notif.read = true;
+        saveNotifications();
+        renderNotifications();
+      }
+    };
+
+    // Mark all as read
+    window.markAllAsRead = function () {
+      allNotifications.forEach((n) => (n.read = true));
+      saveNotifications();
+      renderNotifications();
+      showToast('All notifications marked as read', 'success');
+    };
+
+    // Delete notification
+    window.deleteNotification = function (id) {
+      allNotifications = allNotifications.filter((n) => n.id !== id);
+      saveNotifications();
+      renderNotifications();
+      showToast('Notification deleted', 'success');
+    };
+
+    // Clear all notifications
+    window.clearAllNotifications = function () {
+      if (confirm('Are you sure you want to clear all notifications?')) {
+        allNotifications = [];
+        saveNotifications();
+        renderNotifications();
+        showToast('All notifications cleared', 'success');
+      }
+    };
+
+    // Filter handler
+    document.querySelectorAll('.filter-button').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.filter-button').forEach((b) => b.classList.remove('active'));
+        btn.classList.add('active');
+        currentFilter = btn.dataset.filter;
+        renderNotifications();
+      });
+    });
+
+    // Initialize
+    loadNotifications();
+    renderNotifications();
+  </script>
+</body>
+</html>

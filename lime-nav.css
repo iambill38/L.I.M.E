@@ -1,0 +1,313 @@
+/* ===== L.I.M.E Shared Navigation ===== */
+:root {
+  --lime-nav-height: 64px;
+}
+
+body.has-lime-nav {
+  padding-top: var(--lime-nav-height);
+}
+
+body.has-lime-nav .dashboard-container,
+body.has-lime-nav .page-layout,
+body.has-lime-nav .chat-container,
+body.has-lime-nav .main-content,
+body.has-lime-nav .settings-container,
+body.has-lime-nav .page-container {
+  margin-top: 0 !important;
+}
+
+.lime-nav {
+  position: fixed;
+  inset: 0 0 auto 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  min-height: var(--lime-nav-height);
+  padding: 0.75rem 1.25rem;
+  background: rgba(15, 20, 29, 0.94);
+  border-bottom: 1px solid rgba(0, 255, 65, 0.15);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+}
+
+.lime-nav-logo {
+  flex-shrink: 0;
+  font-family: 'Poppins', 'Space Grotesk', sans-serif;
+  font-size: 1.25rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: #00ff41;
+  text-decoration: none;
+  text-transform: uppercase;
+  transition: opacity 150ms ease;
+}
+
+.lime-nav-logo:hover {
+  opacity: 0.85;
+}
+
+.lime-nav-logo:focus-visible {
+  outline: 2px solid #00ff41;
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+.lime-nav-toggle {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+  width: 44px;
+  height: 44px;
+  margin-left: auto;
+  padding: 0;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(0, 255, 65, 0.15);
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 150ms ease, border-color 150ms ease;
+}
+
+.lime-nav-toggle:hover {
+  background: rgba(0, 255, 65, 0.1);
+  border-color: rgba(0, 255, 65, 0.3);
+}
+
+.lime-nav-toggle:focus-visible {
+  outline: 2px solid #00ff41;
+  outline-offset: 2px;
+}
+
+.lime-nav-toggle-bar {
+  display: block;
+  width: 20px;
+  height: 2px;
+  margin: 0 auto;
+  background: #e8e8e8;
+  border-radius: 2px;
+  transition: transform 150ms ease, opacity 150ms ease;
+}
+
+.lime-nav-menu {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  min-width: 0;
+}
+
+.lime-nav-links {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.lime-nav-link {
+  color: #e8e8e8;
+  text-decoration: none;
+  padding: 0.55rem 0.9rem;
+  border-radius: 3px;
+  border: 1px solid transparent;
+  font-size: 0.9rem;
+  font-weight: 600;
+  white-space: nowrap;
+  background: rgba(255, 255, 255, 0.03);
+  transition: color 150ms ease, background 150ms ease, border-color 150ms ease;
+}
+
+.lime-nav-link:hover,
+.lime-nav-link.active {
+  color: #00ff41;
+  background: rgba(0, 255, 65, 0.12);
+  border-color: rgba(0, 255, 65, 0.15);
+}
+
+.lime-nav-link:focus-visible {
+  outline: 2px solid #00ff41;
+  outline-offset: 2px;
+}
+
+.lime-nav-user-menu {
+  position: relative;
+  flex-shrink: 0;
+}
+
+.lime-nav-user-toggle {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  padding: 0.4rem 0.65rem 0.4rem 0.4rem;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid transparent;
+  border-radius: 3px;
+  color: inherit;
+  cursor: pointer;
+  transition: background 150ms ease, border-color 150ms ease;
+}
+
+.lime-nav-user-toggle:hover,
+.lime-nav-user-menu.is-open .lime-nav-user-toggle,
+.lime-nav-user-menu.is-active-page .lime-nav-user-toggle {
+  border-color: rgba(0, 255, 65, 0.15);
+  background: rgba(0, 255, 65, 0.08);
+}
+
+.lime-nav-user-toggle:focus-visible {
+  outline: 2px solid #00ff41;
+  outline-offset: 2px;
+}
+
+.lime-nav-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 4px;
+  background: linear-gradient(135deg, #00ff41, rgba(0, 255, 65, 0.5));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #0a0a0a;
+  font-weight: 700;
+  font-size: 0.85rem;
+  flex-shrink: 0;
+}
+
+.lime-nav-user-info {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  text-align: left;
+  line-height: 1.15;
+}
+
+.lime-nav-user-name {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #ffffff;
+}
+
+.lime-nav-user-status {
+  font-size: 0.7rem;
+  color: #8a8a8a;
+}
+
+.lime-nav-chevron {
+  width: 16px;
+  height: 16px;
+  color: #8a8a8a;
+  flex-shrink: 0;
+  transition: transform 150ms ease;
+}
+
+.lime-nav-user-menu.is-open .lime-nav-chevron {
+  transform: rotate(180deg);
+}
+
+.lime-nav-dropdown {
+  position: absolute;
+  top: calc(100% + 0.5rem);
+  right: 0;
+  min-width: 200px;
+  padding: 0.4rem;
+  background: rgba(15, 20, 29, 0.98);
+  border: 1px solid rgba(0, 255, 65, 0.15);
+  border-radius: 6px;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.45);
+  backdrop-filter: blur(16px);
+}
+
+.lime-nav-dropdown[hidden] {
+  display: none;
+}
+
+.lime-nav-dropdown-link {
+  display: block;
+  padding: 0.65rem 0.85rem;
+  border-radius: 6px;
+  color: #e8e8e8;
+  text-decoration: none;
+  font-size: 0.9rem;
+  font-weight: 500;
+  transition: background 150ms ease, color 150ms ease;
+}
+
+.lime-nav-dropdown-link:hover,
+.lime-nav-dropdown-link.active {
+  color: #00ff41;
+  background: rgba(0, 255, 65, 0.1);
+}
+
+.lime-nav-dropdown-link:focus-visible {
+  outline: 2px solid #00ff41;
+  outline-offset: -2px;
+}
+
+@media (max-width: 900px) {
+  .lime-nav-toggle {
+    display: flex;
+  }
+
+  .lime-nav-menu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.75rem;
+    padding: 1rem 1.25rem 1.25rem;
+    background: rgba(15, 20, 29, 0.98);
+    border-bottom: 1px solid rgba(0, 255, 65, 0.15);
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.35);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-8px);
+    transition: opacity 150ms ease, transform 150ms ease, visibility 150ms ease;
+  }
+
+  .lime-nav-menu.is-open {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+  }
+
+  .lime-nav-links {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .lime-nav-link {
+    text-align: center;
+  }
+
+  .lime-nav-user-menu {
+    width: 100%;
+  }
+
+  .lime-nav-user-toggle {
+    width: 100%;
+    justify-content: flex-start;
+  }
+
+  .lime-nav-dropdown {
+    position: static;
+    margin-top: 0.5rem;
+    box-shadow: none;
+  }
+
+  .lime-nav-user-info {
+    flex: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .lime-nav-menu,
+  .lime-nav-toggle-bar,
+  .lime-nav-chevron,
+  .lime-nav-link,
+  .lime-nav-user-toggle {
+    transition: none;
+  }
+}
