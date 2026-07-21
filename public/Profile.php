@@ -1,0 +1,1224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>lime.com</title>
+  <style>
+    /* ===== FONT IMPORTS ===== */
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap');
+
+    /* ===== CSS VARIABLES ===== */
+    :root {
+      --color-black: #0a0a0a;
+      --color-navy: #0f1419;
+      --color-white: #ffffff;
+      --color-grey-light: #e8e8e8;
+      --color-grey-med: #8a8a8a;
+      --color-lime: #00ff41;
+      --color-lime-hover: #00dd38;
+      --color-lime-glow: rgba(0, 255, 65, 0.2);
+      --color-border: rgba(0, 255, 65, 0.15);
+
+      --font-display: 'Space Grotesk', sans-serif;
+      --font-body: 'Inter', sans-serif;
+      --font-logo: 'Poppins', sans-serif;
+
+      --spacing-xs: 0.5rem;
+      --spacing-sm: 1rem;
+      --spacing-md: 1.5rem;
+      --spacing-lg: 2rem;
+      --spacing-xl: 3rem;
+
+      --transition: 150ms cubic-bezier(0.2, 0, 0.38, 0.9);
+    }
+
+    /* ===== RESET ===== */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background-color: #0a0a0a;
+      color: var(--color-grey-light);
+      font-family: var(--font-body);
+      font-size: 1rem;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      min-height: 100dvh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: clamp(0.75rem, 3vw, 1.25rem);
+      position: relative;
+      overflow-x: hidden;
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    /* ===== BACKGROUND VIDEO ===== */
+
+    /* ===== LAYOUT ===== */
+    .page-layout {
+      display: block;
+      width: 100%;
+      min-height: 100dvh;
+      position: relative;
+      z-index: 1;
+      margin-top: 76px;
+    }
+
+    .page-nav {
+      position: fixed;
+      inset: 0 auto auto 0;
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      gap: 0.75rem;
+      align-items: center;
+      padding: 1rem 1.5rem;
+      background: rgba(15, 20, 29, 0.92);
+      border-bottom: 1px solid var(--color-border);
+      backdrop-filter: blur(16px);
+      z-index: 20;
+    }
+
+    .nav-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      align-items: center;
+    }
+
+    .nav-user {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.5rem 0.75rem;
+      border-radius: 3px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid transparent;
+      transition: all var(--transition);
+    }
+
+    .nav-user:hover {
+      border-color: rgba(0, 255, 65, 0.15);
+      background: rgba(0, 255, 65, 0.08);
+    }
+
+    .page-nav a {
+      color: var(--color-grey-light);
+      text-decoration: none;
+      padding: 0.75rem 1rem;
+      border-radius: 3px;
+      border: 1px solid transparent;
+      transition: all var(--transition);
+      font-weight: 600;
+      background: rgba(255, 255, 255, 0.03);
+    }
+
+    .page-nav a:hover,
+    .page-nav a.active {
+      color: var(--color-lime);
+      background: rgba(0, 255, 65, 0.12);
+      border-color: rgba(0, 255, 65, 0.15);
+    }
+
+    .sidebar {
+      display: none;
+    }
+
+    .sidebar-logo {
+      font-family: var(--font-logo);
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: var(--color-lime);
+      text-transform: uppercase;
+      letter-spacing: -0.02em;
+    }
+
+    .nav-menu {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .nav-link {
+      display: flex;
+      align-items: center;
+      gap: 0.7rem;
+      padding: 0.8rem 0.9rem;
+      border-radius: 6px;
+      color: var(--color-grey-light);
+      text-decoration: none;
+      transition: all var(--transition);
+      border: 1px solid transparent;
+    }
+
+    .nav-link:hover,
+    .nav-link.active {
+      background: rgba(0, 255, 65, 0.12);
+      border-color: rgba(0, 255, 65, 0.2);
+      color: var(--color-lime);
+    }
+
+    .nav-icon {
+      width: 20px;
+      height: 20px;
+      flex-shrink: 0;
+    }
+
+    .sidebar-footer {
+      margin-top: auto;
+      padding-top: 1rem;
+      border-top: 1px solid var(--color-border);
+    }
+
+    .user-profile {
+      display: flex;
+      align-items: center;
+      gap: 0.7rem;
+      padding: 0.6rem;
+      border-radius: 6px;
+      text-decoration: none;
+      color: inherit;
+      background: rgba(255,255,255,0.03);
+    }
+
+    .user-avatar {
+      width: 38px;
+      height: 38px;
+      border-radius: 4px;
+      background: linear-gradient(135deg, var(--color-lime), rgba(0, 255, 65, 0.5));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--color-black);
+      font-weight: 700;
+      font-size: 0.9rem;
+    }
+
+    .user-name {
+      font-weight: 600;
+      color: var(--color-white);
+      font-size: 0.9rem;
+    }
+
+    .user-status {
+      font-size: 0.75rem;
+      color: var(--color-grey-med);
+    }
+
+    .profile-wrapper {
+      width: min(420px, 100%);
+      max-width: 420px;
+      position: relative;
+      z-index: 1;
+      margin: 1.5rem auto;
+      padding: 0.5rem 0;
+      justify-self: center;
+    }
+
+    .profile-card {
+      background: rgba(15, 20, 29, 0.78);
+      backdrop-filter: blur(20px);
+      border: 1px solid var(--color-border);
+      border-radius: 6px;
+      padding: 1rem;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 10px 36px rgba(0, 255, 65, 0.08);
+      transition: all var(--transition);
+      max-height: calc(100dvh - 3rem);
+      overflow-y: auto;
+    }
+
+    .profile-card:hover {
+      border-color: rgba(0, 255, 65, 0.25);
+      box-shadow: 0 12px 48px rgba(0, 255, 65, 0.12);
+    }
+
+    /* Geometric line accent (top-right) */
+    .profile-card::before {
+      content: '';
+      position: absolute;
+      top: -2px;
+      right: -2px;
+      width: 140px;
+      height: 140px;
+      border-right: 2px solid var(--color-lime);
+      border-top: 2px solid var(--color-lime);
+      transform: rotate(45deg);
+      opacity: 0.25;
+      pointer-events: none;
+    }
+
+    /* Inner glow effect */
+    .profile-card::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: radial-gradient(circle at top right, rgba(0, 255, 65, 0.05) 0%, transparent 70%);
+      pointer-events: none;
+      border-radius: 6px;
+    }
+
+    .profile-content {
+      position: relative;
+      z-index: 1;
+    }
+
+    /* ===== HEADER ===== */
+    .profile-header {
+      margin-bottom: 1rem;
+      text-align: center;
+    }
+
+    .profile-title {
+      font-family: var(--font-display);
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--color-white);
+      margin-bottom: 0.25rem;
+      letter-spacing: -0.01em;
+    }
+
+    .profile-subtitle {
+      color: var(--color-grey-med);
+      font-size: 0.85rem;
+    }
+
+    /* ===== FORM ===== */
+    .profile-form {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .form-section {
+      display: flex;
+      flex-direction: column;
+      gap: 0.85rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid rgba(0, 255, 65, 0.1);
+    }
+
+    .form-section:last-of-type {
+      padding-bottom: 0;
+      border-bottom: none;
+    }
+
+    .section-title {
+      font-family: var(--font-display);
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--color-lime);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: var(--spacing-xs);
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.85rem;
+    }
+
+    .form-row .form-group {
+      gap: var(--spacing-xs);
+    }
+
+    .form-label {
+      font-family: var(--font-display);
+      font-size: 0.9rem;
+      font-weight: 500;
+      color: var(--color-white);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .form-input,
+    .form-textarea {
+      padding: 0.75rem;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(0, 255, 65, 0.15);
+      border-radius: 6px;
+      color: var(--color-white);
+      font-family: var(--font-body);
+      font-size: 0.85rem;
+      transition: all var(--transition);
+      min-height: 38px;
+      backdrop-filter: blur(10px);
+    }
+
+    .form-textarea {
+      resize: vertical;
+      min-height: 90px;
+      font-family: var(--font-body);
+    }
+
+    .form-input::placeholder,
+    .form-textarea::placeholder {
+      color: var(--color-grey-med);
+    }
+
+    .form-input:hover,
+    .form-textarea:hover {
+      border-color: rgba(0, 255, 65, 0.3);
+      background: rgba(255, 255, 255, 0.08);
+    }
+
+    .form-input:focus,
+    .form-textarea:focus {
+      outline: none;
+      border-color: var(--color-lime);
+      background: rgba(0, 255, 65, 0.08);
+      box-shadow: 0 0 0 3px rgba(0, 255, 65, 0.15);
+    }
+
+    /* ===== ERROR STATES ===== */
+    .form-input:invalid,
+    .form-textarea:invalid {
+      border-color: rgba(255, 65, 65, 0.5);
+      background: rgba(255, 65, 65, 0.05);
+    }
+
+    .form-error-message {
+      font-size: 0.8rem;
+      color: #ff4141;
+      margin-top: 0.35rem;
+      display: none;
+      font-weight: 500;
+    }
+
+    .form-input.error,
+    .form-textarea.error {
+      border-color: rgba(255, 65, 65, 0.5) !important;
+      background: rgba(255, 65, 65, 0.05) !important;
+    }
+
+    /* ===== PHOTO UPLOAD ===== */
+    .photo-upload-section {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .photo-preview {
+      width: 100px;
+      height: 100px;
+      border-radius: 4px;
+      background: linear-gradient(135deg, var(--color-lime), rgba(0, 255, 65, 0.5));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2.4rem;
+      border: 3px solid var(--color-lime);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .photo-preview.with-image {
+      background: none;
+      border-color: rgba(0, 255, 65, 0.3);
+    }
+
+    .photo-preview img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .upload-hint {
+      font-size: 0.85rem;
+      color: var(--color-grey-med);
+      text-align: center;
+    }
+
+    .file-input-wrapper {
+      display: flex;
+      gap: var(--spacing-sm);
+      width: 100%;
+      justify-content: center;
+    }
+
+    .file-input {
+      display: none;
+    }
+
+    .file-button {
+      padding: 0.55rem 0.9rem;
+      background: var(--color-lime);
+      color: var(--color-black);
+      border: none;
+      border-radius: 6px;
+      font-family: var(--font-display);
+      font-weight: 600;
+      font-size: 0.85rem;
+      cursor: pointer;
+      transition: all var(--transition);
+      min-height: 38px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .file-button:hover {
+      background: var(--color-lime-hover);
+      transform: translateY(-2px);
+    }
+
+    .file-button:focus-visible {
+      outline: 2px solid var(--color-lime);
+      outline-offset: 2px;
+    }
+
+    .remove-photo {
+      background: rgba(255, 65, 65, 0.2);
+      color: #ff4141;
+      border: 1px solid rgba(255, 65, 65, 0.3);
+    }
+
+    .remove-photo:hover {
+      background: rgba(255, 65, 65, 0.3);
+      transform: translateY(-2px);
+    }
+
+    /* ===== SKILLS SECTION ===== */
+    .skills-input-group {
+      display: flex;
+      gap: var(--spacing-sm);
+    }
+
+    .skills-input {
+      flex: 1;
+    }
+
+    .add-skill-button {
+      padding: 0.55rem 0.9rem;
+      background: rgba(0, 255, 65, 0.2);
+      color: var(--color-lime);
+      border: 1px solid rgba(0, 255, 65, 0.3);
+      border-radius: 6px;
+      font-family: var(--font-display);
+      font-weight: 600;
+      cursor: pointer;
+      transition: all var(--transition);
+      min-height: 38px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.85rem;
+    }
+
+    .add-skill-button:hover {
+      background: rgba(0, 255, 65, 0.3);
+      border-color: var(--color-lime);
+    }
+
+    .add-skill-button:focus-visible {
+      outline: 2px solid var(--color-lime);
+      outline-offset: -2px;
+    }
+
+    .skills-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--spacing-sm);
+    }
+
+    .skill-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--spacing-xs);
+      background: rgba(0, 255, 65, 0.15);
+      color: var(--color-lime);
+      padding: 0.4rem 0.75rem;
+      border-radius: 6px;
+      font-size: 0.82rem;
+      font-weight: 500;
+      border: 1px solid rgba(0, 255, 65, 0.3);
+      transition: all var(--transition);
+    }
+
+    .skill-tag:hover {
+      background: rgba(0, 255, 65, 0.25);
+      border-color: var(--color-lime);
+    }
+
+    .skill-remove {
+      cursor: pointer;
+      width: 18px;
+      height: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      opacity: 0.7;
+      transition: opacity var(--transition);
+    }
+
+    .skill-remove:hover {
+      opacity: 1;
+    }
+
+    /* ===== SOCIAL LINKS ===== */
+    .social-links-group {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .social-link-item {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .social-icon-label {
+      min-width: 70px;
+      font-size: 0.85rem;
+      color: var(--color-grey-med);
+      font-weight: 500;
+    }
+
+    .social-link-item .form-input {
+      flex: 1;
+    }
+
+    /* ===== SUBMIT BUTTON ===== */
+    .button-group {
+      display: flex;
+      gap: 0.75rem;
+      margin-top: 1rem;
+    }
+
+    .submit-button {
+      flex: 1;
+      padding: 0.75rem 1rem;
+      background: var(--color-lime);
+      color: var(--color-black);
+      border: none;
+      border-radius: 6px;
+      font-family: var(--font-display);
+      font-size: 0.9rem;
+      font-weight: 600;
+      letter-spacing: -0.01em;
+      cursor: pointer;
+      transition: all var(--transition);
+      min-height: 40px;
+      position: relative;
+      overflow: hidden;
+      text-transform: uppercase;
+      box-shadow: 0 4px 16px rgba(0, 255, 65, 0.3);
+    }
+
+    .submit-button::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: var(--color-lime-hover);
+      transition: left var(--transition);
+      z-index: -1;
+    }
+
+    .submit-button:hover {
+      background: var(--color-lime-hover);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 24px rgba(0, 255, 65, 0.4);
+    }
+
+    .submit-button:focus-visible {
+      outline: 2px solid var(--color-lime);
+      outline-offset: 2px;
+    }
+
+    .submit-button:active {
+      transform: translateY(0);
+    }
+
+    .cancel-button {
+      flex: 1;
+      padding: 0.75rem 1rem;
+      background: transparent;
+      color: var(--color-grey-light);
+      border: 1px solid var(--color-border);
+      border-radius: 6px;
+      font-family: var(--font-display);
+      font-size: 0.9rem;
+      font-weight: 600;
+      letter-spacing: -0.01em;
+      cursor: pointer;
+      transition: all var(--transition);
+      min-height: 40px;
+      text-transform: uppercase;
+    }
+
+    .cancel-button:hover {
+      border-color: rgba(0, 255, 65, 0.3);
+      background: rgba(0, 255, 65, 0.05);
+    }
+
+    .cancel-button:focus-visible {
+      outline: 2px solid var(--color-lime);
+      outline-offset: -2px;
+    }
+
+    /* ===== SUCCESS MESSAGE ===== */
+    .success-message {
+      display: none;
+      padding: var(--spacing-md);
+      background: rgba(0, 255, 65, 0.15);
+      border: 1px solid rgba(0, 255, 65, 0.3);
+      border-radius: 6px;
+      color: var(--color-lime);
+      text-align: center;
+      font-weight: 500;
+      animation: slideIn 0.3s ease-out;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.75rem;
+    }
+
+    .status-icon {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 1.4rem;
+      height: 1.4rem;
+      color: var(--color-lime);
+    }
+
+    .status-icon svg {
+      width: 100%;
+      height: 100%;
+      stroke: currentColor;
+      stroke-width: 2;
+      fill: none;
+    }
+
+    .success-message.show {
+      display: block;
+    }
+
+    @keyframes slideIn {
+      from {
+        opacity: 0;
+        transform: translateY(-10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* ===== ACCESSIBILITY ===== */
+    @media (prefers-reduced-motion: reduce) {
+      * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+
+      .orb {
+        animation: none !important;
+      }
+    }
+
+    /* ===== RESPONSIVE: TABLET (768px) ===== */
+    @media (max-width: 768px) {
+      .profile-card {
+        padding: var(--spacing-lg);
+      }
+
+      .profile-title {
+        font-size: 1.5rem;
+      }
+
+      .form-row {
+        grid-template-columns: 1fr;
+      }
+
+      .orb-1 {
+        width: 300px;
+        height: 300px;
+      }
+
+      .orb-2 {
+        width: 250px;
+        height: 250px;
+      }
+
+      .orb-3 {
+        width: 200px;
+        height: 200px;
+      }
+    }
+
+    /* ===== RESPONSIVE: MOBILE (375px) ===== */
+    @media (max-width: 480px) {
+      body {
+        padding: var(--spacing-md);
+      }
+
+      .profile-wrapper {
+        max-width: 100%;
+      }
+
+      .profile-card {
+        padding: var(--spacing-md);
+      }
+
+      .profile-header {
+        margin-bottom: var(--spacing-lg);
+      }
+
+      .profile-title {
+        font-size: 1.25rem;
+      }
+
+      .profile-subtitle {
+        font-size: 0.85rem;
+      }
+
+      .form-input,
+      .form-textarea,
+      .file-button,
+      .submit-button,
+      .cancel-button {
+        font-size: 16px; /* Prevents zoom on iOS */
+      }
+
+      .photo-preview {
+        width: 100px;
+        height: 100px;
+      }
+
+      .skills-list {
+        gap: var(--spacing-xs);
+      }
+
+      .skill-tag {
+        font-size: 0.85rem;
+        padding: 0.4rem 0.8rem;
+      }
+
+      .button-group {
+        flex-direction: column;
+      }
+
+      .social-link-item {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .social-icon-label {
+        min-width: unset;
+      }
+
+      .orb-1 {
+        width: 250px;
+        height: 250px;
+        top: -80px;
+        right: -80px;
+      }
+
+      .orb-2 {
+        width: 200px;
+        height: 200px;
+        bottom: -40px;
+      }
+
+      .orb-3 {
+        width: 150px;
+        height: 150px;
+        left: -60px;
+      }
+    }
+  </style>
+  <link rel="stylesheet" href="assets/css/lime-background.css">
+  <link rel="stylesheet" href="assets/css/lime-nav.css">
+</head>
+<body>
+  <div class="lime-bg-image"></div>
+  <div class="lime-bg-overlay"></div>
+
+  <div id="lime-nav-root"></div>
+
+
+  <div class="page-layout">
+
+    <div class="profile-wrapper">
+      <div class="profile-card">
+        <div class="profile-content">
+        <!-- Header -->
+        <div class="profile-header">
+          <h1 class="profile-title">Edit Profile</h1>
+          <p class="profile-subtitle">Build your professional portfolio</p>
+        </div>
+
+        <!-- Success Message -->
+        <div class="success-message" id="successMessage">
+          <span class="status-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24">
+              <path d="M5 13l4 4L19 7"></path>
+            </svg>
+          </span>
+          <span class="success-text">Profile saved successfully!</span>
+        </div>
+
+        <!-- Profile Completeness Widget -->
+        <div id="completionWidget" style="margin-bottom: 2rem;"></div>
+
+        <!-- Profile Form -->
+        <form class="profile-form" id="profileForm" method="POST" action="#" novalidate>
+
+          <!-- Photo Upload Section -->
+          <div class="form-section">
+            <h2 class="section-title">Profile Photo</h2>
+            <div class="photo-upload-section">
+              <div class="photo-preview" id="photoPreview">BK</div>
+              <p class="upload-hint">Max 5MB • JPG, PNG, or GIF</p>
+              <div class="file-input-wrapper">
+                <input 
+                  type="file" 
+                  id="photoInput" 
+                  class="file-input"
+                  accept="image/*"
+                >
+                <label for="photoInput" class="file-button">Upload Photo</label>
+                <button type="button" class="file-button remove-photo" id="removePhoto" style="display: none;">Remove</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Basic Info Section -->
+          <div class="form-section">
+            <h2 class="section-title">Basic Info</h2>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="first-name" class="form-label">First Name</label>
+                <input 
+                  type="text" 
+                  id="first-name" 
+                  name="first_name" 
+                  class="form-input" 
+                  placeholder="Bill" 
+                  required
+                  value="Bill"
+                >
+              </div>
+              <div class="form-group">
+                <label for="last-name" class="form-label">Last Name</label>
+                <input 
+                  type="text" 
+                  id="last-name" 
+                  name="last_name" 
+                  class="form-input" 
+                  placeholder="Kongolo" 
+                  required
+                  value="Kongolo"
+                >
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="email" class="form-label">Email</label>
+              <input 
+                type="email" 
+                id="email" 
+                name="email" 
+                class="form-input" 
+                placeholder="you@example.com" 
+                required
+                value="bill@example.com"
+              >
+            </div>
+          </div>
+
+          <!-- Bio Section -->
+          <div class="form-section">
+            <h2 class="section-title">About You</h2>
+            <div class="form-group">
+              <label for="bio" class="form-label">Bio</label>
+              <textarea 
+                id="bio" 
+                name="bio" 
+                class="form-textarea" 
+                placeholder="Tell companies about yourself, your interests, and what you're looking for"
+                maxlength="500"
+              >Full-stack developer passionate about building scalable applications and connecting with innovative teams.</textarea>
+            </div>
+          </div>
+
+          <!-- Skills Section -->
+          <div class="form-section">
+            <h2 class="section-title">Skills</h2>
+            <div class="form-group">
+              <div class="skills-input-group">
+                <input 
+                  type="text" 
+                  id="skillInput" 
+                  class="form-input skills-input" 
+                  placeholder="Add a skill (e.g., React, Python, Design)"
+                >
+                <button type="button" class="add-skill-button" id="addSkillBtn">Add</button>
+              </div>
+              <div class="skills-list" id="skillsList">
+                <div class="skill-tag" data-skill="React">
+                  React
+                  <span class="skill-remove">×</span>
+                </div>
+                <div class="skill-tag" data-skill="JavaScript">
+                  JavaScript
+                  <span class="skill-remove">×</span>
+                </div>
+                <div class="skill-tag" data-skill="Node.js">
+                  Node.js
+                  <span class="skill-remove">×</span>
+                </div>
+                <div class="skill-tag" data-skill="UI/UX Design">
+                  UI/UX Design
+                  <span class="skill-remove">×</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Social Links Section -->
+          <div class="form-section">
+            <h2 class="section-title">Social Links</h2>
+            <div class="social-links-group">
+              <div class="social-link-item">
+                <label for="linkedin" class="social-icon-label">LinkedIn</label>
+                <input 
+                  type="url" 
+                  id="linkedin" 
+                  name="linkedin" 
+                  class="form-input" 
+                  placeholder="https://linkedin.com/in/username"
+                >
+              </div>
+              <div class="social-link-item">
+                <label for="github" class="social-icon-label">GitHub</label>
+                <input 
+                  type="url" 
+                  id="github" 
+                  name="github" 
+                  class="form-input" 
+                  placeholder="https://github.com/username"
+                >
+              </div>
+              <div class="social-link-item">
+                <label for="portfolio" class="social-icon-label">Portfolio</label>
+                <input 
+                  type="url" 
+                  id="portfolio" 
+                  name="portfolio" 
+                  class="form-input" 
+                  placeholder="https://yourportfolio.com"
+                >
+              </div>
+              <div class="social-link-item">
+                <label for="twitter" class="social-icon-label">Twitter</label>
+                <input 
+                  type="url" 
+                  id="twitter" 
+                  name="twitter" 
+                  class="form-input" 
+                  placeholder="https://twitter.com/username"
+                >
+              </div>
+            </div>
+          </div>
+
+          <!-- Submit Buttons -->
+          <div class="button-group">
+            <button type="submit" class="submit-button">Save Changes</button>
+            <button type="reset" class="cancel-button">Cancel</button>
+          </div>
+
+        </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const profileForm = document.getElementById('profileForm');
+    const photoInput = document.getElementById('photoInput');
+    const photoPreview = document.getElementById('photoPreview');
+    const removePhotoBtn = document.getElementById('removePhoto');
+    const skillInput = document.getElementById('skillInput');
+    const addSkillBtn = document.getElementById('addSkillBtn');
+    const skillsList = document.getElementById('skillsList');
+    const successMessage = document.getElementById('successMessage');
+    const storageKey = 'limeProfileData';
+
+    function saveProfileData(profileData) {
+      localStorage.setItem(storageKey, JSON.stringify(profileData));
+    }
+
+    function loadProfileData() {
+      try {
+        return JSON.parse(localStorage.getItem(storageKey) || 'null');
+      } catch (error) {
+        return null;
+      }
+    }
+
+    function populateProfileForm(savedData) {
+      if (!savedData) return;
+
+      document.getElementById('first-name').value = savedData.firstName || '';
+      document.getElementById('last-name').value = savedData.lastName || '';
+      document.getElementById('email').value = savedData.email || '';
+      document.getElementById('bio').value = savedData.bio || '';
+      document.getElementById('linkedin').value = savedData.linkedin || '';
+      document.getElementById('github').value = savedData.github || '';
+      document.getElementById('portfolio').value = savedData.portfolio || '';
+      document.getElementById('twitter').value = savedData.twitter || '';
+
+      if (Array.isArray(savedData.skills)) {
+        skillsList.innerHTML = '';
+        savedData.skills.forEach((skill) => addSkill(skill, false));
+      }
+    }
+
+    function collectProfileData() {
+      const skills = Array.from(skillsList.querySelectorAll('.skill-tag')).map((tag) => tag.dataset.skill);
+
+      return {
+        firstName: document.getElementById('first-name').value.trim(),
+        lastName: document.getElementById('last-name').value.trim(),
+        email: document.getElementById('email').value.trim(),
+        bio: document.getElementById('bio').value.trim(),
+        skills,
+        linkedin: document.getElementById('linkedin').value.trim(),
+        github: document.getElementById('github').value.trim(),
+        portfolio: document.getElementById('portfolio').value.trim(),
+        twitter: document.getElementById('twitter').value.trim(),
+      };
+    }
+
+    // Photo Upload Handler
+    photoInput.addEventListener('change', (e) => {
+      const file = e.target.files[0];
+      if (file && file.type.startsWith('image/')) {
+        const reader = new FileReader();
+        reader.onload = (event) => {
+          photoPreview.classList.add('with-image');
+          photoPreview.innerHTML = `<img src="${event.target.result}" alt="Profile photo">`;
+          removePhotoBtn.style.display = 'block';
+        };
+        reader.readAsDataURL(file);
+      }
+    });
+
+    // Remove Photo Handler
+    removePhotoBtn.addEventListener('click', () => {
+      photoPreview.classList.remove('with-image');
+      photoPreview.innerHTML = 'BK';
+      removePhotoBtn.style.display = 'none';
+      photoInput.value = '';
+    });
+
+    // Add Skill Handler
+    function addSkill(skillName, focusAfterAdd = true) {
+      const normalizedSkill = skillName.trim();
+      if (!normalizedSkill) return;
+
+      // Check if skill already exists
+      const existingSkills = Array.from(skillsList.querySelectorAll('.skill-tag')).map((tag) => tag.dataset.skill);
+      if (existingSkills.includes(normalizedSkill)) return;
+
+      const skillTag = document.createElement('div');
+      skillTag.className = 'skill-tag';
+      skillTag.dataset.skill = normalizedSkill;
+      skillTag.innerHTML = `
+        ${normalizedSkill}
+        <span class="skill-remove">×</span>
+      `;
+
+      // Remove on click
+      skillTag.querySelector('.skill-remove').addEventListener('click', () => {
+        skillTag.remove();
+      });
+
+      skillsList.appendChild(skillTag);
+      skillInput.value = '';
+      if (focusAfterAdd) {
+        skillInput.focus();
+      }
+    }
+
+    addSkillBtn.addEventListener('click', () => {
+      addSkill(skillInput.value);
+    });
+
+    // Add skill on Enter key
+    skillInput.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        addSkill(skillInput.value);
+      }
+    });
+
+    // Remove skill tags (event delegation)
+    skillsList.addEventListener('click', (e) => {
+      if (e.target.classList.contains('skill-remove')) {
+        e.target.parentElement.remove();
+      }
+    });
+
+    populateProfileForm(loadProfileData());
+
+    // Form Submit Handler
+    profileForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+
+      const profileData = collectProfileData();
+      saveProfileData(profileData);
+
+      successMessage.innerHTML = '<span class="status-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"></path></svg></span> Profile saved! Returning to dashboard...';
+      successMessage.classList.add('show');
+
+      window.setTimeout(() => {
+        window.location.href = 'LIMEDASHBOARD.html';
+      }, 1200);
+    });
+
+    document.querySelector('.cancel-button').addEventListener('click', (e) => {
+      e.preventDefault();
+      window.location.href = 'LIMEDASHBOARD.html';
+    });
+  </script>
+  <script src="lime-nav.js"></script>
+
+  <script src="lime-applications-helper.js"></script>
+  <script src="lime-form-validation.js"></script>
+  <script src="lime-profile-completeness.js"></script>
+  <script>
+    // Initialize profile completeness widget
+    renderCompletionWidget('completionWidget', 'normal');
+  </script>
+</body>
+</html>

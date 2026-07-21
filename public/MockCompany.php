@@ -669,8 +669,8 @@
       }
     }
   </style>
-  <link rel="stylesheet" href="lime-nav.css">
-  <link rel="stylesheet" href="lime-background.css">
+  <link rel="stylesheet" href="assets/css/lime-nav.css">
+  <link rel="stylesheet" href="assets/css/lime-background.css">
 </head>
 <body>
   <div class="lime-bg-image"></div>

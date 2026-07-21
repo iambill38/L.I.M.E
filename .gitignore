@@ -1,0 +1,22 @@
+# OS files
+Thumbs.db
+.DS_Store
+
+# Editor/IDE
+.vscode/
+.idea/
+
+# PHP dependencies (if you add Composer later)
+vendor/
+composer.lock
+
+# Environment/config secrets
+.env
+src/config/database.local.php
+
+# Logs
+*.log
+
+# User uploads (don't want everyone's test uploads in git history)
+public/uploads/*
+!public/uploads/.gitkeep

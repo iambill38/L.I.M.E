@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Dashboard - L.I.M.E</title>
-  <link rel="stylesheet" href="lime-nav.css">
+  <link rel="stylesheet" href="assets/css/lime-nav.css">
   <style>
     /* ===== FONT IMPORTS ===== */
     @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap');
@@ -684,7 +684,7 @@
       }
     }
   </style>
-  <link rel="stylesheet" href="lime-background.css">
+  <link rel="stylesheet" href="assets/css/lime-background.css">
 </head>
 <body>
   <div class="lime-bg-image"></div>

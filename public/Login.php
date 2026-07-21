@@ -68,15 +68,15 @@
     /* ===== BACKGROUND VIDEO ===== */
 
     /* ===== CONTAINER ===== */
-    .signup-wrapper {
+    .login-wrapper {
       width: 100%;
-      max-width: 420px;
+      max-width: 380px;
       position: relative;
       z-index: 1;
       margin: 0.5rem 0 1rem;
     }
 
-    .signup-card {
+    .login-card {
       background: rgba(15, 20, 29, 0.75);
       backdrop-filter: blur(20px);
       border: 1px solid var(--color-border);
@@ -90,13 +90,13 @@
       overflow-y: auto;
     }
 
-    .signup-card:hover {
+    .login-card:hover {
       border-color: rgba(0, 255, 65, 0.25);
       box-shadow: 0 12px 48px rgba(0, 255, 65, 0.12);
     }
 
     /* Geometric line accent (top-right) */
-    .signup-card::before {
+    .login-card::before {
       content: '';
       position: absolute;
       top: -2px;
@@ -111,7 +111,7 @@
     }
 
     /* Inner glow effect */
-    .signup-card::after {
+    .login-card::after {
       content: '';
       position: absolute;
       top: 0;
@@ -123,7 +123,7 @@
       border-radius: 6px;
     }
 
-    .signup-content {
+    .login-content {
       position: relative;
       z-index: 1;
       display: flex;
@@ -132,40 +132,127 @@
     }
 
     /* ===== HEADER ===== */
-    .signup-header {
+    .login-header {
       margin-bottom: 0.25rem;
       text-align: center;
     }
 
     .lime-logo {
       font-family: var(--font-logo);
-      font-size: 1.5rem;
+      font-size: 1.75rem;
       font-weight: 700;
       letter-spacing: -0.02em;
       color: var(--color-lime);
-      margin-bottom: var(--spacing-sm);
+      margin-bottom: var(--spacing-md);
       text-transform: uppercase;
     }
 
-    .signup-title {
+    .login-title {
       font-family: var(--font-display);
-      font-size: 1.5rem;
+      font-size: 1.75rem;
       font-weight: 600;
       color: var(--color-white);
       margin-bottom: var(--spacing-xs);
       letter-spacing: -0.01em;
     }
 
-    .signup-subtitle {
+    .login-subtitle {
       color: var(--color-grey-med);
-      font-size: 0.9rem;
+      font-size: 0.95rem;
     }
 
-    /* ===== SIGNUP FORM ===== */
-    .signup-form {
+    /* ===== SOCIAL AUTH ===== */
+    .auth-social {
       display: flex;
       flex-direction: column;
-      gap: 0.95rem;
+      gap: 0.75rem;
+      margin-bottom: 0.25rem;
+    }
+
+    .auth-button {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: var(--spacing-sm);
+      padding: var(--spacing-md) var(--spacing-lg);
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(0, 255, 65, 0.2);
+      border-radius: 6px;
+      color: var(--color-grey-light);
+      font-family: var(--font-body);
+      font-size: 0.95rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all var(--transition);
+      position: relative;
+      overflow: hidden;
+      min-height: 44px;
+      backdrop-filter: blur(10px);
+    }
+
+    .auth-button::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: var(--color-lime);
+      opacity: 0;
+      transition: opacity var(--transition);
+      z-index: -1;
+    }
+
+    .auth-button:hover {
+      border-color: var(--color-lime);
+      color: var(--color-black);
+      background: var(--color-lime);
+      box-shadow: 0 4px 16px rgba(0, 255, 65, 0.25);
+    }
+
+    .auth-button:focus-visible {
+      outline: 2px solid var(--color-lime);
+      outline-offset: 2px;
+    }
+
+    .auth-button:active {
+      transform: scale(0.98);
+    }
+
+    .auth-icon {
+      width: 20px;
+      height: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* ===== DIVIDER ===== */
+    .divider-section {
+      display: flex;
+      align-items: center;
+      margin: 0.5rem 0;
+      gap: 0.75rem;
+    }
+
+    .divider-line {
+      flex: 1;
+      height: 1px;
+      background: rgba(0, 255, 65, 0.15);
+    }
+
+    .divider-text {
+      color: var(--color-grey-med);
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    /* ===== EMAIL FORM ===== */
+    .auth-form {
+      display: flex;
+      flex-direction: column;
+      gap: 0.9rem;
     }
 
     .form-group {
@@ -173,18 +260,6 @@
       flex-direction: column;
       gap: 0.45rem;
       position: relative;
-      min-width: 0;
-    }
-
-    .form-row {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 0.85rem;
-      align-items: start;
-    }
-
-    .form-row .form-group {
-      gap: 0.45rem;
     }
 
     .form-label {
@@ -197,7 +272,6 @@
     }
 
     .form-input {
-      width: 100%;
       padding: var(--spacing-md);
       background: rgba(255, 255, 255, 0.05);
       border: 1px solid rgba(0, 255, 65, 0.15);
@@ -245,86 +319,6 @@
       background: rgba(255, 65, 65, 0.05) !important;
     }
 
-    /* ===== PASSWORD STRENGTH INDICATOR ===== */
-    .password-strength {
-      display: flex;
-      gap: var(--spacing-xs);
-      margin-top: 0.25rem;
-    }
-
-    .strength-bar {
-      flex: 1;
-      height: 4px;
-      background: rgba(0, 255, 65, 0.1);
-      border-radius: 2px;
-      transition: background var(--transition);
-    }
-
-    .strength-bar.weak {
-      background: rgba(255, 65, 65, 0.5);
-    }
-
-    .strength-bar.medium {
-      background: rgba(255, 165, 0, 0.5);
-    }
-
-    .strength-bar.strong {
-      background: var(--color-lime);
-    }
-
-    /* ===== CHECKBOX ===== */
-    .checkbox-group {
-      display: flex;
-      align-items: flex-start;
-      gap: 0.75rem;
-      font-size: 0.9rem;
-    }
-
-    .checkbox-input {
-      width: 20px;
-      height: 20px;
-      min-width: 20px;
-      margin-top: 2px;
-      accent-color: var(--color-lime);
-      cursor: pointer;
-      border: 2px solid rgba(0, 255, 65, 0.3);
-      border-radius: 4px;
-      background: rgba(255, 255, 255, 0.05);
-      transition: all var(--transition);
-    }
-
-    .checkbox-input:hover {
-      border-color: rgba(0, 255, 65, 0.6);
-      background: rgba(255, 255, 255, 0.08);
-    }
-
-    .checkbox-input:focus-visible {
-      outline: 2px solid var(--color-lime);
-      outline-offset: 2px;
-    }
-
-    .checkbox-label {
-      color: var(--color-grey-light);
-      cursor: pointer;
-    }
-
-    .checkbox-label a {
-      color: var(--color-lime);
-      text-decoration: none;
-      transition: color var(--transition);
-    }
-
-    .checkbox-label a:hover {
-      color: var(--color-lime-hover);
-      text-decoration: underline;
-    }
-
-    .checkbox-label a:focus-visible {
-      outline: 2px solid var(--color-lime);
-      outline-offset: 2px;
-      border-radius: 2px;
-    }
-
     /* ===== SUBMIT BUTTON ===== */
     .submit-button {
       padding: var(--spacing-md) var(--spacing-lg);
@@ -338,12 +332,11 @@
       letter-spacing: -0.01em;
       cursor: pointer;
       transition: all var(--transition);
-      min-height: 48px;
+      min-height: 44px;
       position: relative;
       overflow: hidden;
       text-transform: uppercase;
       box-shadow: 0 4px 16px rgba(0, 255, 65, 0.3);
-      margin-top: 0.25rem;
     }
 
     .submit-button::before {
@@ -374,25 +367,25 @@
     }
 
     /* ===== FOOTER ===== */
-    .signup-footer {
+    .login-footer {
       text-align: center;
       margin-top: 0.5rem;
       font-size: 0.9rem;
       color: var(--color-grey-med);
     }
 
-    .signup-footer a {
+    .login-footer a {
       color: var(--color-lime);
       text-decoration: none;
       transition: color var(--transition);
     }
 
-    .signup-footer a:hover {
+    .login-footer a:hover {
       color: var(--color-lime-hover);
       text-decoration: underline;
     }
 
-    .signup-footer a:focus-visible {
+    .login-footer a:focus-visible {
       outline: 2px solid var(--color-lime);
       outline-offset: 2px;
       border-radius: 2px;
@@ -414,16 +407,16 @@
 
     /* ===== RESPONSIVE: TABLET (768px) ===== */
     @media (max-width: 768px) {
-      .signup-card {
+      .login-card {
         padding: var(--spacing-lg);
       }
 
-      .signup-title {
-        font-size: 1.35rem;
+      .login-title {
+        font-size: 1.5rem;
       }
 
       .lime-logo {
-        font-size: 1.35rem;
+        font-size: 1.5rem;
       }
 
       .orb-1 {
@@ -449,58 +442,50 @@
         align-items: flex-start;
       }
 
-      .signup-wrapper {
+      .login-wrapper {
         max-width: 100%;
         margin: 0.1rem 0 0.75rem;
       }
 
-      .signup-card {
+      .login-card {
         padding: 1rem;
         max-height: none;
       }
 
-      .signup-content {
+      .login-content {
         gap: 0.8rem;
       }
 
-      .signup-header {
+      .login-header {
         margin-bottom: 0.2rem;
       }
 
       .lime-logo {
-        font-size: 1.1rem;
-        margin-bottom: var(--spacing-xs);
+        font-size: 1.25rem;
+        margin-bottom: var(--spacing-sm);
       }
 
-      .signup-title {
-        font-size: 1.1rem;
+      .login-title {
+        font-size: 1.25rem;
       }
 
-      .signup-subtitle {
-        font-size: 0.8rem;
-      }
-
-      .form-row {
-        grid-template-columns: 1fr;
-      }
-
-      .form-input,
-      .submit-button {
-        font-size: 16px; /* Prevents zoom on iOS */
-      }
-
-      .checkbox-group {
+      .login-subtitle {
         font-size: 0.85rem;
       }
 
-      .checkbox-input {
-        width: 18px;
-        height: 18px;
-        min-width: 18px;
+      .auth-button {
+        padding: var(--spacing-md) var(--spacing-md);
+        font-size: 0.9rem;
       }
 
+      .divider-section {
+        margin: var(--spacing-md) 0;
+      }
+
+      .form-input,
+      .auth-button,
       .submit-button {
-        margin-top: 0.15rem;
+        font-size: 16px; /* Prevents zoom on iOS */
       }
 
       .orb-1 {
@@ -523,52 +508,51 @@
       }
     }
   </style>
-  <link rel="stylesheet" href="lime-background.css">
+  <link rel="stylesheet" href="assets/css/lime-background.css">
 </head>
 <body>
   <div class="lime-bg-image"></div>
   <div class="lime-bg-overlay"></div>
 
 
-  <div class="signup-wrapper">
-    <div class="signup-card">
-      <div class="signup-content">
+  <div class="login-wrapper">
+    <div class="login-card">
+      <div class="login-content">
         <!-- Header -->
-        <div class="signup-header">
+        <div class="login-header">
           <div class="lime-logo">L.I.M.E</div>
-          <h1 class="signup-title">Create Account</h1>
-          <p class="signup-subtitle">Join a community of students building portfolios</p>
+          <h1 class="login-title">Welcome Back</h1>
+          <p class="login-subtitle">Sign in to build your portfolio and connect with companies</p>
         </div>
 
-        <!-- Signup Form -->
-        <form class="signup-form" method="POST" action="#" novalidate>
-          <!-- Name Fields -->
-          <div class="form-row">
-            <div class="form-group">
-              <label for="first-name" class="form-label">First Name</label>
-              <input 
-                type="text" 
-                id="first-name" 
-                name="first_name" 
-                class="form-input" 
-                placeholder="First name" 
-                required
-              >
-            </div>
-            <div class="form-group">
-              <label for="last-name" class="form-label">Last Name</label>
-              <input 
-                type="text" 
-                id="last-name" 
-                name="last_name" 
-                class="form-input" 
-                placeholder="Last name" 
-                required
-              >
-            </div>
-          </div>
+        <!-- Social Auth -->
+        <div class="auth-social">
+          <button class="auth-button" aria-label="Continue with LinkedIn">
+            <svg class="auth-icon" viewBox="0 0 24 24" fill="currentColor" xmlns="https://api.linkedin.com/login/">
+              <path d="M20.5 2h-17A1.5 1.5 0 002 3.5v17A1.5 1.5 0 003.5 22h17a1.5 1.5 0 001.5-1.5v-17A1.5 1.5 0 0020.5 2zM8 19H5v-9h3zM6.5 8.25A1.75 1.75 0 118.3 6.5a1.78 1.78 0 01-1.8 1.75zM19 19h-3v-4.74c0-1.42-.6-1.93-1.38-1.93A1.74 1.74 0 0013 14.19a.66.66 0 000 .9v4.91h-3V10h2.9v1.3a3.11 3.11 0 012.7-1.4c1.55 0 3.36.86 3.36 3.66z"/>
+            </svg>
+            <span>Continue with LinkedIn</span>
+          </button>
 
-          <!-- Email -->
+          <button class="auth-button" aria-label="Continue with Instagram">
+            <svg class="auth-icon" viewBox="0 0 24 24" fill="currentColor" xmlns="https://www.instagram.com/">
+              <path d="M12 0C8.74 0 8.33.029 7.053.156 5.775.281 4.902.465 4.167.99c-.369.254-.707.598-.99.99-.525.735-.71 1.608-.835 2.886C2.029 4.33 2 4.74 2 8c0 3.259.029 3.668.156 4.947.125 1.278.309 2.151.834 2.886.283.392.621.736.99.99.735.525 1.608.71 2.886.835 1.279.127 1.688.156 4.947.156 3.259 0 3.668-.029 4.947-.156 1.278-.125 2.151-.31 2.886-.835.392-.254.736-.598.99-.99.525-.735.71-1.608.835-2.886.127-1.279.156-1.688.156-4.947 0-3.259-.029-3.668-.156-4.947-.125-1.278-.31-2.151-.835-2.886a2.664 2.664 0 00-.99-.99c-.735-.525-1.608-.71-2.886-.835C15.67.029 15.259 0 12 0zm0 2.16c3.203 0 3.585.009 4.849.14 1.17.064 1.805.278 2.227.466.56.217.96.477 1.382.899.422.422.682.822.899 1.382.188.422.402 1.057.466 2.227.131 1.264.14 1.646.14 4.849 0 3.203-.009 3.585-.14 4.849-.064 1.17-.278 1.805-.466 2.227-.217.56-.477.96-.899 1.382-.422.422-.822.682-1.382.899-.422.188-1.057.402-2.227.466-1.264.131-1.646.14-4.849.14-3.203 0-3.585-.009-4.849-.14-1.17-.064-1.805-.278-2.227-.466-.56-.217-.96-.477-1.382-.899-.422-.422-.682-.822-.899-1.382-.188-.422-.402-1.057-.466-2.227-.131-1.264-.14-1.646-.14-4.849 0-3.203.009-3.585.14-4.849.064-1.17.278-1.805.466-2.227.217-.56.477-.96.899-1.382.422-.422.822-.682 1.382-.899.422-.188 1.057-.402 2.227-.466 1.264-.131 1.646-.14 4.849-.14z"/>
+              <path d="M12 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zm0 10.162a3.999 3.999 0 110 -7.998 3.999 3.999 0 010 7.998z"/>
+              <circle cx="18.406" cy="5.594" r="1.44"/>
+            </svg>
+            <span>Continue with Instagram</span>
+          </button>
+        </div>
+
+        <!-- Divider -->
+        <div class="divider-section">
+          <div class="divider-line"></div>
+          <span class="divider-text">Or</span>
+          <div class="divider-line"></div>
+        </div>
+
+        <!-- Email Form -->
+        <form class="auth-form" method="POST" action="#" novalidate>
           <div class="form-group">
             <label for="email" class="form-label">Email</label>
             <input 
@@ -581,7 +565,6 @@
             >
           </div>
 
-          <!-- Password -->
           <div class="form-group">
             <label for="password" class="form-label">Password</label>
             <input 
@@ -589,95 +572,21 @@
               id="password" 
               name="password" 
               class="form-input" 
-              placeholder="Create a strong password" 
+              placeholder="Enter your password" 
               required
-              minlength="8"
-            >
-            <div class="password-strength" aria-label="Password strength indicator">
-              <div class="strength-bar"></div>
-              <div class="strength-bar"></div>
-              <div class="strength-bar"></div>
-            </div>
-          </div>
-
-          <!-- Confirm Password -->
-          <div class="form-group">
-            <label for="confirm-password" class="form-label">Confirm Password</label>
-            <input 
-              type="password" 
-              id="confirm-password" 
-              name="confirm_password" 
-              class="form-input" 
-              placeholder="Re-enter your password" 
-              required
-              minlength="8"
             >
           </div>
 
-          <!-- Terms Checkbox -->
-          <div class="form-group">
-            <label class="checkbox-group">
-              <input 
-                type="checkbox" 
-                id="terms" 
-                name="terms" 
-                class="checkbox-input" 
-                required
-              >
-              <span class="checkbox-label">
-                I agree to the <a href="#terms">Terms of Service</a> and <a href="#privacy">Privacy Policy</a>
-              </span>
-            </label>
-          </div>
-
-          <button type="submit" class="submit-button">Create Account</button>
+          <button type="submit" class="submit-button">Sign In</button>
         </form>
 
         <!-- Footer -->
-        <div class="signup-footer">
-          <p>Already have an account? <a href="LIMELOGIN.html">Sign in here</a></p>
+        <div class="login-footer">
+          <p>Don't have an account? <a href="LIMESIGNUP.html">Create one here</a></p>
         </div>
       </div>
     </div>
   </div>
-
-  <script>
-    // Simple password strength indicator
-    const passwordInput = document.getElementById('password');
-    const strengthBars = document.querySelectorAll('.strength-bar');
-
-    function updatePasswordStrength(password) {
-      let strength = 0;
-
-      // Length check
-      if (password.length >= 8) strength++;
-      if (password.length >= 12) strength++;
-
-      // Complexity checks
-      if (/[a-z]/.test(password)) strength++;
-      if (/[A-Z]/.test(password)) strength++;
-      if (/[0-9]/.test(password)) strength++;
-      if (/[^a-zA-Z0-9]/.test(password)) strength++;
-
-      // Update bars
-      strengthBars.forEach((bar, index) => {
-        bar.classList.remove('weak', 'medium', 'strong');
-        if (index < strength) {
-          if (strength <= 2) {
-            bar.classList.add('weak');
-          } else if (strength <= 4) {
-            bar.classList.add('medium');
-          } else {
-            bar.classList.add('strong');
-          }
-        }
-      });
-    }
-
-    passwordInput.addEventListener('input', (e) => {
-      updatePasswordStrength(e.target.value);
-    });
-  </script>
   <script src="lime-applications-helper.js"></script>
   <script src="lime-form-validation.js"></script>
 </body>
