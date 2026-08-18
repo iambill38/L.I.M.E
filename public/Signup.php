@@ -3,574 +3,364 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>L.I.M.E.com</title>
+  <title>L.I.M.E - Sign Up</title>
+  <link rel="stylesheet" href="lime-theme.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
-    /* ===== FONT IMPORTS ===== */
-    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap');
-
-    /* ===== CSS VARIABLES ===== */
-    :root {
-      --color-black: #0a0a0a;
-      --color-navy: #0f1419;
-      --color-white: #ffffff;
-      --color-grey-light: #e8e8e8;
-      --color-grey-med: #8a8a8a;
-      --color-lime: #00ff41;
-      --color-lime-hover: #00dd38;
-      --color-lime-glow: rgba(0, 255, 65, 0.2);
-      --color-border: rgba(0, 255, 65, 0.15);
-
-      --font-display: 'Space Grotesk', sans-serif;
-      --font-body: 'Inter', sans-serif;
-      --font-logo: 'Poppins', sans-serif;
-
-      --spacing-xs: 0.5rem;
-      --spacing-sm: 1rem;
-      --spacing-md: 1.5rem;
-      --spacing-lg: 2rem;
-      --spacing-xl: 3rem;
-
-      --transition: 150ms cubic-bezier(0.2, 0, 0.38, 0.9);
-    }
-
-    /* ===== RESET ===== */
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
     }
 
-    html {
-      scroll-behavior: smooth;
-      scrollbar-width: thin;
-      scrollbar-color: rgba(0, 255, 65, 0.45) transparent;
+    html, body {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
     }
 
     body {
-      background-color: #0a0a0a;
-      color: var(--color-grey-light);
-      font-family: var(--font-body);
-      font-size: 1rem;
-      line-height: 1.6;
-      -webkit-font-smoothing: antialiased;
-      -moz-osx-font-smoothing: grayscale;
-      min-height: 100dvh;
       display: flex;
-      align-items: flex-start;
-      justify-content: center;
-      padding: clamp(0.75rem, 3vw, 1.5rem);
-      position: relative;
-      overflow-x: hidden;
-      overflow-y: auto;
-      -webkit-overflow-scrolling: touch;
+      font-family: 'Inter', sans-serif;
+      background: #0F1419;
     }
 
-    /* ===== BACKGROUND VIDEO ===== */
-
-    /* ===== CONTAINER ===== */
-    .signup-wrapper {
+    .signup-container {
+      display: flex;
       width: 100%;
-      max-width: 420px;
-      position: relative;
-      z-index: 1;
-      margin: 0.5rem 0 1rem;
+      height: 100vh;
     }
 
-    .signup-card {
-      background: rgba(15, 20, 29, 0.75);
-      backdrop-filter: blur(20px);
-      border: 1px solid var(--color-border);
-      border-radius: 6px;
-      padding: clamp(0.95rem, 2.2vw, 1.4rem);
-      position: relative;
-      overflow: hidden;
-      box-shadow: 0 8px 32px rgba(0, 255, 65, 0.08);
-      transition: all var(--transition);
-      max-height: calc(100dvh - 1.5rem);
-      overflow-y: auto;
-    }
-
-    .signup-card:hover {
-      border-color: rgba(0, 255, 65, 0.25);
-      box-shadow: 0 12px 48px rgba(0, 255, 65, 0.12);
-    }
-
-    /* Geometric line accent (top-right) */
-    .signup-card::before {
-      content: '';
-      position: absolute;
-      top: -2px;
-      right: -2px;
-      width: 140px;
-      height: 140px;
-      border-right: 2px solid var(--color-lime);
-      border-top: 2px solid var(--color-lime);
-      transform: rotate(45deg);
-      opacity: 0.25;
-      pointer-events: none;
-    }
-
-    /* Inner glow effect */
-    .signup-card::after {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: radial-gradient(circle at top right, rgba(0, 255, 65, 0.05) 0%, transparent 70%);
-      pointer-events: none;
-      border-radius: 6px;
-    }
-
-    .signup-content {
-      position: relative;
-      z-index: 1;
+    .signup-brand {
+      flex: 1;
+      background: linear-gradient(135deg, #537179 0%, #3D5660 100%);
       display: flex;
       flex-direction: column;
-      gap: 1rem;
+      justify-content: center;
+      align-items: center;
+      padding: 3rem;
+      color: #F7FAFC;
+      overflow: hidden;
+      position: relative;
     }
 
-    /* ===== HEADER ===== */
-    .signup-header {
-      margin-bottom: 0.25rem;
+    .signup-brand::before {
+      content: '';
+      position: absolute;
+      width: 300px;
+      height: 300px;
+      background: rgba(207, 224, 231, 0.1);
+      border-radius: 50%;
+      top: -100px;
+      left: -100px;
+    }
+
+    .signup-brand::after {
+      content: '';
+      position: absolute;
+      width: 200px;
+      height: 200px;
+      background: rgba(207, 224, 231, 0.05);
+      border-radius: 50%;
+      bottom: -50px;
+      right: -50px;
+    }
+
+    .brand-content {
+      position: relative;
+      z-index: 1;
       text-align: center;
     }
 
-    .lime-logo {
-      font-family: var(--font-logo);
-      font-size: 1.5rem;
+    .brand-logo {
+      font-size: 4rem;
       font-weight: 700;
-      letter-spacing: -0.02em;
-      color: var(--color-lime);
-      margin-bottom: var(--spacing-sm);
+      letter-spacing: -0.05em;
+      color: #CFE0E7;
+      margin-bottom: 2rem;
       text-transform: uppercase;
+    }
+
+    .brand-title {
+      font-size: 1.5rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+      color: #CFE0E7;
+    }
+
+    .brand-subtitle {
+      font-size: 0.95rem;
+      color: rgba(207, 224, 231, 0.8);
+      line-height: 1.6;
+      max-width: 300px;
+    }
+
+    .signup-form-wrapper {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 3rem;
+      background: linear-gradient(180deg, rgba(15, 20, 29, 0.95) 0%, rgba(26, 31, 46, 0.9) 100%);
+      backdrop-filter: blur(10px);
+      overflow-y: auto;
+    }
+
+    .signup-form-wrapper::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    .signup-form-wrapper::-webkit-scrollbar-track {
+      background: rgba(83, 113, 121, 0.1);
+    }
+
+    .signup-form-wrapper::-webkit-scrollbar-thumb {
+      background: var(--accent);
+      border-radius: 4px;
+    }
+
+    .signup-card {
+      width: 100%;
+      max-width: 400px;
+      background: rgba(26, 31, 46, 0.8);
+      border: 1px solid rgba(207, 224, 231, 0.15);
+      border-radius: 12px;
+      padding: 2.5rem;
+      backdrop-filter: blur(10px);
+    }
+
+    .signup-header {
+      margin-bottom: 2rem;
+      text-align: center;
     }
 
     .signup-title {
-      font-family: var(--font-display);
-      font-size: 1.5rem;
-      font-weight: 600;
-      color: var(--color-white);
-      margin-bottom: var(--spacing-xs);
-      letter-spacing: -0.01em;
+      font-size: 1.75rem;
+      font-weight: 700;
+      color: #F7FAFC;
+      margin-bottom: 0.5rem;
     }
 
     .signup-subtitle {
-      color: var(--color-grey-med);
       font-size: 0.9rem;
-    }
-
-    /* ===== SIGNUP FORM ===== */
-    .signup-form {
-      display: flex;
-      flex-direction: column;
-      gap: 0.95rem;
+      color: #D6E4EA;
     }
 
     .form-group {
-      display: flex;
-      flex-direction: column;
-      gap: 0.45rem;
-      position: relative;
-      min-width: 0;
-    }
-
-    .form-row {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 0.85rem;
-      align-items: start;
-    }
-
-    .form-row .form-group {
-      gap: 0.45rem;
+      margin-bottom: 1.5rem;
     }
 
     .form-label {
-      font-family: var(--font-display);
-      font-size: 0.9rem;
-      font-weight: 500;
-      color: var(--color-white);
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
+      display: block;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: #D6E4EA;
+      margin-bottom: 0.5rem;
     }
 
     .form-input {
       width: 100%;
-      padding: var(--spacing-md);
+      padding: 0.75rem 1rem;
       background: rgba(255, 255, 255, 0.05);
-      border: 1px solid rgba(0, 255, 65, 0.15);
+      border: 1px solid rgba(207, 224, 231, 0.2);
       border-radius: 6px;
-      color: var(--color-white);
-      font-family: var(--font-body);
+      color: #F7FAFC;
+      font-family: 'Inter', sans-serif;
       font-size: 0.95rem;
-      transition: all var(--transition);
-      min-height: 44px;
-      backdrop-filter: blur(10px);
+      transition: all 150ms ease;
     }
 
     .form-input::placeholder {
-      color: var(--color-grey-med);
-    }
-
-    .form-input:hover {
-      border-color: rgba(0, 255, 65, 0.3);
-      background: rgba(255, 255, 255, 0.08);
+      color: #AFC2CB;
     }
 
     .form-input:focus {
       outline: none;
-      border-color: var(--color-lime);
-      background: rgba(0, 255, 65, 0.08);
-      box-shadow: 0 0 0 3px rgba(0, 255, 65, 0.15);
-    }
-
-    /* ===== ERROR STATES ===== */
-    .form-input:invalid {
-      border-color: rgba(255, 65, 65, 0.5);
-      background: rgba(255, 65, 65, 0.05);
-    }
-
-    .form-error-message {
-      font-size: 0.8rem;
-      color: #ff4141;
-      margin-top: 0.35rem;
-      display: none;
-      font-weight: 500;
-    }
-
-    .form-input.error {
-      border-color: rgba(255, 65, 65, 0.5) !important;
-      background: rgba(255, 65, 65, 0.05) !important;
-    }
-
-    /* ===== PASSWORD STRENGTH INDICATOR ===== */
-    .password-strength {
-      display: flex;
-      gap: var(--spacing-xs);
-      margin-top: 0.25rem;
-    }
-
-    .strength-bar {
-      flex: 1;
-      height: 4px;
-      background: rgba(0, 255, 65, 0.1);
-      border-radius: 2px;
-      transition: background var(--transition);
-    }
-
-    .strength-bar.weak {
-      background: rgba(255, 65, 65, 0.5);
-    }
-
-    .strength-bar.medium {
-      background: rgba(255, 165, 0, 0.5);
-    }
-
-    .strength-bar.strong {
-      background: var(--color-lime);
-    }
-
-    /* ===== CHECKBOX ===== */
-    .checkbox-group {
-      display: flex;
-      align-items: flex-start;
-      gap: 0.75rem;
-      font-size: 0.9rem;
-    }
-
-    .checkbox-input {
-      width: 20px;
-      height: 20px;
-      min-width: 20px;
-      margin-top: 2px;
-      accent-color: var(--color-lime);
-      cursor: pointer;
-      border: 2px solid rgba(0, 255, 65, 0.3);
-      border-radius: 4px;
-      background: rgba(255, 255, 255, 0.05);
-      transition: all var(--transition);
-    }
-
-    .checkbox-input:hover {
-      border-color: rgba(0, 255, 65, 0.6);
       background: rgba(255, 255, 255, 0.08);
+      border-color: #CFE0E7;
+      box-shadow: 0 0 0 3px rgba(207, 224, 231, 0.1);
     }
 
-    .checkbox-input:focus-visible {
-      outline: 2px solid var(--color-lime);
-      outline-offset: 2px;
-    }
-
-    .checkbox-label {
-      color: var(--color-grey-light);
-      cursor: pointer;
-    }
-
-    .checkbox-label a {
-      color: var(--color-lime);
-      text-decoration: none;
-      transition: color var(--transition);
-    }
-
-    .checkbox-label a:hover {
-      color: var(--color-lime-hover);
-      text-decoration: underline;
-    }
-
-    .checkbox-label a:focus-visible {
-      outline: 2px solid var(--color-lime);
-      outline-offset: 2px;
-      border-radius: 2px;
-    }
-
-    /* ===== SUBMIT BUTTON ===== */
     .submit-button {
-      padding: var(--spacing-md) var(--spacing-lg);
-      background: var(--color-lime);
-      color: var(--color-black);
+      width: 100%;
+      padding: 0.85rem;
+      background: #3D5660;
+      color: #F7FAFC;
       border: none;
       border-radius: 6px;
-      font-family: var(--font-display);
       font-size: 1rem;
       font-weight: 600;
-      letter-spacing: -0.01em;
       cursor: pointer;
-      transition: all var(--transition);
-      min-height: 48px;
-      position: relative;
-      overflow: hidden;
-      text-transform: uppercase;
-      box-shadow: 0 4px 16px rgba(0, 255, 65, 0.3);
-      margin-top: 0.25rem;
-    }
-
-    .submit-button::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: -100%;
-      width: 100%;
-      height: 100%;
-      background: var(--color-lime-hover);
-      transition: left var(--transition);
-      z-index: -1;
+      transition: all 150ms ease;
+      font-family: 'Inter', sans-serif;
     }
 
     .submit-button:hover {
-      background: var(--color-lime-hover);
-      transform: translateY(-2px);
-      box-shadow: 0 6px 24px rgba(0, 255, 65, 0.4);
+      background: #537179;
+      box-shadow: 0 8px 24px rgba(83, 113, 121, 0.3);
     }
 
-    .submit-button:focus-visible {
-      outline: 2px solid var(--color-lime);
-      outline-offset: 2px;
-    }
-
-    .submit-button:active {
-      transform: translateY(0);
-    }
-
-    /* ===== FOOTER ===== */
     .signup-footer {
+      margin-top: 1.5rem;
       text-align: center;
-      margin-top: 0.5rem;
       font-size: 0.9rem;
-      color: var(--color-grey-med);
+      color: #D6E4EA;
     }
 
     .signup-footer a {
-      color: var(--color-lime);
+      color: #CFE0E7;
       text-decoration: none;
-      transition: color var(--transition);
+      font-weight: 600;
+      transition: color 150ms ease;
     }
 
     .signup-footer a:hover {
-      color: var(--color-lime-hover);
-      text-decoration: underline;
+      color: #F7FAFC;
     }
 
-    .signup-footer a:focus-visible {
-      outline: 2px solid var(--color-lime);
-      outline-offset: 2px;
-      border-radius: 2px;
+    .divider-section {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin: 1.5rem 0;
     }
 
-    /* ===== ACCESSIBILITY: PREFERS REDUCED MOTION ===== */
-    @media (prefers-reduced-motion: reduce) {
-      * {
-        animation-duration: 0.01ms !important;
-        animation-iteration-count: 1 !important;
-        transition-duration: 0.01ms !important;
-        scroll-behavior: auto !important;
+    .divider-line {
+      flex: 1;
+      height: 1px;
+      background: rgba(207, 224, 231, 0.2);
+    }
+
+    .divider-text {
+      color: #AFC2CB;
+      font-size: 0.9rem;
+    }
+
+    .auth-social {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .auth-button {
+      flex: 1;
+      padding: 0.75rem;
+      background: rgba(83, 113, 121, 0.3);
+      border: 1px solid rgba(207, 224, 231, 0.2);
+      border-radius: 6px;
+      color: #D6E4EA;
+      cursor: pointer;
+      font-size: 0.85rem;
+      font-weight: 500;
+      font-family: 'Inter', sans-serif;
+      transition: all 150ms ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+    }
+
+    .auth-button:hover {
+      background: rgba(83, 113, 121, 0.5);
+      border-color: #CFE0E7;
+      color: #CFE0E7;
+    }
+
+    .auth-icon {
+      width: 16px;
+      height: 16px;
+    }
+
+    @media (max-width: 1024px) {
+      .signup-container {
+        flex-direction: column;
       }
 
-      .orb {
-        animation: none !important;
+      .signup-brand {
+        min-height: 250px;
+        padding: 2rem 3rem;
+      }
+
+      .brand-logo {
+        font-size: 3rem;
+      }
+
+      .signup-form-wrapper {
+        flex: 1;
+        min-height: auto;
+        padding: 2rem;
       }
     }
 
-    /* ===== RESPONSIVE: TABLET (768px) ===== */
-    @media (max-width: 768px) {
+    @media (max-width: 640px) {
       .signup-card {
-        padding: var(--spacing-lg);
+        padding: 1.5rem;
+      }
+
+      .brand-logo {
+        font-size: 2.5rem;
       }
 
       .signup-title {
-        font-size: 1.35rem;
+        font-size: 1.5rem;
       }
 
-      .lime-logo {
-        font-size: 1.35rem;
-      }
-
-      .orb-1 {
-        width: 300px;
-        height: 300px;
-      }
-
-      .orb-2 {
-        width: 250px;
-        height: 250px;
-      }
-
-      .orb-3 {
-        width: 200px;
-        height: 200px;
-      }
-    }
-
-    /* ===== RESPONSIVE: MOBILE (375px) ===== */
-    @media (max-width: 480px) {
-      body {
-        padding: 0.75rem;
-        align-items: flex-start;
-      }
-
-      .signup-wrapper {
-        max-width: 100%;
-        margin: 0.1rem 0 0.75rem;
-      }
-
-      .signup-card {
-        padding: 1rem;
-        max-height: none;
-      }
-
-      .signup-content {
-        gap: 0.8rem;
-      }
-
-      .signup-header {
-        margin-bottom: 0.2rem;
-      }
-
-      .lime-logo {
-        font-size: 1.1rem;
-        margin-bottom: var(--spacing-xs);
-      }
-
-      .signup-title {
-        font-size: 1.1rem;
-      }
-
-      .signup-subtitle {
-        font-size: 0.8rem;
-      }
-
-      .form-row {
-        grid-template-columns: 1fr;
-      }
-
-      .form-input,
-      .submit-button {
-        font-size: 16px; /* Prevents zoom on iOS */
-      }
-
-      .checkbox-group {
-        font-size: 0.85rem;
-      }
-
-      .checkbox-input {
-        width: 18px;
-        height: 18px;
-        min-width: 18px;
-      }
-
-      .submit-button {
-        margin-top: 0.15rem;
-      }
-
-      .orb-1 {
-        width: 250px;
-        height: 250px;
-        top: -80px;
-        right: -80px;
-      }
-
-      .orb-2 {
-        width: 200px;
-        height: 200px;
-        bottom: -40px;
-      }
-
-      .orb-3 {
-        width: 150px;
-        height: 150px;
-        left: -60px;
+      .auth-social {
+        flex-direction: column;
       }
     }
   </style>
-  <link rel="stylesheet" href="assets/css/lime-background.css">
 </head>
 <body>
-  <div class="lime-bg-image"></div>
-  <div class="lime-bg-overlay"></div>
+  <div class="signup-container">
+    <div class="signup-brand">
+      <div class="brand-content">
+        <div class="brand-logo">L.I.M.E</div>
+        <h2 class="brand-title">Join Us</h2>
+        <p class="brand-subtitle">Start your professional journey and connect with opportunities</p>
+      </div>
+    </div>
 
-
-  <div class="signup-wrapper">
-    <div class="signup-card">
-      <div class="signup-content">
-        <!-- Header -->
+    <div class="signup-form-wrapper">
+      <div class="signup-card">
         <div class="signup-header">
-          <div class="lime-logo">L.I.M.E</div>
           <h1 class="signup-title">Create Account</h1>
-          <p class="signup-subtitle">Join a community of students building portfolios</p>
+          <p class="signup-subtitle">Build your professional profile</p>
         </div>
 
-        <!-- Signup Form -->
-        <form class="signup-form" method="POST" action="#" novalidate>
-          <!-- Name Fields -->
-          <div class="form-row">
-            <div class="form-group">
-              <label for="first-name" class="form-label">First Name</label>
-              <input 
-                type="text" 
-                id="first-name" 
-                name="first_name" 
-                class="form-input" 
-                placeholder="First name" 
-                required
-              >
-            </div>
-            <div class="form-group">
-              <label for="last-name" class="form-label">Last Name</label>
-              <input 
-                type="text" 
-                id="last-name" 
-                name="last_name" 
-                class="form-input" 
-                placeholder="Last name" 
-                required
-              >
-            </div>
+        <div class="auth-social">
+          <button class="auth-button" aria-label="Continue with LinkedIn">
+            <i class="fab fa-linkedin"></i>
+            <span>LinkedIn</span>
+          </button>
+          <button class="auth-button" aria-label="Continue with Google">
+            <i class="fab fa-google"></i>
+            <span>Google</span>
+          </button>
+        </div>
+
+        <div class="divider-section">
+          <div class="divider-line"></div>
+          <span class="divider-text">Or</span>
+          <div class="divider-line"></div>
+        </div>
+
+        <form class="auth-form" method="POST" action="#" novalidate>
+          <div class="form-group">
+            <label for="fullname" class="form-label">Full Name</label>
+            <input 
+              type="text" 
+              id="fullname" 
+              name="fullname" 
+              class="form-input" 
+              placeholder="John Doe" 
+              required
+            >
           </div>
 
-          <!-- Email -->
           <div class="form-group">
-            <label for="email" class="form-label">Email</label>
+            <label for="email" class="form-label">Email Address</label>
             <input 
               type="email" 
               id="email" 
@@ -581,7 +371,6 @@
             >
           </div>
 
-          <!-- Password -->
           <div class="form-group">
             <label for="password" class="form-label">Password</label>
             <input 
@@ -589,95 +378,34 @@
               id="password" 
               name="password" 
               class="form-input" 
-              placeholder="Create a strong password" 
+              placeholder="Create a password" 
               required
-              minlength="8"
             >
-            <div class="password-strength" aria-label="Password strength indicator">
-              <div class="strength-bar"></div>
-              <div class="strength-bar"></div>
-              <div class="strength-bar"></div>
-            </div>
           </div>
 
-          <!-- Confirm Password -->
           <div class="form-group">
             <label for="confirm-password" class="form-label">Confirm Password</label>
             <input 
               type="password" 
               id="confirm-password" 
-              name="confirm_password" 
+              name="confirm-password" 
               class="form-input" 
-              placeholder="Re-enter your password" 
+              placeholder="Confirm your password" 
               required
-              minlength="8"
             >
-          </div>
-
-          <!-- Terms Checkbox -->
-          <div class="form-group">
-            <label class="checkbox-group">
-              <input 
-                type="checkbox" 
-                id="terms" 
-                name="terms" 
-                class="checkbox-input" 
-                required
-              >
-              <span class="checkbox-label">
-                I agree to the <a href="#terms">Terms of Service</a> and <a href="#privacy">Privacy Policy</a>
-              </span>
-            </label>
           </div>
 
           <button type="submit" class="submit-button">Create Account</button>
         </form>
 
-        <!-- Footer -->
         <div class="signup-footer">
-          <p>Already have an account? <a href="LIMELOGIN.html">Sign in here</a></p>
+          <p>Already have an account? <a href="login.html">Sign in</a></p>
+          <p>By creating an account, you agree to our <a href="termsandconditions.html">Terms of Service</a> </p>
         </div>
       </div>
     </div>
   </div>
 
-  <script>
-    // Simple password strength indicator
-    const passwordInput = document.getElementById('password');
-    const strengthBars = document.querySelectorAll('.strength-bar');
-
-    function updatePasswordStrength(password) {
-      let strength = 0;
-
-      // Length check
-      if (password.length >= 8) strength++;
-      if (password.length >= 12) strength++;
-
-      // Complexity checks
-      if (/[a-z]/.test(password)) strength++;
-      if (/[A-Z]/.test(password)) strength++;
-      if (/[0-9]/.test(password)) strength++;
-      if (/[^a-zA-Z0-9]/.test(password)) strength++;
-
-      // Update bars
-      strengthBars.forEach((bar, index) => {
-        bar.classList.remove('weak', 'medium', 'strong');
-        if (index < strength) {
-          if (strength <= 2) {
-            bar.classList.add('weak');
-          } else if (strength <= 4) {
-            bar.classList.add('medium');
-          } else {
-            bar.classList.add('strong');
-          }
-        }
-      });
-    }
-
-    passwordInput.addEventListener('input', (e) => {
-      updatePasswordStrength(e.target.value);
-    });
-  </script>
   <script src="lime-applications-helper.js"></script>
   <script src="lime-form-validation.js"></script>
 </body>

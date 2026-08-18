@@ -1,21 +1,15 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Resume Manager - lime.com</title>
-  <style>
-    @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap');
+@import url("lime-theme.css");
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap');
 
     :root {
-      --color-black: #0a0a0a;
+      --color-black: #0F1419;
       --color-navy: #0f1419;
       --color-white: #ffffff;
       --color-grey-light: #e8e8e8;
       --color-grey-med: #8a8a8a;
-      --color-lime: #00ff41;
+      --color-lime: #CFE0E7;
       --color-lime-hover: #00dd38;
-      --color-border: rgba(0, 255, 65, 0.15);
+      --color-border: rgba(207, 224, 231, 0.15);
 
       --font-display: 'Space Grotesk', sans-serif;
       --font-body: 'Inter', sans-serif;
@@ -40,7 +34,7 @@
     }
 
     body {
-      background-color: #0a0a0a;
+      background-color: #0F1419;
       color: var(--color-grey-light);
       font-family: var(--font-body);
       font-size: 1rem;
@@ -88,7 +82,7 @@
       width: 42px;
       height: 42px;
       border-radius: 4px;
-      background: linear-gradient(135deg, var(--color-lime), rgba(0, 255, 65, 0.5));
+      background: linear-gradient(135deg, var(--color-lime), rgba(207, 224, 231, 0.5));
       display: flex;
       align-items: center;
       justify-content: center;
@@ -122,8 +116,8 @@
     .page-nav a:hover,
     .page-nav a.active {
       color: var(--color-lime);
-      background: rgba(0, 255, 65, 0.12);
-      border-color: rgba(0, 255, 65, 0.15);
+      background: rgba(207, 224, 231, 0.12);
+      border-color: rgba(207, 224, 231, 0.15);
     }
 
     .main-content {
@@ -163,12 +157,12 @@
 
     .upload-section:hover {
       border-color: var(--color-lime);
-      background: rgba(0, 255, 65, 0.05);
+      background: rgba(207, 224, 231, 0.05);
     }
 
     .upload-section.dragover {
       border-color: var(--color-lime);
-      background: rgba(0, 255, 65, 0.1);
+      background: rgba(207, 224, 231, 0.1);
     }
 
     .upload-icon {
@@ -246,20 +240,20 @@
     }
 
     .resume-item:hover {
-      border-color: rgba(0, 255, 65, 0.3);
-      box-shadow: 0 8px 32px rgba(0, 255, 65, 0.12);
+      border-color: rgba(207, 224, 231, 0.3);
+      box-shadow: 0 8px 32px rgba(207, 224, 231, 0.12);
     }
 
     .resume-item.default {
       border-color: var(--color-lime);
-      background: rgba(0, 255, 65, 0.05);
+      background: rgba(207, 224, 231, 0.05);
     }
 
     .file-icon {
       width: 50px;
       height: 50px;
       border-radius: 6px;
-      background: rgba(0, 255, 65, 0.15);
+      background: rgba(207, 224, 231, 0.15);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -308,7 +302,7 @@
     .action-btn {
       padding: 0.5rem 1rem;
       background: transparent;
-      border: 1px solid rgba(0, 255, 65, 0.3);
+      border: 1px solid rgba(207, 224, 231, 0.3);
       color: var(--color-lime);
       border-radius: 6px;
       font-family: var(--font-body);
@@ -322,8 +316,8 @@
     }
 
     .action-btn:hover {
-      background: rgba(0, 255, 65, 0.1);
-      border-color: rgba(0, 255, 65, 0.6);
+      background: rgba(207, 224, 231, 0.1);
+      border-color: rgba(207, 224, 231, 0.6);
     }
 
     .action-btn-danger {
@@ -404,219 +398,3 @@
         transition-duration: 0.01ms !important;
       }
     }
-  </style>
-  <link rel="stylesheet" href="assets/css/lime-nav.css">
-  <link rel="stylesheet" href="assets/css/lime-background.css">
-</head>
-<body>
-  <div class="lime-bg-image"></div>
-  <div class="lime-bg-overlay"></div>
-
-  <div id="lime-nav-root"></div>
-
-
-  <main class="main-content">
-    <h1 class="page-title">Resume Manager</h1>
-    <p class="page-subtitle">Upload and manage your resumes for job applications</p>
-
-    <div class="upload-section" id="uploadSection">
-      <div class="upload-icon">[Upload]</div>
-      <div class="upload-title">Upload Resume</div>
-      <p class="upload-text">Drag and drop your resume or click to browse (PDF, DOC, DOCX)</p>
-      <input type="file" id="fileInput" class="upload-input" accept=".pdf,.doc,.docx" />
-      <button class="upload-button" onclick="document.getElementById('fileInput').click()">Select File</button>
-    </div>
-
-    <div class="resumes-section">
-      <h2 class="section-title">Your Resumes</h2>
-      <div class="resumes-list" id="resumesList">
-      </div>
-    </div>
-  </main>
-  <script src="lime-nav.js"></script>
-
-
-  <script src="lime-applications-helper.js"></script>
-  <script src="lime-form-validation.js"></script>
-  <script>
-    const sampleResumes = [
-      {
-        id: 1,
-        name: 'Bill_Kongolo_Resume_2024.pdf',
-        type: 'application/pdf',
-        size: 245000,
-        uploadDate: new Date(Date.now() - 5 * 24 * 60 * 60000),
-        isDefault: true,
-      },
-      {
-        id: 2,
-        name: 'Bill_Kongolo_Resume_Tech.docx',
-        type: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-        size: 125000,
-        uploadDate: new Date(Date.now() - 15 * 24 * 60 * 60000),
-        isDefault: false,
-      },
-    ];
-
-    let resumes = [...sampleResumes];
-
-    function loadResumes() {
-      const stored = localStorage.getItem('limeResumes');
-      if (stored) {
-        try {
-          const parsed = JSON.parse(stored);
-          resumes = parsed.map(r => ({
-            ...r,
-            uploadDate: new Date(r.uploadDate),
-          }));
-        } catch (e) {
-          resumes = [...sampleResumes];
-        }
-      }
-    }
-
-    function saveResumes() {
-      localStorage.setItem('limeResumes', JSON.stringify(resumes));
-    }
-
-    function formatFileSize(bytes) {
-      if (bytes === 0) return '0 Bytes';
-      const k = 1024;
-      const sizes = ['Bytes', 'KB', 'MB'];
-      const i = Math.floor(Math.log(bytes) / Math.log(k));
-      return Math.round(bytes / Math.pow(k, i) * 100) / 100 + ' ' + sizes[i];
-    }
-
-    function formatDate(date) {
-      const now = new Date();
-      const diffDays = Math.floor((now - date) / (1000 * 60 * 60 * 24));
-
-      if (diffDays === 0) return 'Today';
-      if (diffDays === 1) return 'Yesterday';
-      if (diffDays < 30) return `${diffDays} days ago`;
-
-      return date.toLocaleDateString('en-US', {
-        year: 'numeric',
-        month: 'short',
-        day: 'numeric',
-      });
-    }
-
-    function getFileIcon(filename) {
-      if (filename.endsWith('.pdf')) return '[PDF]';
-      if (filename.endsWith('.doc') || filename.endsWith('.docx')) return '[DOC]';
-      return '[FILE]';
-    }
-
-    function renderResumes() {
-      const list = document.getElementById('resumesList');
-
-      if (resumes.length === 0) {
-        list.innerHTML = `
-          <div class="empty-state">
-            <div class="empty-state-icon">[No Resume]</div>
-            <p class="empty-state-text">No resumes uploaded yet. Upload your first resume to get started.</p>
-          </div>
-        `;
-        return;
-      }
-
-      resumes.sort((a, b) => b.uploadDate - a.uploadDate);
-
-      list.innerHTML = resumes.map(resume => `
-        <div class="resume-item ${resume.isDefault ? 'default' : ''}">
-          <div class="file-icon">${getFileIcon(resume.name)}</div>
-          <div class="resume-info">
-            <div class="resume-name">${resume.name}</div>
-            <div class="resume-meta">
-              <span>${formatFileSize(resume.size)}</span>
-              <span>Uploaded ${formatDate(resume.uploadDate)}</span>
-              ${resume.isDefault ? '<span class="default-badge">Default</span>' : ''}
-            </div>
-          </div>
-          <div class="resume-actions">
-            ${!resume.isDefault ? `<button class="action-btn" onclick="setDefault(${resume.id})">Set Default</button>` : ''}
-            <button class="action-btn" onclick="downloadResume('${resume.name}')">Download</button>
-            <button class="action-btn action-btn-danger" onclick="deleteResume(${resume.id})">Delete</button>
-          </div>
-        </div>
-      `).join('');
-    }
-
-    window.setDefault = function(id) {
-      resumes.forEach(r => r.isDefault = r.id === id);
-      saveResumes();
-      renderResumes();
-      showToast('Resume set as default', 'success');
-    };
-
-    window.downloadResume = function(filename) {
-      showToast('Downloading ' + filename, 'success');
-    };
-
-    window.deleteResume = function(id) {
-      if (confirm('Are you sure you want to delete this resume?')) {
-        resumes = resumes.filter(r => r.id !== id);
-        saveResumes();
-        renderResumes();
-        showToast('Resume deleted', 'success');
-      }
-    };
-
-    function addResume(filename, type) {
-      const newResume = {
-        id: Math.max(...resumes.map(r => r.id), 0) + 1,
-        name: filename,
-        type: type,
-        size: Math.floor(Math.random() * 500000) + 50000,
-        uploadDate: new Date(),
-        isDefault: resumes.length === 0,
-      };
-
-      resumes.push(newResume);
-      saveResumes();
-      renderResumes();
-      showToast('Resume uploaded successfully', 'success');
-    }
-
-    const fileInput = document.getElementById('fileInput');
-    fileInput.addEventListener('change', (e) => {
-      const file = e.target.files[0];
-      if (file) {
-        addResume(file.name, file.type);
-        fileInput.value = '';
-      }
-    });
-
-    const uploadSection = document.getElementById('uploadSection');
-    uploadSection.addEventListener('dragover', (e) => {
-      e.preventDefault();
-      uploadSection.classList.add('dragover');
-    });
-
-    uploadSection.addEventListener('dragleave', () => {
-      uploadSection.classList.remove('dragover');
-    });
-
-    uploadSection.addEventListener('drop', (e) => {
-      e.preventDefault();
-      uploadSection.classList.remove('dragover');
-      
-      const files = e.dataTransfer.files;
-      if (files.length > 0) {
-        const file = files[0];
-        const validTypes = ['application/pdf', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'];
-        
-        if (validTypes.includes(file.type)) {
-          addResume(file.name, file.type);
-        } else {
-          showToast('Please upload PDF, DOC, or DOCX file', 'error');
-        }
-      }
-    });
-
-    loadResumes();
-    renderResumes();
-  </script>
-</body>
-</html>

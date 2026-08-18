@@ -4,670 +4,18 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>lime.com</title>
-  <style>
-    /* ===== FONT IMPORTS ===== */
-    @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap');
-
-    /* ===== CSS VARIABLES ===== */
-    :root {
-      --color-black: #0a0a0a;
-      --color-navy: #0f1419;
-      --color-white: #ffffff;
-      --color-grey-light: #e8e8e8;
-      --color-grey-med: #8a8a8a;
-      --color-lime: #00ff41;
-      --color-lime-hover: #00dd38;
-      --color-lime-glow: rgba(0, 255, 65, 0.2);
-      --color-border: rgba(0, 255, 65, 0.15);
-
-      --font-display: 'Space Grotesk', sans-serif;
-      --font-body: 'Inter', sans-serif;
-
-      --spacing-xs: 0.5rem;
-      --spacing-sm: 1rem;
-      --spacing-md: 1.5rem;
-      --spacing-lg: 2rem;
-      --spacing-xl: 3rem;
-
-      --transition: 150ms cubic-bezier(0.2, 0, 0.38, 0.9);
-    }
-
-    /* ===== RESET ===== */
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
-    html {
-      scroll-behavior: smooth;
-    }
-
-    body {
-      background-color: #0a0a0a;
-      color: var(--color-grey-light);
-      font-family: var(--font-body);
-      font-size: 1rem;
-      line-height: 1.6;
-      -webkit-font-smoothing: antialiased;
-      -moz-osx-font-smoothing: grayscale;
-      min-height: 100vh;
-      position: relative;
-      overflow-x: hidden;
-    }
-
-
-    /* ===== CONTAINER ===== */
-    .page-container {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: var(--spacing-lg);
-      position: relative;
-      z-index: 1;
-    }
-
-    /* ===== HEADER ===== */
-    .page-header {
-      display: flex;
-      align-items: center;
-      gap: var(--spacing-md);
-      margin-bottom: var(--spacing-xl);
-    }
-
-    .back-button {
-      width: 44px;
-      height: 44px;
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid rgba(0, 255, 65, 0.15);
-      border-radius: 6px;
-      color: var(--color-grey-light);
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: all var(--transition);
-      flex-shrink: 0;
-    }
-
-    .back-button:hover {
-      background: rgba(0, 255, 65, 0.1);
-      border-color: rgba(0, 255, 65, 0.3);
-      color: var(--color-lime);
-    }
-
-    .back-button:focus-visible {
-      outline: 2px solid var(--color-lime);
-      outline-offset: 2px;
-    }
-
-    .breadcrumb {
-      color: var(--color-grey-med);
-      font-size: 0.9rem;
-    }
-
-    .breadcrumb a {
-      color: var(--color-lime);
-      text-decoration: none;
-      transition: color var(--transition);
-    }
-
-    .breadcrumb a:hover {
-      color: var(--color-lime-hover);
-      text-decoration: underline;
-    }
-
-    /* ===== PROJECT HERO ===== */
-    .project-hero {
-      background: rgba(15, 20, 29, 0.75);
-      backdrop-filter: blur(20px);
-      border: 1px solid var(--color-border);
-      border-radius: 6px;
-      padding: var(--spacing-xl);
-      margin-bottom: var(--spacing-xl);
-      position: relative;
-      overflow: hidden;
-    }
-
-    .project-hero::before {
-      content: '';
-      position: absolute;
-      top: -2px;
-      right: -2px;
-      width: 150px;
-      height: 150px;
-      border-right: 2px solid var(--color-lime);
-      border-top: 2px solid var(--color-lime);
-      transform: rotate(45deg);
-      opacity: 0.2;
-      pointer-events: none;
-    }
-
-    .project-hero::after {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: radial-gradient(circle at top right, rgba(0, 255, 65, 0.05) 0%, transparent 70%);
-      pointer-events: none;
-      border-radius: 6px;
-    }
-
-    .project-content {
-      position: relative;
-      z-index: 1;
-    }
-
-    .project-icon {
-      font-size: 2.5rem;
-      margin-bottom: var(--spacing-md);
-    }
-
-    .project-icon svg,
-    .meta-icon svg,
-    .placeholder-icon svg,
-    .tech-icon svg {
-      width: 1.4rem;
-      height: 1.4rem;
-      display: block;
-      fill: none;
-      stroke: currentColor;
-      stroke-width: 1.8;
-    }
-
-    .meta-icon,
-    .tech-icon {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      width: 2rem;
-      height: 2rem;
-      min-width: 2rem;
-      background: rgba(255, 255, 255, 0.08);
-      border-radius: 4px;
-      margin-right: 0.75rem;
-      color: var(--color-white);
-    }
-
-    .placeholder-icon {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      width: 3rem;
-      height: 3rem;
-      background: rgba(255, 255, 255, 0.04);
-      border-radius: 6px;
-      margin: 0 auto;
-      color: var(--color-grey-light);
-    }
-
-    .project-title {
-      font-family: var(--font-display);
-      font-size: 2rem;
-      font-weight: 700;
-      color: var(--color-white);
-      margin-bottom: var(--spacing-sm);
-      letter-spacing: -0.01em;
-    }
-
-    .project-tagline {
-      font-size: 1.1rem;
-      color: var(--color-grey-med);
-      margin-bottom: var(--spacing-lg);
-    }
-
-    .project-meta {
-      display: flex;
-      flex-wrap: wrap;
-      gap: var(--spacing-md);
-      margin-bottom: var(--spacing-lg);
-      font-size: 0.95rem;
-    }
-
-    .meta-item {
-      display: flex;
-      align-items: center;
-      gap: var(--spacing-xs);
-      color: var(--color-grey-light);
-    }
-
-    .project-tags {
-      display: flex;
-      flex-wrap: wrap;
-      gap: var(--spacing-sm);
-      margin-bottom: var(--spacing-lg);
-    }
-
-    .project-tag {
-      background: rgba(0, 255, 65, 0.1);
-      color: var(--color-lime);
-      padding: 0.4rem 0.9rem;
-      border-radius: 6px;
-      font-size: 0.85rem;
-      font-weight: 500;
-    }
-
-    .project-actions {
-      display: flex;
-      gap: var(--spacing-md);
-      flex-wrap: wrap;
-    }
-
-    .action-button {
-      display: flex;
-      align-items: center;
-      gap: var(--spacing-xs);
-      padding: var(--spacing-md) var(--spacing-lg);
-      background: var(--color-lime);
-      color: var(--color-black);
-      border: none;
-      border-radius: 6px;
-      font-family: var(--font-display);
-      font-weight: 600;
-      font-size: 0.95rem;
-      cursor: pointer;
-      transition: all var(--transition);
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-      min-height: 44px;
-      text-decoration: none;
-    }
-
-    .action-button:hover {
-      background: var(--color-lime-hover);
-      transform: translateY(-2px);
-      box-shadow: 0 4px 16px rgba(0, 255, 65, 0.3);
-    }
-
-    .action-button:focus-visible {
-      outline: 2px solid var(--color-lime);
-      outline-offset: 2px;
-    }
-
-    .action-button-secondary {
-      background: transparent;
-      color: var(--color-lime);
-      border: 1px solid rgba(0, 255, 65, 0.3);
-    }
-
-    .action-button-secondary:hover {
-      background: rgba(0, 255, 65, 0.1);
-      border-color: rgba(0, 255, 65, 0.6);
-    }
-
-    /* ===== IMAGE CAROUSEL ===== */
-    .carousel-section {
-      background: rgba(15, 20, 29, 0.75);
-      backdrop-filter: blur(20px);
-      border: 1px solid var(--color-border);
-      border-radius: 6px;
-      padding: var(--spacing-lg);
-      margin-bottom: var(--spacing-xl);
-      position: relative;
-      overflow: hidden;
-    }
-
-    .carousel-title {
-      font-family: var(--font-display);
-      font-size: 1.1rem;
-      font-weight: 600;
-      color: var(--color-white);
-      margin-bottom: var(--spacing-lg);
-      letter-spacing: -0.01em;
-    }
-
-    .carousel-container {
-      position: relative;
-      display: flex;
-      align-items: center;
-      gap: var(--spacing-lg);
-    }
-
-    .carousel-main {
-      flex: 1;
-      background: rgba(255, 255, 255, 0.05);
-      border-radius: 6px;
-      overflow: hidden;
-      aspect-ratio: 16 / 10;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border: 1px solid rgba(0, 255, 65, 0.15);
-    }
-
-    .carousel-image {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      background: linear-gradient(135deg, rgba(0, 255, 65, 0.15), rgba(0, 255, 65, 0.05));
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 3rem;
-    }
-
-    .carousel-nav {
-      display: flex;
-      flex-direction: column;
-      gap: var(--spacing-sm);
-    }
-
-    .carousel-thumbnail {
-      width: 80px;
-      height: 80px;
-      border-radius: 6px;
-      background: rgba(255, 255, 255, 0.05);
-      border: 2px solid rgba(0, 255, 65, 0.15);
-      cursor: pointer;
-      transition: all var(--transition);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.5rem;
-    }
-
-    .carousel-thumbnail:hover {
-      border-color: rgba(0, 255, 65, 0.3);
-      background: rgba(255, 255, 255, 0.08);
-    }
-
-    .carousel-thumbnail.active {
-      border-color: var(--color-lime);
-      background: rgba(0, 255, 65, 0.15);
-    }
-
-    .carousel-indicator {
-      text-align: center;
-      color: var(--color-grey-med);
-      font-size: 0.85rem;
-      margin-top: var(--spacing-md);
-    }
-
-    /* ===== SECTIONS ===== */
-    .section {
-      margin-bottom: var(--spacing-xl);
-    }
-
-    .section-title {
-      font-family: var(--font-display);
-      font-size: 1.4rem;
-      font-weight: 600;
-      color: var(--color-white);
-      margin-bottom: var(--spacing-lg);
-      letter-spacing: -0.01em;
-    }
-
-    .section-content {
-      background: rgba(15, 20, 29, 0.75);
-      backdrop-filter: blur(20px);
-      border: 1px solid var(--color-border);
-      border-radius: 6px;
-      padding: var(--spacing-lg);
-    }
-
-    .description-text {
-      color: var(--color-grey-light);
-      line-height: 1.8;
-      margin-bottom: var(--spacing-md);
-    }
-
-    .description-text:last-child {
-      margin-bottom: 0;
-    }
-
-    /* ===== METRICS ===== */
-    .metrics-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: var(--spacing-lg);
-    }
-
-    .metric-card {
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid rgba(0, 255, 65, 0.15);
-      border-radius: 6px;
-      padding: var(--spacing-lg);
-      text-align: center;
-    }
-
-    .metric-value {
-      font-family: var(--font-display);
-      font-size: 2rem;
-      font-weight: 700;
-      color: var(--color-lime);
-      margin-bottom: var(--spacing-xs);
-    }
-
-    .metric-label {
-      color: var(--color-grey-med);
-      font-size: 0.9rem;
-    }
-
-    /* ===== TECH STACK ===== */
-    .tech-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-      gap: var(--spacing-md);
-    }
-
-    .tech-item {
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid rgba(0, 255, 65, 0.15);
-      border-radius: 6px;
-      padding: var(--spacing-md);
-      text-align: center;
-      transition: all var(--transition);
-    }
-
-    .tech-item:hover {
-      border-color: rgba(0, 255, 65, 0.3);
-      background: rgba(255, 255, 255, 0.08);
-    }
-
-    .tech-icon {
-      font-size: 1.8rem;
-      margin-bottom: 0.5rem;
-    }
-
-    .tech-name {
-      font-weight: 600;
-      color: var(--color-white);
-      font-size: 0.9rem;
-    }
-
-    /* ===== KEY FEATURES ===== */
-    .features-list {
-      display: flex;
-      flex-direction: column;
-      gap: var(--spacing-lg);
-    }
-
-    .feature-item {
-      display: flex;
-      gap: var(--spacing-lg);
-    }
-
-    .feature-number {
-      font-family: var(--font-display);
-      font-size: 1.5rem;
-      font-weight: 700;
-      color: var(--color-lime);
-      min-width: 40px;
-    }
-
-    .feature-content h4 {
-      font-weight: 600;
-      color: var(--color-white);
-      margin-bottom: var(--spacing-xs);
-    }
-
-    .feature-content p {
-      color: var(--color-grey-med);
-      line-height: 1.6;
-    }
-
-    /* ===== RESPONSIVE ===== */
-    @media (max-width: 1024px) {
-      .project-title {
-        font-size: 1.5rem;
-      }
-
-      .carousel-container {
-        flex-direction: column;
-        gap: var(--spacing-md);
-      }
-
-      .carousel-nav {
-        flex-direction: row;
-        justify-content: center;
-      }
-
-      .carousel-thumbnail {
-        width: 70px;
-        height: 70px;
-      }
-
-      .metrics-grid {
-        grid-template-columns: repeat(2, 1fr);
-      }
-
-      .action-button {
-        width: 100%;
-        justify-content: center;
-      }
-    }
-
-    @media (max-width: 768px) {
-      .page-container {
-        padding: var(--spacing-md);
-      }
-
-      .project-hero {
-        padding: var(--spacing-lg);
-      }
-
-      .project-title {
-        font-size: 1.3rem;
-      }
-
-      .project-actions {
-        flex-direction: column;
-        width: 100%;
-      }
-
-      .action-button {
-        width: 100%;
-        justify-content: center;
-      }
-
-      .carousel-section {
-        padding: var(--spacing-md);
-      }
-
-      .section-content {
-        padding: var(--spacing-md);
-      }
-
-      .metrics-grid {
-        grid-template-columns: repeat(2, 1fr);
-      }
-
-      .tech-grid {
-        grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
-      }
-
-      .feature-item {
-        gap: var(--spacing-md);
-      }
-    }
-
-    @media (max-width: 480px) {
-      .page-header {
-        flex-direction: column;
-        align-items: flex-start;
-      }
-
-      .page-container {
-        padding: var(--spacing-sm);
-      }
-
-      .project-hero {
-        padding: var(--spacing-md);
-      }
-
-      .project-icon {
-        font-size: 2rem;
-        margin-bottom: var(--spacing-sm);
-      }
-
-      .project-title {
-        font-size: 1.1rem;
-      }
-
-      .project-tagline {
-        font-size: 0.95rem;
-      }
-
-      .project-meta {
-        flex-direction: column;
-        gap: var(--spacing-sm);
-      }
-
-      .carousel-main {
-        aspect-ratio: 1 / 1;
-      }
-
-      .carousel-thumbnail {
-        width: 60px;
-        height: 60px;
-        font-size: 1.2rem;
-      }
-
-      .section-title {
-        font-size: 1.1rem;
-      }
-
-      .metrics-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .metric-value {
-        font-size: 1.5rem;
-      }
-
-      .tech-grid {
-        grid-template-columns: repeat(3, 1fr);
-      }
-
-      .feature-item {
-        flex-direction: column;
-        gap: var(--spacing-sm);
-      }
-
-      .feature-number {
-        min-width: auto;
-      }
-    }
-
-    /* ===== ACCESSIBILITY ===== */
-    @media (prefers-reduced-motion: reduce) {
-      * {
-        animation-duration: 0.01ms !important;
-        animation-iteration-count: 1 !important;
-        transition-duration: 0.01ms !important;
-      }
-
-      .orb {
-        animation: none !important;
-      }
-    }
-  </style>
-  <link rel="stylesheet" href="assets/css/lime-nav.css">
-  <link rel="stylesheet" href="assets/css/lime-background.css">
-</head>
-<body>
-  <div class="lime-bg-image"></div>
+  
+  <link rel="stylesheet" href="lime-nav.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="lime-background.css">
+<link rel="stylesheet" href="css/LIMEPORTFOLIOPROJECTS.css">  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="lime-theme.css"></head>
+<body class="has-lime-nav">
+  <nav id="lime-nav">
+   
+  </nav>
+
+<div class="lime-bg-image"></div>
   <div class="lime-bg-overlay"></div>
 
   <div id="lime-nav-root"></div>
@@ -681,7 +29,7 @@
         </svg>
       </button>
       <div class="breadcrumb">
-        <a href="#portfolio">Portfolio</a> / <span id="projectNameBreadcrumb">AI Dashboard</span>
+        <a href="#refportfolio">Portfolio</a> / <span id="projectNameBreadcrumb">AI Dashboard</span>
       </div>
     </div>
 
@@ -957,6 +305,7 @@
     </section>
   </div>
 
+  <script src="lime-nav.js"></script>
   <script>
     // Carousel functionality
     const carouselImages = [
@@ -1050,6 +399,41 @@
     //     // ... populate all sections
     //   });
   </script>
-  <script src="lime-nav.js"></script>
+
+  <footer class="lime-footer">
+    <div class="footer-content">
+      <div class="footer-section">
+        <h4>L.I.M.E</h4>
+        <p>Connecting talent with opportunity</p>
+      </div>
+      <div class="footer-section">
+        <h4>Quick Links</h4>
+        <ul>
+          <li><a href="search.html">Search Jobs</a></li>
+          <li><a href="profiles.html">My Profile</a></li>
+          <li><a href="messages.html">Messages</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h4>Support</h4>
+        <ul>
+          <li><a href="#">Help Center</a></li>
+          <li><a href="#">Contact Us</a></li>
+          <li><a href="#">Privacy Policy</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h4>Follow Us</h4>
+        <ul>
+          <li><a href="#">Twitter</a></li>
+          <li><a href="#">LinkedIn</a></li>
+          <li><a href="#">GitHub</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2024 L.I.M.E Platform. All rights reserved.</p>
+    </div>
+  </footer>
 </body>
 </html>

@@ -3,544 +3,332 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>L.I.M.E.com</title>
+  <title>L.I.M.E - Login</title>
+  <link rel="stylesheet" href="lime-theme.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
-    /* ===== FONT IMPORTS ===== */
-    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap');
-
-    /* ===== CSS VARIABLES ===== */
-    :root {
-      --color-black: #0a0a0a;
-      --color-navy: #0f1419;
-      --color-white: #ffffff;
-      --color-grey-light: #e8e8e8;
-      --color-grey-med: #8a8a8a;
-      --color-lime: #00ff41;
-      --color-lime-hover: #00dd38;
-      --color-lime-glow: rgba(0, 255, 65, 0.2);
-      --color-border: rgba(0, 255, 65, 0.15);
-
-      --font-display: 'Space Grotesk', sans-serif;
-      --font-body: 'Inter', sans-serif;
-      --font-logo: 'Poppins', sans-serif;
-
-      --spacing-xs: 0.5rem;
-      --spacing-sm: 1rem;
-      --spacing-md: 1.5rem;
-      --spacing-lg: 2rem;
-      --spacing-xl: 3rem;
-
-      --transition: 150ms cubic-bezier(0.2, 0, 0.38, 0.9);
-    }
-
-    /* ===== RESET ===== */
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
     }
 
-    html {
-      scroll-behavior: smooth;
-      scrollbar-width: thin;
-      scrollbar-color: rgba(0, 255, 65, 0.45) transparent;
+    html, body {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
     }
 
     body {
-      background-color: #0a0a0a;
-      color: var(--color-grey-light);
-      font-family: var(--font-body);
-      font-size: 1rem;
-      line-height: 1.6;
-      -webkit-font-smoothing: antialiased;
-      -moz-osx-font-smoothing: grayscale;
-      min-height: 100dvh;
       display: flex;
-      align-items: flex-start;
-      justify-content: center;
-      padding: clamp(0.75rem, 3vw, 1.5rem);
-      position: relative;
-      overflow-x: hidden;
-      overflow-y: auto;
-      -webkit-overflow-scrolling: touch;
+      font-family: 'Inter', sans-serif;
+      background: #0F1419;
     }
 
-    /* ===== BACKGROUND VIDEO ===== */
-
-    /* ===== CONTAINER ===== */
-    .login-wrapper {
+    .login-container {
+      display: flex;
       width: 100%;
-      max-width: 380px;
-      position: relative;
-      z-index: 1;
-      margin: 0.5rem 0 1rem;
+      height: 100vh;
     }
 
-    .login-card {
-      background: rgba(15, 20, 29, 0.75);
-      backdrop-filter: blur(20px);
-      border: 1px solid var(--color-border);
-      border-radius: 6px;
-      padding: clamp(0.95rem, 2.2vw, 1.4rem);
-      position: relative;
-      overflow: hidden;
-      box-shadow: 0 8px 32px rgba(0, 255, 65, 0.08);
-      transition: all var(--transition);
-      max-height: calc(100dvh - 1.5rem);
-      overflow-y: auto;
-    }
-
-    .login-card:hover {
-      border-color: rgba(0, 255, 65, 0.25);
-      box-shadow: 0 12px 48px rgba(0, 255, 65, 0.12);
-    }
-
-    /* Geometric line accent (top-right) */
-    .login-card::before {
-      content: '';
-      position: absolute;
-      top: -2px;
-      right: -2px;
-      width: 140px;
-      height: 140px;
-      border-right: 2px solid var(--color-lime);
-      border-top: 2px solid var(--color-lime);
-      transform: rotate(45deg);
-      opacity: 0.25;
-      pointer-events: none;
-    }
-
-    /* Inner glow effect */
-    .login-card::after {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: radial-gradient(circle at top right, rgba(0, 255, 65, 0.05) 0%, transparent 70%);
-      pointer-events: none;
-      border-radius: 6px;
-    }
-
-    .login-content {
-      position: relative;
-      z-index: 1;
+    /* Left side - Branding */
+    .login-brand {
+      flex: 1;
+      background: linear-gradient(135deg, #537179 0%, #3D5660 100%);
       display: flex;
       flex-direction: column;
-      gap: 1rem;
+      justify-content: center;
+      align-items: center;
+      padding: 3rem;
+      color: #F7FAFC;
+      overflow: hidden;
+      position: relative;
     }
 
-    /* ===== HEADER ===== */
-    .login-header {
-      margin-bottom: 0.25rem;
+    .login-brand::before {
+      content: '';
+      position: absolute;
+      width: 300px;
+      height: 300px;
+      background: rgba(207, 224, 231, 0.1);
+      border-radius: 50%;
+      top: -100px;
+      left: -100px;
+    }
+
+    .login-brand::after {
+      content: '';
+      position: absolute;
+      width: 200px;
+      height: 200px;
+      background: rgba(207, 224, 231, 0.05);
+      border-radius: 50%;
+      bottom: -50px;
+      right: -50px;
+    }
+
+    .brand-content {
+      position: relative;
+      z-index: 1;
       text-align: center;
     }
 
-    .lime-logo {
-      font-family: var(--font-logo);
-      font-size: 1.75rem;
+    .brand-logo {
+      font-size: 4rem;
       font-weight: 700;
-      letter-spacing: -0.02em;
-      color: var(--color-lime);
-      margin-bottom: var(--spacing-md);
+      letter-spacing: -0.05em;
+      color: #CFE0E7;
+      margin-bottom: 2rem;
       text-transform: uppercase;
     }
 
-    .login-title {
-      font-family: var(--font-display);
-      font-size: 1.75rem;
+    .brand-title {
+      font-size: 1.5rem;
       font-weight: 600;
-      color: var(--color-white);
-      margin-bottom: var(--spacing-xs);
-      letter-spacing: -0.01em;
+      margin-bottom: 1rem;
+      color: #CFE0E7;
     }
 
-    .login-subtitle {
-      color: var(--color-grey-med);
+    .brand-subtitle {
       font-size: 0.95rem;
+      color: rgba(207, 224, 231, 0.8);
+      line-height: 1.6;
+      max-width: 300px;
     }
 
-    /* ===== SOCIAL AUTH ===== */
-    .auth-social {
+    /* Right side - Form */
+    .login-form-wrapper {
+      flex: 1;
       display: flex;
-      flex-direction: column;
-      gap: 0.75rem;
-      margin-bottom: 0.25rem;
-    }
-
-    .auth-button {
-      display: flex;
-      align-items: center;
       justify-content: center;
-      gap: var(--spacing-sm);
-      padding: var(--spacing-md) var(--spacing-lg);
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid rgba(0, 255, 65, 0.2);
-      border-radius: 6px;
-      color: var(--color-grey-light);
-      font-family: var(--font-body);
-      font-size: 0.95rem;
-      font-weight: 500;
-      cursor: pointer;
-      transition: all var(--transition);
-      position: relative;
-      overflow: hidden;
-      min-height: 44px;
+      align-items: center;
+      padding: 3rem;
+      background: linear-gradient(180deg, rgba(15, 20, 29, 0.95) 0%, rgba(26, 31, 46, 0.9) 100%);
       backdrop-filter: blur(10px);
     }
 
-    .auth-button::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
+    .login-card {
       width: 100%;
-      height: 100%;
-      background: var(--color-lime);
-      opacity: 0;
-      transition: opacity var(--transition);
-      z-index: -1;
+      max-width: 400px;
+      background: rgba(26, 31, 46, 0.8);
+      border: 1px solid rgba(207, 224, 231, 0.15);
+      border-radius: 12px;
+      padding: 2.5rem;
+      backdrop-filter: blur(10px);
     }
 
-    .auth-button:hover {
-      border-color: var(--color-lime);
-      color: var(--color-black);
-      background: var(--color-lime);
-      box-shadow: 0 4px 16px rgba(0, 255, 65, 0.25);
+    .login-header {
+      margin-bottom: 2rem;
+      text-align: center;
     }
 
-    .auth-button:focus-visible {
-      outline: 2px solid var(--color-lime);
-      outline-offset: 2px;
+    .login-title {
+      font-size: 1.75rem;
+      font-weight: 700;
+      color: #F7FAFC;
+      margin-bottom: 0.5rem;
     }
 
-    .auth-button:active {
-      transform: scale(0.98);
+    .login-subtitle {
+      font-size: 0.9rem;
+      color: #D6E4EA;
     }
 
-    .auth-icon {
-      width: 20px;
-      height: 20px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+    .form-group {
+      margin-bottom: 1.5rem;
     }
 
-    /* ===== DIVIDER ===== */
+    .form-label {
+      display: block;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: #D6E4EA;
+      margin-bottom: 0.5rem;
+    }
+
+    .form-input {
+      width: 100%;
+      padding: 0.75rem 1rem;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(207, 224, 231, 0.2);
+      border-radius: 6px;
+      color: #F7FAFC;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.95rem;
+      transition: all 150ms ease;
+    }
+
+    .form-input::placeholder {
+      color: #AFC2CB;
+    }
+
+    .form-input:focus {
+      outline: none;
+      background: rgba(255, 255, 255, 0.08);
+      border-color: #CFE0E7;
+      box-shadow: 0 0 0 3px rgba(207, 224, 231, 0.1);
+    }
+
+    .submit-button {
+      width: 100%;
+      padding: 0.85rem;
+      background: #3D5660;
+      color: #F7FAFC;
+      border: none;
+      border-radius: 6px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 150ms ease;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .submit-button:hover {
+      background: #537179;
+      box-shadow: 0 8px 24px rgba(83, 113, 121, 0.3);
+    }
+
+    .login-footer {
+      margin-top: 1.5rem;
+      text-align: center;
+      font-size: 0.9rem;
+      color: #D6E4EA;
+    }
+
+    .login-footer a {
+      color: #CFE0E7;
+      text-decoration: none;
+      font-weight: 600;
+      transition: color 150ms ease;
+    }
+
+    .login-footer a:hover {
+      color: #F7FAFC;
+    }
+
     .divider-section {
       display: flex;
       align-items: center;
-      margin: 0.5rem 0;
-      gap: 0.75rem;
+      gap: 1rem;
+      margin: 1.5rem 0;
     }
 
     .divider-line {
       flex: 1;
       height: 1px;
-      background: rgba(0, 255, 65, 0.15);
+      background: rgba(207, 224, 231, 0.2);
     }
 
     .divider-text {
-      color: var(--color-grey-med);
-      font-size: 0.85rem;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-    }
-
-    /* ===== EMAIL FORM ===== */
-    .auth-form {
-      display: flex;
-      flex-direction: column;
-      gap: 0.9rem;
-    }
-
-    .form-group {
-      display: flex;
-      flex-direction: column;
-      gap: 0.45rem;
-      position: relative;
-    }
-
-    .form-label {
-      font-family: var(--font-display);
+      color: #AFC2CB;
       font-size: 0.9rem;
-      font-weight: 500;
-      color: var(--color-white);
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
     }
 
-    .form-input {
-      padding: var(--spacing-md);
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid rgba(0, 255, 65, 0.15);
+    .auth-social {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .auth-button {
+      flex: 1;
+      padding: 0.75rem;
+      background: rgba(83, 113, 121, 0.3);
+      border: 1px solid rgba(207, 224, 231, 0.2);
       border-radius: 6px;
-      color: var(--color-white);
-      font-family: var(--font-body);
-      font-size: 0.95rem;
-      transition: all var(--transition);
-      min-height: 44px;
-      backdrop-filter: blur(10px);
-    }
-
-    .form-input::placeholder {
-      color: var(--color-grey-med);
-    }
-
-    .form-input:hover {
-      border-color: rgba(0, 255, 65, 0.3);
-      background: rgba(255, 255, 255, 0.08);
-    }
-
-    .form-input:focus {
-      outline: none;
-      border-color: var(--color-lime);
-      background: rgba(0, 255, 65, 0.08);
-      box-shadow: 0 0 0 3px rgba(0, 255, 65, 0.15);
-    }
-
-    /* ===== ERROR STATES ===== */
-    .form-input:invalid {
-      border-color: rgba(255, 65, 65, 0.5);
-      background: rgba(255, 65, 65, 0.05);
-    }
-
-    .form-error-message {
-      font-size: 0.8rem;
-      color: #ff4141;
-      margin-top: 0.35rem;
-      display: none;
-      font-weight: 500;
-    }
-
-    .form-input.error {
-      border-color: rgba(255, 65, 65, 0.5) !important;
-      background: rgba(255, 65, 65, 0.05) !important;
-    }
-
-    /* ===== SUBMIT BUTTON ===== */
-    .submit-button {
-      padding: var(--spacing-md) var(--spacing-lg);
-      background: var(--color-lime);
-      color: var(--color-black);
-      border: none;
-      border-radius: 6px;
-      font-family: var(--font-display);
-      font-size: 1rem;
-      font-weight: 600;
-      letter-spacing: -0.01em;
+      color: #D6E4EA;
       cursor: pointer;
-      transition: all var(--transition);
-      min-height: 44px;
-      position: relative;
-      overflow: hidden;
-      text-transform: uppercase;
-      box-shadow: 0 4px 16px rgba(0, 255, 65, 0.3);
+      font-size: 0.85rem;
+      font-weight: 500;
+      font-family: 'Inter', sans-serif;
+      transition: all 150ms ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
     }
 
-    .submit-button::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: -100%;
-      width: 100%;
-      height: 100%;
-      background: var(--color-lime-hover);
-      transition: left var(--transition);
-      z-index: -1;
+    .auth-button:hover {
+      background: rgba(83, 113, 121, 0.5);
+      border-color: #CFE0E7;
+      color: #CFE0E7;
     }
 
-    .submit-button:hover {
-      background: var(--color-lime-hover);
-      transform: translateY(-2px);
-      box-shadow: 0 6px 24px rgba(0, 255, 65, 0.4);
+    .auth-icon {
+      width: 16px;
+      height: 16px;
     }
 
-    .submit-button:focus-visible {
-      outline: 2px solid var(--color-lime);
-      outline-offset: 2px;
-    }
-
-    .submit-button:active {
-      transform: translateY(0);
-    }
-
-    /* ===== FOOTER ===== */
-    .login-footer {
-      text-align: center;
-      margin-top: 0.5rem;
-      font-size: 0.9rem;
-      color: var(--color-grey-med);
-    }
-
-    .login-footer a {
-      color: var(--color-lime);
-      text-decoration: none;
-      transition: color var(--transition);
-    }
-
-    .login-footer a:hover {
-      color: var(--color-lime-hover);
-      text-decoration: underline;
-    }
-
-    .login-footer a:focus-visible {
-      outline: 2px solid var(--color-lime);
-      outline-offset: 2px;
-      border-radius: 2px;
-    }
-
-    /* ===== ACCESSIBILITY: PREFERS REDUCED MOTION ===== */
-    @media (prefers-reduced-motion: reduce) {
-      * {
-        animation-duration: 0.01ms !important;
-        animation-iteration-count: 1 !important;
-        transition-duration: 0.01ms !important;
-        scroll-behavior: auto !important;
+    @media (max-width: 1024px) {
+      .login-container {
+        flex-direction: column;
       }
 
-      .orb {
-        animation: none !important;
+      .login-brand {
+        min-height: 250px;
+        padding: 2rem 3rem;
+      }
+
+      .brand-logo {
+        font-size: 3rem;
+      }
+
+      .login-form-wrapper {
+        flex: 1;
+        min-height: auto;
+        padding: 2rem;
       }
     }
 
-    /* ===== RESPONSIVE: TABLET (768px) ===== */
-    @media (max-width: 768px) {
+    @media (max-width: 640px) {
       .login-card {
-        padding: var(--spacing-lg);
+        padding: 1.5rem;
+      }
+
+      .brand-logo {
+        font-size: 2.5rem;
       }
 
       .login-title {
         font-size: 1.5rem;
       }
 
-      .lime-logo {
-        font-size: 1.5rem;
-      }
-
-      .orb-1 {
-        width: 300px;
-        height: 300px;
-      }
-
-      .orb-2 {
-        width: 250px;
-        height: 250px;
-      }
-
-      .orb-3 {
-        width: 200px;
-        height: 200px;
-      }
-    }
-
-    /* ===== RESPONSIVE: MOBILE (375px) ===== */
-    @media (max-width: 480px) {
-      body {
-        padding: 0.75rem;
-        align-items: flex-start;
-      }
-
-      .login-wrapper {
-        max-width: 100%;
-        margin: 0.1rem 0 0.75rem;
-      }
-
-      .login-card {
-        padding: 1rem;
-        max-height: none;
-      }
-
-      .login-content {
-        gap: 0.8rem;
-      }
-
-      .login-header {
-        margin-bottom: 0.2rem;
-      }
-
-      .lime-logo {
-        font-size: 1.25rem;
-        margin-bottom: var(--spacing-sm);
-      }
-
-      .login-title {
-        font-size: 1.25rem;
-      }
-
-      .login-subtitle {
-        font-size: 0.85rem;
-      }
-
-      .auth-button {
-        padding: var(--spacing-md) var(--spacing-md);
-        font-size: 0.9rem;
-      }
-
-      .divider-section {
-        margin: var(--spacing-md) 0;
-      }
-
-      .form-input,
-      .auth-button,
-      .submit-button {
-        font-size: 16px; /* Prevents zoom on iOS */
-      }
-
-      .orb-1 {
-        width: 250px;
-        height: 250px;
-        top: -80px;
-        right: -80px;
-      }
-
-      .orb-2 {
-        width: 200px;
-        height: 200px;
-        bottom: -40px;
-      }
-
-      .orb-3 {
-        width: 150px;
-        height: 150px;
-        left: -60px;
+      .auth-social {
+        flex-direction: column;
       }
     }
   </style>
-  <link rel="stylesheet" href="assets/css/lime-background.css">
+  <link rel="stylesheet" href="lime-background.css">
 </head>
 <body>
-  <div class="lime-bg-image"></div>
-  <div class="lime-bg-overlay"></div>
+  <div class="login-container">
+    <!-- Left: Branding -->
+    <div class="login-brand">
+      <div class="brand-content">
+        <div class="brand-logo">L.I.M.E</div>
+        <h2 class="brand-title">Welcome</h2>
+        <p class="brand-subtitle">Connect with top talent and build your professional network</p>
+      </div>
+    </div>
 
-
-  <div class="login-wrapper">
-    <div class="login-card">
-      <div class="login-content">
-        <!-- Header -->
+    <!-- Right: Login Form -->
+    <div class="login-form-wrapper">
+      <div class="login-card">
         <div class="login-header">
-          <div class="lime-logo">L.I.M.E</div>
-          <h1 class="login-title">Welcome Back</h1>
-          <p class="login-subtitle">Sign in to build your portfolio and connect with companies</p>
+          <h1 class="login-title">Sign In</h1>
+          <p class="login-subtitle">Access your professional account</p>
         </div>
 
         <!-- Social Auth -->
         <div class="auth-social">
           <button class="auth-button" aria-label="Continue with LinkedIn">
-            <svg class="auth-icon" viewBox="0 0 24 24" fill="currentColor" xmlns="https://api.linkedin.com/login/">
-              <path d="M20.5 2h-17A1.5 1.5 0 002 3.5v17A1.5 1.5 0 003.5 22h17a1.5 1.5 0 001.5-1.5v-17A1.5 1.5 0 0020.5 2zM8 19H5v-9h3zM6.5 8.25A1.75 1.75 0 118.3 6.5a1.78 1.78 0 01-1.8 1.75zM19 19h-3v-4.74c0-1.42-.6-1.93-1.38-1.93A1.74 1.74 0 0013 14.19a.66.66 0 000 .9v4.91h-3V10h2.9v1.3a3.11 3.11 0 012.7-1.4c1.55 0 3.36.86 3.36 3.66z"/>
-            </svg>
-            <span>Continue with LinkedIn</span>
+            <i class="fab fa-linkedin"></i>
+            <span>LinkedIn</span>
           </button>
-
-          <button class="auth-button" aria-label="Continue with Instagram">
-            <svg class="auth-icon" viewBox="0 0 24 24" fill="currentColor" xmlns="https://www.instagram.com/">
-              <path d="M12 0C8.74 0 8.33.029 7.053.156 5.775.281 4.902.465 4.167.99c-.369.254-.707.598-.99.99-.525.735-.71 1.608-.835 2.886C2.029 4.33 2 4.74 2 8c0 3.259.029 3.668.156 4.947.125 1.278.309 2.151.834 2.886.283.392.621.736.99.99.735.525 1.608.71 2.886.835 1.279.127 1.688.156 4.947.156 3.259 0 3.668-.029 4.947-.156 1.278-.125 2.151-.31 2.886-.835.392-.254.736-.598.99-.99.525-.735.71-1.608.835-2.886.127-1.279.156-1.688.156-4.947 0-3.259-.029-3.668-.156-4.947-.125-1.278-.31-2.151-.835-2.886a2.664 2.664 0 00-.99-.99c-.735-.525-1.608-.71-2.886-.835C15.67.029 15.259 0 12 0zm0 2.16c3.203 0 3.585.009 4.849.14 1.17.064 1.805.278 2.227.466.56.217.96.477 1.382.899.422.422.682.822.899 1.382.188.422.402 1.057.466 2.227.131 1.264.14 1.646.14 4.849 0 3.203-.009 3.585-.14 4.849-.064 1.17-.278 1.805-.466 2.227-.217.56-.477.96-.899 1.382-.422.422-.822.682-1.382.899-.422.188-1.057.402-2.227.466-1.264.131-1.646.14-4.849.14-3.203 0-3.585-.009-4.849-.14-1.17-.064-1.805-.278-2.227-.466-.56-.217-.96-.477-1.382-.899-.422-.422-.682-.822-.899-1.382-.188-.422-.402-1.057-.466-2.227-.131-1.264-.14-1.646-.14-4.849 0-3.203.009-3.585.14-4.849.064-1.17.278-1.805.466-2.227.217-.56.477-.96.899-1.382.422-.422.822-.682 1.382-.899.422-.188 1.057-.402 2.227-.466 1.264-.131 1.646-.14 4.849-.14z"/>
-              <path d="M12 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zm0 10.162a3.999 3.999 0 110 -7.998 3.999 3.999 0 010 7.998z"/>
-              <circle cx="18.406" cy="5.594" r="1.44"/>
-            </svg>
-            <span>Continue with Instagram</span>
+          <button class="auth-button" aria-label="Continue with Google">
+            <i class="fab fa-google"></i>
+            <span>Google</span>
           </button>
         </div>
 
@@ -554,7 +342,7 @@
         <!-- Email Form -->
         <form class="auth-form" method="POST" action="#" novalidate>
           <div class="form-group">
-            <label for="email" class="form-label">Email</label>
+            <label for="email" class="form-label">Email Address</label>
             <input 
               type="email" 
               id="email" 
@@ -582,11 +370,12 @@
 
         <!-- Footer -->
         <div class="login-footer">
-          <p>Don't have an account? <a href="LIMESIGNUP.html">Create one here</a></p>
+          <p>Don't have an account? <a href="signup.html">Create one</a></p>
         </div>
       </div>
     </div>
   </div>
+
   <script src="lime-applications-helper.js"></script>
   <script src="lime-form-validation.js"></script>
 </body>
