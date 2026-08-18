@@ -4,581 +4,18 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Settings - lime.com</title>
-  <style>
-    /* ===== FONT IMPORTS ===== */
-    @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap');
-
-    /* ===== CSS VARIABLES ===== */
-    :root {
-      --color-black: #0a0a0a;
-      --color-navy: #0f1419;
-      --color-white: #ffffff;
-      --color-grey-light: #e8e8e8;
-      --color-grey-med: #8a8a8a;
-      --color-lime: #00ff41;
-      --color-lime-hover: #00dd38;
-      --color-lime-glow: rgba(0, 255, 65, 0.2);
-      --color-border: rgba(0, 255, 65, 0.15);
-
-      --font-display: 'Space Grotesk', sans-serif;
-      --font-body: 'Inter', sans-serif;
-
-      --spacing-xs: 0.5rem;
-      --spacing-sm: 1rem;
-      --spacing-md: 1.5rem;
-      --spacing-lg: 2rem;
-      --spacing-xl: 3rem;
-
-      --transition: 150ms cubic-bezier(0.2, 0, 0.38, 0.9);
-    }
-
-    /* ===== RESET ===== */
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
-    html {
-      scroll-behavior: smooth;
-    }
-
-    body {
-      background-color: #0a0a0a;
-      color: var(--color-grey-light);
-      font-family: var(--font-body);
-      font-size: 1rem;
-      line-height: 1.6;
-      -webkit-font-smoothing: antialiased;
-      -moz-osx-font-smoothing: grayscale;
-      min-height: 100vh;
-      position: relative;
-      overflow-x: hidden;
-    }
-
-
-    /* ===== TOP NAVIGATION ===== */
-    .page-nav {
-      position: fixed;
-      inset: 0 auto auto 0;
-      width: 100%;
-      display: flex;
-      justify-content: space-between;
-      gap: 0.75rem;
-      align-items: center;
-      padding: 1rem 1.5rem;
-      background: rgba(15, 20, 29, 0.92);
-      border-bottom: 1px solid var(--color-border);
-      backdrop-filter: blur(16px);
-      z-index: 20;
-    }
-
-    .nav-links {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.75rem;
-      align-items: center;
-    }
-
-    .nav-user {
-      display: flex;
-      align-items: center;
-      gap: 0.75rem;
-      padding: 0.5rem 0.75rem;
-      border-radius: 3px;
-      background: rgba(255, 255, 255, 0.04);
-      border: 1px solid transparent;
-      transition: all var(--transition);
-    }
-
-    .nav-user:hover {
-      border-color: rgba(0, 255, 65, 0.15);
-      background: rgba(0, 255, 65, 0.08);
-    }
-
-    .user-avatar {
-      width: 42px;
-      height: 42px;
-      border-radius: 4px;
-      background: linear-gradient(135deg, var(--color-lime), rgba(0, 255, 65, 0.5));
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: var(--color-black);
-      font-weight: 700;
-      font-size: 0.95rem;
-      flex-shrink: 0;
-    }
-
-    .user-name {
-      font-weight: 600;
-      color: var(--color-white);
-      font-size: 0.95rem;
-      line-height: 1.1;
-    }
-
-    .user-status {
-      font-size: 0.75rem;
-      color: var(--color-grey-med);
-      line-height: 1.1;
-    }
-
-    .page-nav a {
-      color: var(--color-grey-light);
-      text-decoration: none;
-      padding: 0.75rem 1rem;
-      border-radius: 3px;
-      border: 1px solid transparent;
-      transition: all var(--transition);
-      font-weight: 600;
-      background: rgba(255, 255, 255, 0.03);
-    }
-
-    .page-nav a:hover,
-    .page-nav a.active {
-      color: var(--color-lime);
-      background: rgba(0, 255, 65, 0.12);
-      border-color: rgba(0, 255, 65, 0.15);
-    }
-
-    /* ===== MAIN CONTAINER ===== */
-    .settings-container {
-      max-width: 1000px;
-      margin: 76px auto 0;
-      padding: var(--spacing-lg);
-      position: relative;
-      z-index: 1;
-      display: grid;
-      grid-template-columns: 250px 1fr;
-      gap: var(--spacing-xl);
-    }
-
-    /* ===== SIDEBAR MENU ===== */
-    .settings-sidebar {
-      display: flex;
-      flex-direction: column;
-      gap: var(--spacing-sm);
-      height: fit-content;
-      position: sticky;
-      top: 100px;
-    }
-
-    .sidebar-title {
-      font-family: var(--font-display);
-      font-size: 0.9rem;
-      font-weight: 600;
-      color: var(--color-lime);
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-      padding: 0 var(--spacing-md);
-      margin-bottom: var(--spacing-sm);
-    }
-
-    .settings-menu {
-      display: flex;
-      flex-direction: column;
-      gap: 0;
-    }
-
-    .menu-item {
-      padding: var(--spacing-md);
-      color: var(--color-grey-light);
-      background: transparent;
-      border: 1px solid transparent;
-      border-left: 3px solid transparent;
-      border-radius: 6px;
-      cursor: pointer;
-      transition: all var(--transition);
-      font-weight: 500;
-      text-align: left;
-      display: flex;
-      align-items: center;
-      gap: var(--spacing-sm);
-    }
-
-    .menu-item:hover {
-      background: rgba(0, 255, 65, 0.1);
-      border-color: rgba(0, 255, 65, 0.3);
-    }
-
-    .menu-item.active {
-      background: rgba(0, 255, 65, 0.15);
-      border-left-color: var(--color-lime);
-      color: var(--color-lime);
-    }
-
-    .menu-icon {
-      width: 20px;
-      height: 20px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    /* ===== CONTENT AREA ===== */
-    .settings-content {
-      display: flex;
-      flex-direction: column;
-      gap: var(--spacing-xl);
-    }
-
-    .settings-section {
-      background: rgba(15, 20, 29, 0.75);
-      backdrop-filter: blur(20px);
-      border: 1px solid var(--color-border);
-      border-radius: 6px;
-      padding: var(--spacing-lg);
-      display: none;
-    }
-
-    .settings-section.active {
-      display: block;
-    }
-
-    .section-title {
-      font-family: var(--font-display);
-      font-size: 1.4rem;
-      font-weight: 600;
-      color: var(--color-white);
-      margin-bottom: var(--spacing-sm);
-      letter-spacing: -0.01em;
-    }
-
-    .section-description {
-      color: var(--color-grey-med);
-      font-size: 0.95rem;
-      margin-bottom: var(--spacing-lg);
-    }
-
-    /* ===== SETTING ITEM ===== */
-    .setting-item {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: var(--spacing-lg) 0;
-      border-bottom: 1px solid rgba(0, 255, 65, 0.1);
-    }
-
-    .setting-item:last-child {
-      border-bottom: none;
-      padding-bottom: 0;
-    }
-
-    .setting-info h3 {
-      font-weight: 600;
-      color: var(--color-white);
-      margin-bottom: var(--spacing-xs);
-    }
-
-    .setting-info p {
-      font-size: 0.9rem;
-      color: var(--color-grey-med);
-    }
-
-    /* ===== TOGGLE SWITCH ===== */
-    .toggle-switch {
-      display: flex;
-      align-items: center;
-      gap: var(--spacing-md);
-    }
-
-    .toggle-checkbox {
-      width: 50px;
-      height: 28px;
-      background: rgba(255, 255, 255, 0.1);
-      border: 1px solid rgba(0, 255, 65, 0.2);
-      border-radius: 6px;
-      cursor: pointer;
-      position: relative;
-      transition: all var(--transition);
-      appearance: none;
-      padding: 0;
-    }
-
-    .toggle-checkbox:checked {
-      background: var(--color-lime);
-      border-color: var(--color-lime);
-    }
-
-    .toggle-checkbox::after {
-      content: '';
-      position: absolute;
-      width: 24px;
-      height: 24px;
-      background: white;
-      border-radius: 4px;
-      top: 2px;
-      left: 2px;
-      transition: left var(--transition);
-    }
-
-    .toggle-checkbox:checked::after {
-      left: 24px;
-    }
-
-    /* ===== FORM ITEMS ===== */
-    .form-group {
-      display: flex;
-      flex-direction: column;
-      gap: var(--spacing-sm);
-      margin-bottom: var(--spacing-lg);
-    }
-
-    .form-label {
-      font-family: var(--font-display);
-      font-size: 0.9rem;
-      font-weight: 600;
-      color: var(--color-white);
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-    }
-
-    .form-input {
-      padding: var(--spacing-md);
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid rgba(0, 255, 65, 0.15);
-      border-radius: 6px;
-      color: var(--color-white);
-      font-family: var(--font-body);
-      font-size: 0.95rem;
-      transition: all var(--transition);
-      min-height: 44px;
-    }
-
-    .form-input::placeholder {
-      color: var(--color-grey-med);
-    }
-
-    .form-input:hover {
-      border-color: rgba(0, 255, 65, 0.3);
-      background: rgba(255, 255, 255, 0.08);
-    }
-
-    .form-input:focus {
-      outline: none;
-      border-color: var(--color-lime);
-      background: rgba(0, 255, 65, 0.08);
-      box-shadow: 0 0 0 3px rgba(0, 255, 65, 0.15);
-    }
-
-    .form-textarea {
-      resize: vertical;
-      min-height: 100px;
-      font-family: var(--font-body);
-    }
-
-    /* ===== BUTTONS ===== */
-    .button-group {
-      display: flex;
-      gap: var(--spacing-md);
-      margin-top: var(--spacing-lg);
-      flex-wrap: wrap;
-    }
-
-    .button {
-      padding: var(--spacing-md) var(--spacing-lg);
-      border: none;
-      border-radius: 6px;
-      font-family: var(--font-display);
-      font-weight: 600;
-      font-size: 0.9rem;
-      cursor: pointer;
-      transition: all var(--transition);
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-      min-height: 44px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .button-primary {
-      background: var(--color-lime);
-      color: var(--color-black);
-    }
-
-    .button-primary:hover {
-      background: var(--color-lime-hover);
-      transform: translateY(-2px);
-    }
-
-    .button-secondary {
-      background: transparent;
-      color: var(--color-grey-light);
-      border: 1px solid rgba(0, 255, 65, 0.3);
-    }
-
-    .button-secondary:hover {
-      background: rgba(0, 255, 65, 0.1);
-      border-color: rgba(0, 255, 65, 0.6);
-    }
-
-    .button-danger {
-      background: transparent;
-      color: #ff4141;
-      border: 1px solid rgba(255, 65, 65, 0.3);
-    }
-
-    .button-danger:hover {
-      background: rgba(255, 65, 65, 0.1);
-      border-color: rgba(255, 65, 65, 0.6);
-    }
-
-    .button:focus-visible {
-      outline: 2px solid var(--color-lime);
-      outline-offset: -2px;
-    }
-
-    /* ===== DANGER ZONE ===== */
-    .danger-zone {
-      background: rgba(255, 65, 65, 0.1);
-      border: 1px solid rgba(255, 65, 65, 0.3);
-      border-radius: 6px;
-      padding: var(--spacing-lg);
-      margin-top: var(--spacing-lg);
-    }
-
-    .danger-zone-title {
-      font-weight: 600;
-      color: #ff4141;
-      margin-bottom: var(--spacing-md);
-    }
-
-    .danger-zone-description {
-      color: var(--color-grey-med);
-      font-size: 0.9rem;
-      margin-bottom: var(--spacing-md);
-    }
-
-    /* ===== SUCCESS MESSAGE ===== */
-    .success-message {
-      padding: var(--spacing-md);
-      background: rgba(0, 255, 65, 0.15);
-      border: 1px solid rgba(0, 255, 65, 0.3);
-      border-radius: 6px;
-      color: var(--color-lime);
-      font-weight: 500;
-      display: none;
-      margin-bottom: var(--spacing-lg);
-      animation: slideIn 0.3s ease-out;
-    }
-
-    .success-message.show {
-      display: block;
-    }
-
-    @keyframes slideIn {
-      from {
-        opacity: 0;
-        transform: translateY(-10px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    /* ===== RESPONSIVE ===== */
-    @media (max-width: 1024px) {
-      .settings-container {
-        grid-template-columns: 1fr;
-        gap: var(--spacing-lg);
-      }
-
-      .settings-sidebar {
-        position: relative;
-        top: 0;
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-        gap: var(--spacing-sm);
-        margin-bottom: var(--spacing-lg);
-      }
-
-      .menu-item {
-        padding: var(--spacing-md);
-      }
-
-      .sidebar-title {
-        grid-column: 1 / -1;
-      }
-    }
-
-    @media (max-width: 768px) {
-      .settings-container {
-        padding: var(--spacing-md);
-      }
-
-      .settings-sidebar {
-        grid-template-columns: repeat(2, 1fr);
-      }
-
-      .section-title {
-        font-size: 1.2rem;
-      }
-
-      .button-group {
-        flex-direction: column;
-      }
-
-      .button {
-        width: 100%;
-      }
-
-      .setting-item {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: var(--spacing-md);
-      }
-
-      .toggle-switch {
-        width: 100%;
-        justify-content: space-between;
-      }
-    }
-
-    @media (max-width: 480px) {
-      .settings-container {
-        padding: var(--spacing-md);
-      }
-
-      .settings-sidebar {
-        grid-template-columns: 1fr;
-      }
-
-      .section-title {
-        font-size: 1.1rem;
-      }
-
-      .form-input,
-      .form-textarea,
-      .button {
-        font-size: 16px; /* Prevents iOS zoom */
-      }
-
-      .setting-item {
-        padding: var(--spacing-md) 0;
-      }
-    }
-
-    /* ===== ACCESSIBILITY ===== */
-    @media (prefers-reduced-motion: reduce) {
-      * {
-        animation-duration: 0.01ms !important;
-        animation-iteration-count: 1 !important;
-        transition-duration: 0.01ms !important;
-      }
-
-      .orb {
-        animation: none !important;
-      }
-    }
-  </style>
-  <link rel="stylesheet" href="assets/css/lime-nav.css">
-  <link rel="stylesheet" href="assets/css/lime-background.css">
-
-</head>
-<body>
-  <div class="lime-bg-image"></div>
+  
+  <link rel="stylesheet" href="lime-nav.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="lime-background.css">
+<link rel="stylesheet" href="css/LIMESETTINGS.css">  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="lime-theme.css"></head>
+<body class="has-lime-nav">
+  <nav id="lime-nav">
+  
+  </nav>
+
+<div class="lime-bg-image"></div>
   <div class="lime-bg-overlay"></div>
 
   <div id="lime-nav-root"></div>
@@ -1026,5 +463,44 @@
     loadSettings();
   </script>
   <script src="lime-nav.js"></script>
+
+  
+
+
+  <footer class="lime-footer">
+    <div class="footer-content">
+      <div class="footer-section">
+        <h4>L.I.M.E</h4>
+        <p>Connecting talent with opportunity</p>
+      </div>
+      <div class="footer-section">
+        <h4>Quick Links</h4>
+        <ul>
+          <li><a href="search.html">Search Jobs</a></li>
+          <li><a href="profiles.html">My Profile</a></li>
+          <li><a href="messages.html">Messages</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h4>Support</h4>
+        <ul>
+          <li><a href="#">Help Center</a></li>
+          <li><a href="#">Contact Us</a></li>
+          <li><a href="#">Privacy Policy</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h4>Follow Us</h4>
+        <ul>
+          <li><a href="#">Twitter</a></li>
+          <li><a href="#">LinkedIn</a></li>
+          <li><a href="#">GitHub</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2024 L.I.M.E Platform. All rights reserved.</p>
+    </div>
+  </footer>
 </body>
 </html>

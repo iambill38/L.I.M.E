@@ -4,471 +4,18 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Saved Jobs - lime.com</title>
-  <style>
-    @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap');
-
-    :root {
-      --color-black: #0a0a0a;
-      --color-navy: #0f1419;
-      --color-white: #ffffff;
-      --color-grey-light: #e8e8e8;
-      --color-grey-med: #8a8a8a;
-      --color-lime: #00ff41;
-      --color-lime-hover: #00dd38;
-      --color-border: rgba(0, 255, 65, 0.15);
-
-      --font-display: 'Space Grotesk', sans-serif;
-      --font-body: 'Inter', sans-serif;
-
-      --spacing-xs: 0.5rem;
-      --spacing-sm: 1rem;
-      --spacing-md: 1.5rem;
-      --spacing-lg: 2rem;
-      --spacing-xl: 3rem;
-
-      --transition: 150ms cubic-bezier(0.2, 0, 0.38, 0.9);
-    }
-
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
-    html {
-      scroll-behavior: smooth;
-    }
-
-    body {
-      background-color: #0a0a0a;
-      color: var(--color-grey-light);
-      font-family: var(--font-body);
-      font-size: 1rem;
-      line-height: 1.6;
-      -webkit-font-smoothing: antialiased;
-      -moz-osx-font-smoothing: grayscale;
-      min-height: 100vh;
-      position: relative;
-      overflow-x: hidden;
-    }
-
-
-    .page-nav {
-      position: fixed;
-      inset: 0 auto auto 0;
-      width: 100%;
-      display: flex;
-      justify-content: space-between;
-      gap: 0.75rem;
-      align-items: center;
-      padding: 1rem 1.5rem;
-      background: rgba(15, 20, 29, 0.92);
-      border-bottom: 1px solid var(--color-border);
-      backdrop-filter: blur(16px);
-      z-index: 20;
-    }
-
-    .nav-links {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.75rem;
-      align-items: center;
-    }
-
-    .nav-user {
-      display: flex;
-      align-items: center;
-      gap: 0.75rem;
-      padding: 0.5rem 0.75rem;
-      border-radius: 3px;
-      background: rgba(255, 255, 255, 0.04);
-      border: 1px solid transparent;
-      transition: all var(--transition);
-    }
-
-    .user-avatar {
-      width: 42px;
-      height: 42px;
-      border-radius: 4px;
-      background: linear-gradient(135deg, var(--color-lime), rgba(0, 255, 65, 0.5));
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: var(--color-black);
-      font-weight: 700;
-      font-size: 0.95rem;
-      flex-shrink: 0;
-    }
-
-    .user-name {
-      font-weight: 600;
-      color: var(--color-white);
-      font-size: 0.95rem;
-    }
-
-    .user-status {
-      font-size: 0.75rem;
-      color: var(--color-grey-med);
-    }
-
-    .page-nav a {
-      color: var(--color-grey-light);
-      text-decoration: none;
-      padding: 0.75rem 1rem;
-      border-radius: 3px;
-      border: 1px solid transparent;
-      transition: all var(--transition);
-      font-weight: 600;
-      background: rgba(255, 255, 255, 0.03);
-    }
-
-    .page-nav a:hover,
-    .page-nav a.active {
-      color: var(--color-lime);
-      background: rgba(0, 255, 65, 0.12);
-      border-color: rgba(0, 255, 65, 0.15);
-    }
-
-    .main-content {
-      max-width: 1200px;
-      margin: 76px auto 0;
-      padding: var(--spacing-lg);
-      position: relative;
-      z-index: 1;
-    }
-
-    .content-header {
-      margin-bottom: var(--spacing-xl);
-    }
-
-    .page-title {
-      font-family: var(--font-display);
-      font-size: 2rem;
-      font-weight: 700;
-      color: var(--color-white);
-      margin-bottom: var(--spacing-sm);
-      letter-spacing: -0.01em;
-    }
-
-    .page-subtitle {
-      color: var(--color-grey-med);
-      font-size: 0.95rem;
-    }
-
-    .filter-section {
-      display: flex;
-      gap: var(--spacing-md);
-      margin-bottom: var(--spacing-xl);
-      flex-wrap: wrap;
-      align-items: center;
-    }
-
-    .filter-button {
-      padding: 0.65rem 1.2rem;
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid rgba(0, 255, 65, 0.15);
-      border-radius: 6px;
-      color: var(--color-grey-light);
-      font-family: var(--font-body);
-      font-size: 0.9rem;
-      cursor: pointer;
-      transition: all var(--transition);
-      font-weight: 500;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-      min-height: 40px;
-    }
-
-    .filter-button:hover {
-      border-color: rgba(0, 255, 65, 0.3);
-      background: rgba(0, 255, 65, 0.1);
-    }
-
-    .filter-button.active {
-      background: var(--color-lime);
-      color: var(--color-black);
-      border-color: var(--color-lime);
-    }
-
-    .stats-group {
-      display: flex;
-      gap: var(--spacing-md);
-      margin-left: auto;
-    }
-
-    .stat-card {
-      background: rgba(15, 20, 29, 0.75);
-      backdrop-filter: blur(20px);
-      border: 1px solid var(--color-border);
-      border-radius: 6px;
-      padding: var(--spacing-md);
-      text-align: center;
-      min-width: 120px;
-    }
-
-    .stat-value {
-      font-family: var(--font-display);
-      font-size: 1.8rem;
-      font-weight: 700;
-      color: var(--color-lime);
-      margin-bottom: var(--spacing-xs);
-    }
-
-    .stat-label {
-      font-size: 0.8rem;
-      color: var(--color-grey-med);
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-    }
-
-    .jobs-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-      gap: var(--spacing-lg);
-    }
-
-    .job-card {
-      background: rgba(15, 20, 29, 0.75);
-      backdrop-filter: blur(20px);
-      border: 1px solid var(--color-border);
-      border-radius: 6px;
-      padding: var(--spacing-lg);
-      transition: all var(--transition);
-      display: flex;
-      flex-direction: column;
-      gap: var(--spacing-md);
-    }
-
-    .job-card:hover {
-      border-color: rgba(0, 255, 65, 0.3);
-      box-shadow: 0 8px 32px rgba(0, 255, 65, 0.12);
-    }
-
-    .job-header {
-      display: flex;
-      align-items: flex-start;
-      gap: var(--spacing-md);
-    }
-
-    .company-logo {
-      width: 60px;
-      height: 60px;
-      border-radius: 6px;
-      background: linear-gradient(135deg, var(--color-lime), rgba(0, 255, 65, 0.5));
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: 700;
-      color: var(--color-black);
-      font-size: 1.1rem;
-      flex-shrink: 0;
-    }
-
-    .job-title {
-      font-family: var(--font-display);
-      font-size: 1.1rem;
-      font-weight: 600;
-      color: var(--color-white);
-      margin-bottom: var(--spacing-xs);
-    }
-
-    .company-name {
-      color: var(--color-grey-med);
-      font-size: 0.9rem;
-    }
-
-    .job-meta {
-      display: flex;
-      flex-direction: column;
-      gap: var(--spacing-sm);
-      font-size: 0.9rem;
-      color: var(--color-grey-light);
-    }
-
-    .meta-item {
-      display: flex;
-      align-items: center;
-      gap: var(--spacing-sm);
-    }
-
-    .meta-icon {
-      width: 20px;
-      text-align: center;
-      color: var(--color-lime);
-    }
-
-    .job-salary {
-      font-weight: 600;
-      color: var(--color-white);
-      margin-bottom: var(--spacing-sm);
-    }
-
-    .saved-date {
-      font-size: 0.8rem;
-      color: var(--color-grey-med);
-      padding-top: var(--spacing-md);
-      border-top: 1px solid var(--color-border);
-    }
-
-    .job-actions {
-      display: flex;
-      gap: var(--spacing-sm);
-      margin-top: auto;
-    }
-
-    .btn {
-      flex: 1;
-      padding: 0.6rem 1rem;
-      border: none;
-      border-radius: 6px;
-      font-family: var(--font-body);
-      font-weight: 600;
-      font-size: 0.85rem;
-      cursor: pointer;
-      transition: all var(--transition);
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-      min-height: 36px;
-    }
-
-    .btn-primary {
-      background: var(--color-lime);
-      color: var(--color-black);
-    }
-
-    .btn-primary:hover {
-      background: var(--color-lime-hover);
-      transform: translateY(-2px);
-    }
-
-    .btn-danger {
-      background: transparent;
-      color: #ff4141;
-      border: 1px solid rgba(255, 65, 65, 0.3);
-    }
-
-    .btn-danger:hover {
-      background: rgba(255, 65, 65, 0.1);
-      border-color: rgba(255, 65, 65, 0.6);
-    }
-
-    .empty-state {
-      text-align: center;
-      padding: var(--spacing-xl) var(--spacing-lg);
-      background: rgba(15, 20, 29, 0.75);
-      backdrop-filter: blur(20px);
-      border: 1px solid var(--color-border);
-      border-radius: 6px;
-    }
-
-    .empty-state-icon {
-      font-size: 3rem;
-      margin-bottom: var(--spacing-md);
-    }
-
-    .empty-state-title {
-      font-family: var(--font-display);
-      font-size: 1.3rem;
-      font-weight: 600;
-      color: var(--color-white);
-      margin-bottom: var(--spacing-sm);
-    }
-
-    .empty-state-text {
-      color: var(--color-grey-med);
-      margin-bottom: var(--spacing-lg);
-    }
-
-    .empty-state-button {
-      display: inline-block;
-      padding: var(--spacing-md) var(--spacing-lg);
-      background: var(--color-lime);
-      color: var(--color-black);
-      border: none;
-      border-radius: 6px;
-      font-family: var(--font-display);
-      font-weight: 600;
-      font-size: 0.9rem;
-      cursor: pointer;
-      text-decoration: none;
-      transition: all var(--transition);
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-    }
-
-    .empty-state-button:hover {
-      background: var(--color-lime-hover);
-      transform: translateY(-2px);
-    }
-
-    @media (max-width: 1024px) {
-      .stats-group {
-        margin-left: 0;
-        width: 100%;
-        justify-content: space-around;
-        margin-top: var(--spacing-lg);
-      }
-
-      .stat-card {
-        flex: 1;
-      }
-
-      .filter-section {
-        flex-direction: column;
-        align-items: flex-start;
-      }
-    }
-
-    @media (max-width: 768px) {
-      .main-content {
-        padding: var(--spacing-md);
-      }
-
-      .page-title {
-        font-size: 1.5rem;
-      }
-
-      .jobs-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .job-actions {
-        flex-direction: column;
-      }
-
-      .btn {
-        width: 100%;
-      }
-    }
-
-    @media (max-width: 480px) {
-      .page-title {
-        font-size: 1.25rem;
-      }
-
-      .job-header {
-        flex-direction: column;
-        align-items: flex-start;
-      }
-
-      .stat-card {
-        min-width: 100px;
-      }
-    }
-
-    @media (prefers-reduced-motion: reduce) {
-      * {
-        animation-duration: 0.01ms !important;
-        animation-iteration-count: 1 !important;
-        transition-duration: 0.01ms !important;
-      }
-    }
-  </style>
-  <link rel="stylesheet" href="assets/css/lime-background.css">
-  <link rel="stylesheet" href="assets/css/lime-nav.css">
-</head>
-<body>
-  <div class="lime-bg-image"></div>
+  
+  <link rel="stylesheet" href="lime-nav.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="lime-background.css">
+<link rel="stylesheet" href="css/LIMESAVEDJOBS.css">  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="lime-theme.css"></head>
+<body class="has-lime-nav">
+  <nav id="lime-nav">
+   
+  </nav>
+
+<div class="lime-bg-image"></div>
   <div class="lime-bg-overlay"></div>
 
   <div id="lime-nav-root"></div>
@@ -509,7 +56,7 @@
       <div class="empty-state-icon">[No Bookmark Icon]</div>
       <h2 class="empty-state-title">No saved jobs yet</h2>
       <p class="empty-state-text">Start saving jobs from search to view them here</p>
-      <a href="LIMESEARCH.html" class="empty-state-button">Browse Jobs</a>
+      <a href="search.html" class="empty-state-button">Browse Jobs</a>
     </div>
   </main>
   <script src="lime-nav.js"></script>
@@ -736,5 +283,44 @@
     loadSavedJobs();
     renderJobs();
   </script>
+
+  
+
+
+  <footer class="lime-footer">
+    <div class="footer-content">
+      <div class="footer-section">
+        <h4>L.I.M.E</h4>
+        <p>Connecting talent with opportunity</p>
+      </div>
+      <div class="footer-section">
+        <h4>Quick Links</h4>
+        <ul>
+          <li><a href="search.html">Search Jobs</a></li>
+          <li><a href="profiles.html">My Profile</a></li>
+          <li><a href="messages.html">Messages</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h4>Support</h4>
+        <ul>
+          <li><a href="#">Help Center</a></li>
+          <li><a href="#">Contact Us</a></li>
+          <li><a href="#">Privacy Policy</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h4>Follow Us</h4>
+        <ul>
+          <li><a href="#">Twitter</a></li>
+          <li><a href="#">LinkedIn</a></li>
+          <li><a href="#">GitHub</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2024 L.I.M.E Platform. All rights reserved.</p>
+    </div>
+  </footer>
 </body>
 </html>

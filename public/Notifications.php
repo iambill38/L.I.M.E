@@ -4,564 +4,18 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Notifications - lime.com</title>
-  <style>
-    /* ===== FONT IMPORTS ===== */
-    @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap');
-
-    /* ===== CSS VARIABLES ===== */
-    :root {
-      --color-black: #0a0a0a;
-      --color-navy: #0f1419;
-      --color-white: #ffffff;
-      --color-grey-light: #e8e8e8;
-      --color-grey-med: #8a8a8a;
-      --color-lime: #00ff41;
-      --color-lime-hover: #00dd38;
-      --color-border: rgba(0, 255, 65, 0.15);
-      
-      /* Notification type colors */
-      --type-job: #4A90E2;
-      --type-message: #F5A623;
-      --type-application: #7ED321;
-      --type-profile: #9013FE;
-      --type-interview: #FF6B6B;
-
-      --font-display: 'Space Grotesk', sans-serif;
-      --font-body: 'Inter', sans-serif;
-
-      --spacing-xs: 0.5rem;
-      --spacing-sm: 1rem;
-      --spacing-md: 1.5rem;
-      --spacing-lg: 2rem;
-      --spacing-xl: 3rem;
-
-      --transition: 150ms cubic-bezier(0.2, 0, 0.38, 0.9);
-    }
-
-    /* ===== RESET ===== */
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
-    html {
-      scroll-behavior: smooth;
-    }
-
-    body {
-      background-color: #0a0a0a;
-      color: var(--color-grey-light);
-      font-family: var(--font-body);
-      font-size: 1rem;
-      line-height: 1.6;
-      -webkit-font-smoothing: antialiased;
-      -moz-osx-font-smoothing: grayscale;
-      min-height: 100vh;
-      position: relative;
-      overflow-x: hidden;
-    }
-
-    /* ===== ANIMATED BACKGROUND ORBS ===== */
-
-    /* ===== TOP NAVIGATION ===== */
-    .page-nav {
-      position: fixed;
-      inset: 0 auto auto 0;
-      width: 100%;
-      display: flex;
-      justify-content: space-between;
-      gap: 0.75rem;
-      align-items: center;
-      padding: 1rem 1.5rem;
-      background: rgba(15, 20, 29, 0.92);
-      border-bottom: 1px solid var(--color-border);
-      backdrop-filter: blur(16px);
-      z-index: 20;
-    }
-
-    .nav-links {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.75rem;
-      align-items: center;
-    }
-
-    .nav-user {
-      display: flex;
-      align-items: center;
-      gap: 0.75rem;
-      padding: 0.5rem 0.75rem;
-      border-radius: 3px;
-      background: rgba(255, 255, 255, 0.04);
-      border: 1px solid transparent;
-      transition: all var(--transition);
-    }
-
-    .user-avatar {
-      width: 42px;
-      height: 42px;
-      border-radius: 4px;
-      background: linear-gradient(135deg, var(--color-lime), rgba(0, 255, 65, 0.5));
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: var(--color-black);
-      font-weight: 700;
-      font-size: 0.95rem;
-      flex-shrink: 0;
-    }
-
-    .user-name {
-      font-weight: 600;
-      color: var(--color-white);
-      font-size: 0.95rem;
-    }
-
-    .user-status {
-      font-size: 0.75rem;
-      color: var(--color-grey-med);
-    }
-
-    .page-nav a {
-      color: var(--color-grey-light);
-      text-decoration: none;
-      padding: 0.75rem 1rem;
-      border-radius: 3px;
-      border: 1px solid transparent;
-      transition: all var(--transition);
-      font-weight: 600;
-      background: rgba(255, 255, 255, 0.03);
-    }
-
-    .page-nav a:hover,
-    .page-nav a.active {
-      color: var(--color-lime);
-      background: rgba(0, 255, 65, 0.12);
-      border-color: rgba(0, 255, 65, 0.15);
-    }
-
-    /* ===== MAIN CONTENT ===== */
-    .main-content {
-      max-width: 1000px;
-      margin: 76px auto 0;
-      padding: var(--spacing-lg);
-      position: relative;
-      z-index: 1;
-    }
-
-    .content-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      margin-bottom: var(--spacing-xl);
-      gap: var(--spacing-md);
-      flex-wrap: wrap;
-    }
-
-    .page-title {
-      font-family: var(--font-display);
-      font-size: 2rem;
-      font-weight: 700;
-      color: var(--color-white);
-      letter-spacing: -0.01em;
-    }
-
-    .page-subtitle {
-      color: var(--color-grey-med);
-      font-size: 0.95rem;
-    }
-
-    .header-actions {
-      display: flex;
-      gap: var(--spacing-sm);
-      flex-wrap: wrap;
-    }
-
-    .btn-small {
-      padding: 0.65rem 1.2rem;
-      background: transparent;
-      border: 1px solid rgba(0, 255, 65, 0.3);
-      color: var(--color-lime);
-      border-radius: 6px;
-      font-family: var(--font-body);
-      font-weight: 600;
-      font-size: 0.85rem;
-      cursor: pointer;
-      transition: all var(--transition);
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-    }
-
-    .btn-small:hover {
-      background: rgba(0, 255, 65, 0.1);
-      border-color: rgba(0, 255, 65, 0.6);
-    }
-
-    /* ===== FILTER SECTION ===== */
-    .filter-section {
-      display: flex;
-      gap: var(--spacing-md);
-      margin-bottom: var(--spacing-xl);
-      flex-wrap: wrap;
-      align-items: center;
-    }
-
-    .filter-button {
-      padding: 0.65rem 1.2rem;
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid rgba(0, 255, 65, 0.15);
-      border-radius: 6px;
-      color: var(--color-grey-light);
-      font-family: var(--font-body);
-      font-size: 0.9rem;
-      cursor: pointer;
-      transition: all var(--transition);
-      font-weight: 500;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-      min-height: 40px;
-    }
-
-    .filter-button:hover {
-      border-color: rgba(0, 255, 65, 0.3);
-      background: rgba(0, 255, 65, 0.1);
-    }
-
-    .filter-button.active {
-      background: var(--color-lime);
-      color: var(--color-black);
-      border-color: var(--color-lime);
-    }
-
-    /* ===== NOTIFICATIONS LIST ===== */
-    .notifications-list {
-      display: flex;
-      flex-direction: column;
-      gap: var(--spacing-md);
-    }
-
-    .notification-item {
-      background: rgba(15, 20, 29, 0.75);
-      backdrop-filter: blur(20px);
-      border: 1px solid var(--color-border);
-      border-radius: 6px;
-      padding: var(--spacing-md);
-      display: flex;
-      gap: var(--spacing-md);
-      align-items: flex-start;
-      transition: all var(--transition);
-      cursor: pointer;
-      position: relative;
-    }
-
-    .notification-item:hover {
-      border-color: rgba(0, 255, 65, 0.3);
-      box-shadow: 0 8px 32px rgba(0, 255, 65, 0.12);
-    }
-
-    .notification-item.unread {
-      background: rgba(0, 255, 65, 0.05);
-      border-color: rgba(0, 255, 65, 0.2);
-    }
-
-    .notification-item.unread::before {
-      content: '';
-      position: absolute;
-      left: 0;
-      top: 0;
-      bottom: 0;
-      width: 4px;
-      background: var(--color-lime);
-      border-radius: 4px 0 0 4px;
-    }
-
-    .notification-icon {
-      width: 50px;
-      height: 50px;
-      border-radius: 4px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-shrink: 0;
-    }
-
-    .notification-icon.job {
-      background: rgba(74, 144, 226, 0.2);
-      color: #4A90E2;
-    }
-
-    .notification-icon.message {
-      background: rgba(245, 166, 35, 0.2);
-      color: #F5A623;
-    }
-
-    .notification-icon.application {
-      background: rgba(126, 211, 33, 0.2);
-      color: #7ED321;
-    }
-
-    .notification-icon.profile {
-      background: rgba(144, 19, 254, 0.2);
-      color: #9013FE;
-    }
-
-    .notification-icon.interview {
-      background: rgba(255, 107, 107, 0.2);
-      color: #FF6B6B;
-    }
-
-    .notification-content {
-      flex: 1;
-      min-width: 0;
-    }
-
-    .notification-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      gap: var(--spacing-sm);
-      margin-bottom: var(--spacing-xs);
-    }
-
-    .notification-title {
-      font-weight: 600;
-      color: var(--color-white);
-      font-size: 0.95rem;
-    }
-
-    .notification-type {
-      display: inline-block;
-      padding: 0.3rem 0.8rem;
-      border-radius: 6px;
-      font-size: 0.7rem;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-      white-space: nowrap;
-    }
-
-    .notification-type.job {
-      background: rgba(74, 144, 226, 0.15);
-      color: var(--type-job);
-      border: 1px solid rgba(74, 144, 226, 0.3);
-    }
-
-    .notification-type.message {
-      background: rgba(245, 166, 35, 0.15);
-      color: var(--type-message);
-      border: 1px solid rgba(245, 166, 35, 0.3);
-    }
-
-    .notification-type.application {
-      background: rgba(126, 211, 33, 0.15);
-      color: var(--type-application);
-      border: 1px solid rgba(126, 211, 33, 0.3);
-    }
-
-    .notification-type.profile {
-      background: rgba(144, 19, 254, 0.15);
-      color: var(--type-profile);
-      border: 1px solid rgba(144, 19, 254, 0.3);
-    }
-
-    .notification-type.interview {
-      background: rgba(255, 107, 107, 0.15);
-      color: var(--type-interview);
-      border: 1px solid rgba(255, 107, 107, 0.3);
-    }
-
-    .notification-message {
-      color: var(--color-grey-light);
-      font-size: 0.9rem;
-      margin-bottom: var(--spacing-sm);
-    }
-
-    .notification-meta {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      font-size: 0.8rem;
-      color: var(--color-grey-med);
-    }
-
-    .notification-time {
-      display: flex;
-      align-items: center;
-      gap: var(--spacing-xs);
-    }
-
-    .notification-actions {
-      display: flex;
-      gap: var(--spacing-xs);
-      align-items: center;
-    }
-
-    .action-icon-btn {
-      background: none;
-      border: none;
-      color: var(--color-grey-med);
-      cursor: pointer;
-      font-size: 1rem;
-      transition: all var(--transition);
-      padding: 0.4rem;
-    }
-
-    .action-icon-btn:hover {
-      color: var(--color-lime);
-    }
-
-    /* ===== EMPTY STATE ===== */
-    .empty-state {
-      text-align: center;
-      padding: var(--spacing-xl) var(--spacing-lg);
-      background: rgba(15, 20, 29, 0.75);
-      backdrop-filter: blur(20px);
-      border: 1px solid var(--color-border);
-      border-radius: 6px;
-    }
-
-    .empty-state-icon {
-      width: 56px;
-      height: 56px;
-      margin: 0 auto var(--spacing-md);
-      color: var(--color-lime);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .empty-state-icon svg {
-      width: 100%;
-      height: 100%;
-    }
-
-    .empty-state-title {
-      font-family: var(--font-display);
-      font-size: 1.3rem;
-      font-weight: 600;
-      color: var(--color-white);
-      margin-bottom: var(--spacing-sm);
-    }
-
-    .empty-state-text {
-      color: var(--color-grey-med);
-      margin-bottom: var(--spacing-lg);
-    }
-
-    /* ===== STATS ===== */
-    .notification-stats {
-      display: flex;
-      gap: var(--spacing-md);
-      margin-bottom: var(--spacing-xl);
-      flex-wrap: wrap;
-    }
-
-    .stat-item {
-      background: rgba(15, 20, 29, 0.75);
-      backdrop-filter: blur(20px);
-      border: 1px solid var(--color-border);
-      border-radius: 6px;
-      padding: var(--spacing-md);
-      text-align: center;
-      min-width: 120px;
-    }
-
-    .stat-number {
-      font-family: var(--font-display);
-      font-size: 1.8rem;
-      font-weight: 700;
-      color: var(--color-lime);
-      margin-bottom: var(--spacing-xs);
-    }
-
-    .stat-label {
-      font-size: 0.8rem;
-      color: var(--color-grey-med);
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-    }
-
-    /* ===== RESPONSIVE ===== */
-    @media (max-width: 768px) {
-      .main-content {
-        padding: var(--spacing-md);
-      }
-
-      .page-title {
-        font-size: 1.5rem;
-      }
-
-      .content-header {
-        flex-direction: column;
-        align-items: flex-start;
-      }
-
-      .header-actions {
-        width: 100%;
-      }
-
-      .btn-small {
-        flex: 1;
-      }
-
-      .notification-item {
-        padding: var(--spacing-sm);
-      }
-
-      .filter-section {
-        overflow-x: auto;
-        padding-bottom: var(--spacing-sm);
-      }
-
-      .notification-stats {
-        grid-template-columns: repeat(2, 1fr);
-      }
-    }
-
-    @media (max-width: 480px) {
-      .page-title {
-        font-size: 1.25rem;
-      }
-
-      .notification-item {
-        gap: var(--spacing-sm);
-      }
-
-      .notification-icon {
-        width: 40px;
-        height: 40px;
-        font-size: 1.2rem;
-      }
-
-      .notification-header {
-        flex-direction: column;
-        align-items: flex-start;
-      }
-
-      .notification-type {
-        align-self: flex-start;
-      }
-
-      .notification-meta {
-        flex-direction: column;
-        align-items: flex-start;
-      }
-    }
-
-    @media (prefers-reduced-motion: reduce) {
-      * {
-        animation-duration: 0.01ms !important;
-        animation-iteration-count: 1 !important;
-        transition-duration: 0.01ms !important;
-      }
-    }
-  </style>
-  <link rel="stylesheet" href="assets/css/lime-background.css">
-  <link rel="stylesheet" href="assets/css/lime-nav.css">
-</head>
-<body>
-  <div class="lime-bg-image"></div>
+  
+  <link rel="stylesheet" href="lime-nav.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="lime-background.css">
+<link rel="stylesheet" href="css/LIMENOTIFICATIONS.css">  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="lime-theme.css"></head>
+<body class="has-lime-nav">
+  <nav id="lime-nav">
+    
+  </nav>
+
+<div class="lime-bg-image"></div>
   <div class="lime-bg-overlay"></div>
 
   <div id="lime-nav-root"></div>
@@ -695,7 +149,7 @@
       {
         id: 8,
         type: 'application',
-        icon: '⏳',
+        icon: 'fa-hourglass-end',
         title: 'Application Under Review',
         message: 'TechCorp is currently reviewing your application for Senior Full Stack Engineer',
         timestamp: new Date(Date.now() - 4 * 24 * 60 * 60000), // 4 days ago
@@ -861,5 +315,44 @@
     loadNotifications();
     renderNotifications();
   </script>
+
+  
+
+
+  <footer class="lime-footer">
+    <div class="footer-content">
+      <div class="footer-section">
+        <h4>L.I.M.E</h4>
+        <p>Connecting talent with opportunity</p>
+      </div>
+      <div class="footer-section">
+        <h4>Quick Links</h4>
+        <ul>
+          <li><a href="search.html">Search Jobs</a></li>
+          <li><a href="profiles.html">My Profile</a></li>
+          <li><a href="messages.html">Messages</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h4>Support</h4>
+        <ul>
+          <li><a href="#">Help Center</a></li>
+          <li><a href="#">Contact Us</a></li>
+          <li><a href="#">Privacy Policy</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h4>Follow Us</h4>
+        <ul>
+          <li><a href="#">Twitter</a></li>
+          <li><a href="#">LinkedIn</a></li>
+          <li><a href="#">GitHub</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2024 L.I.M.E Platform. All rights reserved.</p>
+    </div>
+  </footer>
 </body>
 </html>

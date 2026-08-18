@@ -1,0 +1,37 @@
+@import url('lime-theme.css');
+
+/* Background image for all pages */
+body {
+  background-image: url('newbackground.jpg');
+  background-attachment: fixed;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  min-height: 100vh;
+}
+
+/* Overlay to maintain contrast with content */
+body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(15, 20, 29, 0.3);
+  pointer-events: none;
+  z-index: -1;
+}
+
+/* Main content areas */
+.dashboard-container,
+.page-layout,
+.chat-container,
+.main-content,
+.settings-container,
+.page-container,
+.container,
+.content-wrapper {
+  position: relative;
+  z-index: 1;
+}
