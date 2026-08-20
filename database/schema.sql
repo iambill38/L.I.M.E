@@ -1,6 +1,8 @@
+CREATE DATABASE  IF NOT EXISTS `lime` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
+USE `lime`;
 -- MySQL dump 10.13  Distrib 8.0.46, for Win64 (x86_64)
 --
--- Host: 127.0.0.1    Database: userport
+-- Host: 127.0.0.1    Database: lime
 -- ------------------------------------------------------
 -- Server version	8.0.46
 
@@ -16,6 +18,69 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
+-- Table structure for table `admin`
+--
+
+DROP TABLE IF EXISTS `admin`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `admin` (
+  `AdminID` int NOT NULL AUTO_INCREMENT,
+  `FirstName` varchar(100) NOT NULL,
+  `Surname` varchar(100) NOT NULL,
+  `Email` varchar(255) NOT NULL,
+  `Password` varchar(255) NOT NULL,
+  `PermissionLevel` varchar(100) DEFAULT NULL,
+  PRIMARY KEY (`AdminID`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `application`
+--
+
+DROP TABLE IF EXISTS `application`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `application` (
+  `ApplicationID` int NOT NULL AUTO_INCREMENT,
+  `StudentID` int NOT NULL,
+  `OpportunityID` int NOT NULL,
+  `ApplyDate` datetime DEFAULT CURRENT_TIMESTAMP,
+  `Status` enum('Pending','Accepted','Rejected') DEFAULT 'Pending',
+  PRIMARY KEY (`ApplicationID`),
+  KEY `fk_application_student` (`StudentID`),
+  KEY `fk_application_opportunity` (`OpportunityID`),
+  CONSTRAINT `fk_application_opportunity` FOREIGN KEY (`OpportunityID`) REFERENCES `opportunity` (`OpportunityID`) ON DELETE CASCADE,
+  CONSTRAINT `fk_application_student` FOREIGN KEY (`StudentID`) REFERENCES `student` (`StudentID`) ON DELETE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `company`
+--
+
+DROP TABLE IF EXISTS `company`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `company` (
+  `CompanyID` int NOT NULL AUTO_INCREMENT,
+  `UserID` int NOT NULL,
+  `Name` varchar(255) NOT NULL,
+  `RegistrationNumber` varchar(100) NOT NULL,
+  `OfficialEmail` varchar(255) NOT NULL,
+  `Domain` varchar(255) DEFAULT NULL,
+  `Industry` varchar(150) DEFAULT NULL,
+  `Website` varchar(255) DEFAULT NULL,
+  `VerificationStatus` enum('Pending','Approved','Rejected') DEFAULT 'Pending',
+  `DateRegistered` datetime DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`CompanyID`),
+  UNIQUE KEY `UserID` (`UserID`),
+  CONSTRAINT `fk_company_user` FOREIGN KEY (`UserID`) REFERENCES `user` (`UserID`) ON DELETE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
 -- Table structure for table `institution`
 --
 
@@ -23,13 +88,79 @@ DROP TABLE IF EXISTS `institution`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `institution` (
-  `institution_id` int NOT NULL AUTO_INCREMENT,
-  `institution_name` varchar(255) NOT NULL,
-  `type` enum('University','College','TVET','Other') DEFAULT NULL,
-  `country` varchar(100) DEFAULT 'South Africa',
-  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (`institution_id`),
-  UNIQUE KEY `institution_name` (`institution_name`)
+  `InstitutionID` int NOT NULL AUTO_INCREMENT,
+  `InstitutionName` varchar(255) NOT NULL,
+  `Type` enum('University','College','TVET','Other') DEFAULT NULL,
+  `Country` varchar(100) DEFAULT 'South Africa',
+  `CreatedAt` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`InstitutionID`),
+  UNIQUE KEY `InstitutionName` (`InstitutionName`)
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `messages`
+--
+
+DROP TABLE IF EXISTS `messages`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `messages` (
+  `MessageID` int NOT NULL AUTO_INCREMENT,
+  `SenderUserID` int NOT NULL,
+  `ReceiverUserID` int NOT NULL,
+  `Content` text NOT NULL,
+  `Timestamp` datetime DEFAULT CURRENT_TIMESTAMP,
+  `IsRead` tinyint(1) DEFAULT '0',
+  PRIMARY KEY (`MessageID`),
+  KEY `fk_message_sender` (`SenderUserID`),
+  KEY `fk_message_receiver` (`ReceiverUserID`),
+  CONSTRAINT `fk_message_receiver` FOREIGN KEY (`ReceiverUserID`) REFERENCES `user` (`UserID`) ON DELETE CASCADE,
+  CONSTRAINT `fk_message_sender` FOREIGN KEY (`SenderUserID`) REFERENCES `user` (`UserID`) ON DELETE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `notifications`
+--
+
+DROP TABLE IF EXISTS `notifications`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `notifications` (
+  `NotificationID` int NOT NULL AUTO_INCREMENT,
+  `UserID` int NOT NULL,
+  `Type` varchar(100) DEFAULT NULL,
+  `Content` text,
+  `Timestamp` datetime DEFAULT CURRENT_TIMESTAMP,
+  `IsRead` tinyint(1) DEFAULT '0',
+  PRIMARY KEY (`NotificationID`),
+  KEY `fk_notification_user` (`UserID`),
+  CONSTRAINT `fk_notification_user` FOREIGN KEY (`UserID`) REFERENCES `user` (`UserID`) ON DELETE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `opportunity`
+--
+
+DROP TABLE IF EXISTS `opportunity`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `opportunity` (
+  `OpportunityID` int NOT NULL AUTO_INCREMENT,
+  `CompanyID` int NOT NULL,
+  `Title` varchar(255) NOT NULL,
+  `Description` text,
+  `Type` enum('Internship','Workshop','WIL') NOT NULL,
+  `RequiredSkill` varchar(500) DEFAULT NULL,
+  `Location` varchar(255) DEFAULT NULL,
+  `DatePosted` datetime DEFAULT CURRENT_TIMESTAMP,
+  `Deadline` date DEFAULT NULL,
+  `Status` enum('Open','Closed') DEFAULT 'Open',
+  PRIMARY KEY (`OpportunityID`),
+  KEY `fk_opportunity_company` (`CompanyID`),
+  CONSTRAINT `fk_opportunity_company` FOREIGN KEY (`CompanyID`) REFERENCES `company` (`CompanyID`) ON DELETE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -41,34 +172,56 @@ DROP TABLE IF EXISTS `project`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `project` (
-  `project_id` int NOT NULL AUTO_INCREMENT,
-  `student_id` int DEFAULT NULL,
-  `project_type` enum('Project','Assignment') DEFAULT NULL,
-  `title` varchar(50) NOT NULL,
-  `project_description` varchar(250) DEFAULT NULL,
-  `filepath` varchar(512) DEFAULT NULL,
-  `date_posted` date NOT NULL DEFAULT (curdate()),
-  PRIMARY KEY (`project_id`),
-  KEY `student_id` (`student_id`),
-  CONSTRAINT `project_ibfk_1` FOREIGN KEY (`student_id`) REFERENCES `student` (`student_id`) ON DELETE CASCADE ON UPDATE CASCADE
+  `ProjectID` int NOT NULL AUTO_INCREMENT,
+  `StudentID` int DEFAULT NULL,
+  `ProjectType` enum('Project','Assignment') DEFAULT NULL,
+  `Title` varchar(50) NOT NULL,
+  `ProjectDescription` varchar(250) DEFAULT NULL,
+  `Filepath` varchar(512) DEFAULT NULL,
+  `DatePosted` date NOT NULL DEFAULT (curdate()),
+  PRIMARY KEY (`ProjectID`),
+  KEY `fk_project_student` (`StudentID`),
+  CONSTRAINT `fk_project_student` FOREIGN KEY (`StudentID`) REFERENCES `student` (`StudentID`) ON DELETE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Table structure for table `project_skill`
+-- Table structure for table `projectskill`
 --
 
-DROP TABLE IF EXISTS `project_skill`;
+DROP TABLE IF EXISTS `projectskill`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `project_skill` (
-  `project_id` int NOT NULL,
-  `skill_id` int NOT NULL,
-  PRIMARY KEY (`project_id`,`skill_id`),
-  KEY `skill_id` (`skill_id`),
-  CONSTRAINT `project_skill_ibfk_1` FOREIGN KEY (`project_id`) REFERENCES `project` (`project_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `project_skill_ibfk_2` FOREIGN KEY (`skill_id`) REFERENCES `skill` (`skill_id`) ON DELETE CASCADE ON UPDATE CASCADE
+CREATE TABLE `projectskill` (
+  `ProjectID` int NOT NULL,
+  `SkillID` int NOT NULL,
+  PRIMARY KEY (`ProjectID`,`SkillID`),
+  KEY `fk_projectskill_skill` (`SkillID`),
+  CONSTRAINT `fk_projectskill_project` FOREIGN KEY (`ProjectID`) REFERENCES `project` (`ProjectID`) ON DELETE CASCADE,
+  CONSTRAINT `fk_projectskill_skill` FOREIGN KEY (`SkillID`) REFERENCES `skill` (`SkillID`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `recommendation`
+--
+
+DROP TABLE IF EXISTS `recommendation`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `recommendation` (
+  `RecommendationID` int NOT NULL AUTO_INCREMENT,
+  `StudentID` int NOT NULL,
+  `OpportunityID` int NOT NULL,
+  `RelevanceScore` decimal(5,2) DEFAULT NULL,
+  `AIData` text,
+  `DateGenerated` datetime DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`RecommendationID`),
+  KEY `fk_recommendation_student` (`StudentID`),
+  KEY `fk_recommendation_opportunity` (`OpportunityID`),
+  CONSTRAINT `fk_recommendation_opportunity` FOREIGN KEY (`OpportunityID`) REFERENCES `opportunity` (`OpportunityID`) ON DELETE CASCADE,
+  CONSTRAINT `fk_recommendation_student` FOREIGN KEY (`StudentID`) REFERENCES `student` (`StudentID`) ON DELETE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -79,11 +232,11 @@ DROP TABLE IF EXISTS `skill`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `skill` (
-  `skill_id` int NOT NULL AUTO_INCREMENT,
-  `skill_name` varchar(100) DEFAULT NULL,
-  PRIMARY KEY (`skill_id`),
-  UNIQUE KEY `skill_name` (`skill_name`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  `SkillID` int NOT NULL AUTO_INCREMENT,
+  `SkillName` varchar(100) DEFAULT NULL,
+  PRIMARY KEY (`SkillID`),
+  UNIQUE KEY `SkillName` (`SkillName`)
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -94,40 +247,40 @@ DROP TABLE IF EXISTS `student`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `student` (
-  `student_id` int NOT NULL AUTO_INCREMENT,
-  `username_id` varchar(50) DEFAULT NULL,
-  `institution_id` int DEFAULT NULL,
-  `first_name` varchar(50) NOT NULL,
-  `surname` varchar(50) NOT NULL,
-  `student_number` int DEFAULT NULL,
-  `approval_status` enum('Pending','Approved','Rejected') DEFAULT 'Pending',
-  `linkedIn` varchar(250) DEFAULT NULL,
-  `github` varchar(250) DEFAULT NULL,
-  `registeredDate` date NOT NULL DEFAULT (curdate()),
-  PRIMARY KEY (`student_id`),
-  KEY `username_id` (`username_id`),
-  KEY `institution_id` (`institution_id`),
-  CONSTRAINT `student_ibfk_1` FOREIGN KEY (`username_id`) REFERENCES `user` (`username_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `student_ibfk_2` FOREIGN KEY (`institution_id`) REFERENCES `institution` (`institution_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `student_chk_1` CHECK (((`linkedIn` is null) or regexp_like(`linkedIn`,_utf8mb4'^https?://([a-z0-9-]+\\.)*linkedin\\.com/.*$'))),
-  CONSTRAINT `student_chk_2` CHECK (((`github` is null) or regexp_like(`github`,_utf8mb4'^https?://([a-z0-9-]+\\.)*github\\.com/.*$')))
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  `StudentID` int NOT NULL AUTO_INCREMENT,
+  `UserID` int NOT NULL,
+  `InstitutionID` int DEFAULT NULL,
+  `FirstName` varchar(100) NOT NULL,
+  `Surname` varchar(100) NOT NULL,
+  `StudentNumber` int DEFAULT NULL,
+  `ApprovalStatus` enum('Pending','Approved','Rejected') DEFAULT 'Pending',
+  `LinkedIn` varchar(250) DEFAULT NULL,
+  `Github` varchar(250) DEFAULT NULL,
+  `RegisteredDate` date NOT NULL DEFAULT (curdate()),
+  PRIMARY KEY (`StudentID`),
+  UNIQUE KEY `UserID` (`UserID`),
+  KEY `fk_student_institution` (`InstitutionID`),
+  CONSTRAINT `fk_student_institution` FOREIGN KEY (`InstitutionID`) REFERENCES `institution` (`InstitutionID`) ON DELETE SET NULL,
+  CONSTRAINT `fk_student_user` FOREIGN KEY (`UserID`) REFERENCES `user` (`UserID`) ON DELETE CASCADE,
+  CONSTRAINT `chk_student_github` CHECK (((`Github` is null) or regexp_like(`Github`,_utf8mb4'^https?://([a-z0-9-]+\\.)*github\\.com/.*$'))),
+  CONSTRAINT `chk_student_linkedin` CHECK (((`LinkedIn` is null) or regexp_like(`LinkedIn`,_utf8mb4'^https?://([a-z0-9-]+\\.)*linkedin\\.com/.*$')))
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Table structure for table `studentskills`
+-- Table structure for table `studentskill`
 --
 
-DROP TABLE IF EXISTS `studentskills`;
+DROP TABLE IF EXISTS `studentskill`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `studentskills` (
-  `student_id` int NOT NULL,
-  `skill_id` int NOT NULL,
-  PRIMARY KEY (`student_id`,`skill_id`),
-  KEY `skill_id` (`skill_id`),
-  CONSTRAINT `studentskills_ibfk_1` FOREIGN KEY (`student_id`) REFERENCES `student` (`student_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `studentskills_ibfk_2` FOREIGN KEY (`skill_id`) REFERENCES `skill` (`skill_id`) ON DELETE CASCADE ON UPDATE CASCADE
+CREATE TABLE `studentskill` (
+  `StudentID` int NOT NULL,
+  `SkillID` int NOT NULL,
+  PRIMARY KEY (`StudentID`,`SkillID`),
+  KEY `fk_studentskill_skill` (`SkillID`),
+  CONSTRAINT `fk_studentskill_skill` FOREIGN KEY (`SkillID`) REFERENCES `skill` (`SkillID`) ON DELETE CASCADE,
+  CONSTRAINT `fk_studentskill_student` FOREIGN KEY (`StudentID`) REFERENCES `student` (`StudentID`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -139,14 +292,14 @@ DROP TABLE IF EXISTS `user`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `user` (
-  `username_id` varchar(50) NOT NULL,
-  `email` varchar(100) NOT NULL,
-  `password` varchar(50) NOT NULL,
-  `role` enum('student','company') DEFAULT NULL,
-  PRIMARY KEY (`username_id`),
-  UNIQUE KEY `email` (`email`),
-  CONSTRAINT `user_chk_1` CHECK (regexp_like(`email`,_utf8mb4'^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$'))
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  `UserID` int NOT NULL AUTO_INCREMENT,
+  `Email` varchar(255) NOT NULL,
+  `Password` varchar(255) NOT NULL,
+  `Role` enum('Student','Company') NOT NULL,
+  PRIMARY KEY (`UserID`),
+  UNIQUE KEY `Email` (`Email`),
+  CONSTRAINT `chk_user_email` CHECK (regexp_like(`Email`,_utf8mb4'^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$'))
+) ENGINE=InnoDB AUTO_INCREMENT=205 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -158,4 +311,4 @@ CREATE TABLE `user` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
-
+-- Dump completed on 2026-08-20 16:47:38
