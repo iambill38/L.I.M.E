@@ -1,3 +1,58 @@
+<?php
+session_start();
+require_once __DIR__ . '/../src/config/database.php';
+
+$errors = [];
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $email = trim($_POST['email'] ?? '');
+    $password = $_POST['password'] ?? '';
+
+    if ($email === '' || $password === '') {
+        $errors[] = "Please enter both email and password.";
+    }
+
+    if (empty($errors)) {
+        $stmt = $pdo->prepare("SELECT * FROM User WHERE email = ?");
+        $stmt->execute([$email]);
+        $user = $stmt->fetch();
+
+        if (!$user || !password_verify($password, $user['password'])) {
+            $errors[] = "Incorrect email or password.";
+        } else {
+            $_SESSION['user_id'] = $user['user_id'];
+            $_SESSION['role'] = $user['role'];
+            $_SESSION['email'] = $user['email'];
+
+            // Get student profile information
+if ($user['role'] === 'student') {
+
+    $studentStmt = $pdo->prepare(
+        "SELECT first_name, surname
+         FROM student
+         WHERE user_id = ?"
+    );
+
+    $studentStmt->execute([$user['user_id']]);
+
+    $student = $studentStmt->fetch();
+
+    if ($student) {
+        $_SESSION['first_name'] = $student['first_name'];
+        $_SESSION['surname'] = $student['surname'];
+    }
+}
+
+            if ($user['role'] === 'company') {
+                header("Location: companydashboard.php");
+            } else {
+                header("Location: studentdashboard.php");
+            }
+            exit;
+        }
+    }
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -340,27 +395,34 @@
         </div>
 
         <!-- Email Form -->
-        <form class="auth-form" method="POST" action="#" novalidate>
+        <form class="auth-form" method="POST" action="login.php" novalidate>
+            <?php if (!empty($errors)): ?>
+              <div class="form-errors" style="background:#3a1a1a;border:1px solid #ef4444;color:#fecaca;padding:0.75rem 1rem;border-radius:6px;margin-bottom:1rem;">
+                <?php foreach ($errors as $error): ?>
+                  <p style="margin:0;"><?= htmlspecialchars($error) ?></p>
+                <?php endforeach; ?>
+              </div>
+            <?php endif; ?>
           <div class="form-group">
             <label for="email" class="form-label">Email Address</label>
-            <input 
-              type="email" 
-              id="email" 
-              name="email" 
-              class="form-input" 
-              placeholder="you@example.com" 
+            <input
+              type="email"
+              id="email" name="email"
+              name="email"
+              class="form-input"
+              placeholder="you@example.com"
               required
             >
           </div>
 
           <div class="form-group">
             <label for="password" class="form-label">Password</label>
-            <input 
-              type="password" 
-              id="password" 
-              name="password" 
-              class="form-input" 
-              placeholder="Enter your password" 
+            <input
+              type="password"
+              id="password" name="password"
+              name="password"
+              class="form-input"
+              placeholder="Enter your password"
               required
             >
           </div>
@@ -370,7 +432,7 @@
 
         <!-- Footer -->
         <div class="login-footer">
-          <p>Don't have an account? <a href="signup.html">Create one</a></p>
+          <p>Don't have an account? <a href="signup.php">Create one</a></p>
         </div>
       </div>
     </div>

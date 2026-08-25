@@ -135,7 +135,7 @@ class FormValidator {
       if (this.config.onSubmit) {
         this.config.onSubmit(this.form);
       } else {
-        showToast('Form submitted successfully!', 'success');
+        this.form.submit();
       }
     });
   }
