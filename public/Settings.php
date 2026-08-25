@@ -429,7 +429,7 @@
         // Clear session
         localStorage.removeItem('limeSession');
         alert('You have been logged out. Redirecting to login page...');
-        window.location.href = 'LIMELOGIN.html';
+        window.location.href = 'logout.php';
       }
     };
 
@@ -440,7 +440,7 @@
           // In real app, would send delete request to server
           alert('Account deleted. Redirecting...');
           localStorage.clear();
-          window.location.href = 'LIMELOGIN.html';
+          window.location.href = 'logout.php';
         }
       }
     };

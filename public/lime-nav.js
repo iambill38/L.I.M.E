@@ -7,19 +7,19 @@
   
   // Student portal navigation (existing)
   var STUDENT_MAIN_LINKS = [
-    { href: 'Analytics.html', label: 'Dashboard' },
-    { href: 'search.html', label: 'Search' },
-    { href: 'messages.html', label: 'Messages' },
-    { href: 'application.html', label: 'Applications' },
-    { href: 'portfolioprojects.html', label: 'Portfolio' }
+    { href: 'Analytics.php', label: 'Dashboard' },
+    { href: 'search.php', label: 'Search' },
+    { href: 'messages.php', label: 'Messages' },
+    { href: 'application.php', label: 'Applications' },
+    { href: 'portfolioprojects.php', label: 'Portfolio' }
   ];
 
   var STUDENT_USER_LINKS = [
-    { href: 'profiles.html', label: 'Profile' },
-    { href: 'resumes.html', label: 'Resume' },
-    { href: 'savedjobs.html', label: 'Saved Jobs' },
-    { href: 'notifications.html', label: 'Notifications' },
-    { href: 'settings.html', label: 'Settings' }
+    { href: 'profiles.php', label: 'Profile' },
+    { href: 'resumes.php', label: 'Resume' },
+    { href: 'savedjobs.php', label: 'Saved Jobs' },
+    { href: 'notifications.php', label: 'Notifications' },
+    { href: 'settings.php', label: 'Settings' }
   ];
 
   // ============================================================================
@@ -27,19 +27,19 @@
   // These are the navigation links specific to company recruiters managing jobs
   // ============================================================================
   var COMPANY_MAIN_LINKS = [
-    { href: 'companydashboard.html', label: 'Dashboard' },
-    { href: 'joblistings.html', label: 'Job Listings' },
-    { href: 'applicants.html', label: 'Applicants' },
-    { href: 'interviews.html', label: 'Interviews' },
-    { href: 'shortlisted.html', label: 'Shortlisted' },
-    { href: 'messages.html', label: 'Messages' },
-    { href: 'analytics.html', label: 'Analytics' }
+    { href: 'companydashboard.php', label: 'Dashboard' },
+    { href: 'joblistings.php', label: 'Job Listings' },
+    { href: 'applicants.php', label: 'Applicants' },
+    { href: 'interviews.php', label: 'Interviews' },
+    { href: 'shortlisted.php', label: 'Shortlisted' },
+    { href: 'messages.php', label: 'Messages' },
+    { href: 'analytics.php', label: 'Analytics' }
   ];
 
   var COMPANY_USER_LINKS = [
-    { href: 'companyprofile.html', label: 'Company Profile' },
-    { href: 'notifications.html', label: 'Notifications' },
-    { href: 'settings.html', label: 'Settings' }
+    { href: 'companyprofile.php', label: 'Company Profile' },
+    { href: 'notifications.php', label: 'Notifications' },
+    { href: 'settings.php', label: 'Settings' }
   ];
 
   // ============================================================================
@@ -79,12 +79,12 @@
   }
 
   function getHomeLink() {
-    return isCompanyDashboard() ? 'companydashboard.html' : 'Analytics.html';
+    return isCompanyDashboard() ? 'companydashboard.php' : 'studentdashboard.php';
   }
 
   function currentPage() {
     var path = window.location.pathname.split('/').pop();
-    return path || 'dashboard.html';
+    return path || (isCompanyDashboard() ? 'companydashboard.php' : 'studentdashboard.php');
   }
   
   function isActive(href) {
@@ -123,9 +123,9 @@
           '<div class="lime-nav-links">' + mainLinksHtml + '</div>' +
           '<div class="lime-nav-user-menu' + (userMenuActive ? ' is-active-page' : '') + '">' +
             '<button type="button" class="lime-nav-user-toggle" aria-label="Account menu" aria-expanded="false" aria-haspopup="true">' +
-              '<span class="lime-nav-avatar">BK</span>' +
+              '<span class="lime-nav-avatar">' + ((window.LIME_USER && window.LIME_USER.initials) || 'G') + '</span>' +
               '<span class="lime-nav-user-info">' +
-                '<span class="lime-nav-user-name">Bill Kongolo</span>' +
+                '<span class="lime-nav-user-name">' + ((window.LIME_USER && window.LIME_USER.name) || 'Guest') + '</span>' +
                 '<span class="lime-nav-user-status">Online</span>' +
               '</span>' +
               '<svg class="lime-nav-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">' +
@@ -228,3 +228,48 @@
     init();
   }
 })();
+
+async function syncLimeSessionUser() {
+    try {
+        const response = await fetch('session-user.php', {
+            method: 'GET',
+            credentials: 'same-origin',
+            cache: 'no-store'
+        });
+
+        if (!response.ok) {
+            return;
+        }
+
+        const data = await response.json();
+
+        if (!data.loggedIn || !data.user) {
+            return;
+        }
+
+        // Store user globally
+        window.LIME_USER = data.user;
+
+        const name = data.user.name || 'Student';
+        const initial = name.charAt(0).toUpperCase();
+
+        // Update name everywhere in navbar
+        document.querySelectorAll('.lime-nav-user-name').forEach(function(element) {
+            element.textContent = name;
+        });
+
+        // Update avatar initial
+        document.querySelectorAll('.lime-nav-avatar').forEach(function(element) {
+            element.textContent = initial;
+        });
+
+    } catch (error) {
+        console.error('Unable to load L.I.M.E user session:', error);
+    }
+}
+
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', syncLimeSessionUser);
+} else {
+    syncLimeSessionUser();
+}

@@ -1,3 +1,85 @@
+<?php
+session_start();
+require_once __DIR__ . '/../src/config/database.php';
+
+$errors = [];
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $fullname = trim($_POST['fullname'] ?? '');
+    $email = trim($_POST['email'] ?? '');
+    $password = $_POST['password'] ?? '';
+    $confirmPassword = $_POST['confirm-password'] ?? '';
+
+    // Split full name into first name + surname (everything after the first space)
+    $nameParts = preg_split('/\s+/', $fullname, 2);
+    $firstName = $nameParts[0] ?? '';
+    $surname = $nameParts[1] ?? '';
+
+    // --- Validation ---
+    if ($fullname === '' || $email === '' || $password === '') {
+        $errors[] = "All fields are required.";
+    }
+
+    if ($firstName === '' || $surname === '') {
+    $errors[] = "Please enter both your first name and surname.";
+}
+    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        $errors[] = "Please enter a valid email address.";
+    }
+    if (strlen($password) < 8) {
+        $errors[] = "Password must be at least 8 characters.";
+    }
+    if ($password !== $confirmPassword) {
+        $errors[] = "Passwords do not match.";
+    }
+
+    // --- Check email isn't already registered ---
+    if (empty($errors)) {
+        $stmt = $pdo->prepare("SELECT user_id FROM User WHERE email = ?");
+        $stmt->execute([$email]);
+        if ($stmt->fetch()) {
+            $errors[] = "An account with that email already exists.";
+        }
+    }
+
+    // --- Create the account ---
+    if (empty($errors)) {
+        $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+
+        // NOTE: role defaults to 'student' for now since the signup form
+        // does not yet have a student/company toggle. Ask the frontend
+        // team to add one, then read it from $_POST here instead.
+        $role = 'student';
+
+        try {
+            $pdo->beginTransaction();
+
+            $stmt = $pdo->prepare("INSERT INTO User (email, password, role) VALUES (?, ?, ?)");
+            $stmt->execute([$email, $hashedPassword, $role]);
+            $userId = $pdo->lastInsertId();
+
+            $stmt = $pdo->prepare("INSERT INTO Student (user_id, first_name, surname) VALUES (?, ?, ?)");
+            $stmt->execute([$userId, $firstName, $surname]);
+
+            $pdo->commit();
+
+            // Log the new user in immediately
+            $_SESSION['user_id'] = $userId;
+            $_SESSION['role'] = $role;
+            $_SESSION['email'] = $email;
+            $_SESSION['first_name'] = $firstName;
+            $_SESSION['surname'] = $surname;
+
+            header("Location: studentdashboard.php");
+            exit;
+
+        } catch (PDOException $e) {
+            $pdo->rollBack();
+            $errors[] = "Something went wrong creating your account. Please try again.";
+        }
+    }
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -346,51 +428,58 @@
           <div class="divider-line"></div>
         </div>
 
-        <form class="auth-form" method="POST" action="#" novalidate>
+        <form class="auth-form" method="POST" action="signup.php" novalidate>
+            <?php if (!empty($errors)): ?>
+              <div class="form-errors" style="background:#3a1a1a;border:1px solid #ef4444;color:#fecaca;padding:0.75rem 1rem;border-radius:6px;margin-bottom:1rem;">
+                <?php foreach ($errors as $error): ?>
+                  <p style="margin:0;"><?= htmlspecialchars($error) ?></p>
+                <?php endforeach; ?>
+              </div>
+            <?php endif; ?>
           <div class="form-group">
             <label for="fullname" class="form-label">Full Name</label>
-            <input 
-              type="text" 
-              id="fullname" 
-              name="fullname" 
-              class="form-input" 
-              placeholder="John Doe" 
+            <input
+              type="text"
+              id="fullname" name="fullname"
+              name="fullname"
+              class="form-input"
+              placeholder="John Doe"
               required
             >
           </div>
 
           <div class="form-group">
             <label for="email" class="form-label">Email Address</label>
-            <input 
-              type="email" 
-              id="email" 
-              name="email" 
-              class="form-input" 
-              placeholder="you@example.com" 
+            <input
+              type="email"
+              id="email" name="email"
+              name="email"
+              class="form-input"
+              placeholder="you@example.com"
               required
             >
           </div>
 
           <div class="form-group">
             <label for="password" class="form-label">Password</label>
-            <input 
-              type="password" 
-              id="password" 
-              name="password" 
-              class="form-input" 
-              placeholder="Create a password" 
+            <input
+              type="password"
+              id="password" name="password"
+              name="password"
+              class="form-input"
+              placeholder="Create a password"
               required
             >
           </div>
 
           <div class="form-group">
             <label for="confirm-password" class="form-label">Confirm Password</label>
-            <input 
-              type="password" 
-              id="confirm-password" 
-              name="confirm-password" 
-              class="form-input" 
-              placeholder="Confirm your password" 
+            <input
+              type="password"
+              id="confirm-password" name="confirm-password"
+              name="confirm-password"
+              class="form-input"
+              placeholder="Confirm your password"
               required
             >
           </div>
@@ -399,7 +488,7 @@
         </form>
 
         <div class="signup-footer">
-          <p>Already have an account? <a href="login.html">Sign in</a></p>
+          <p>Already have an account? <a href="login.php">Sign in</a></p>
           <p>By creating an account, you agree to our <a href="termsandconditions.html">Terms of Service</a> </p>
         </div>
       </div>

@@ -1,161 +1,202 @@
--- MySQL dump 10.13  Distrib 8.0.46, for Win64 (x86_64)
---
--- Host: 127.0.0.1    Database: userport
--- ------------------------------------------------------
--- Server version	8.0.46
+-- L.I.M.E database schema
+-- Compatible with XAMPP / MariaDB 10.4+
 
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!50503 SET NAMES utf8 */;
-/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
-/*!40103 SET TIME_ZONE='+00:00' */;
-/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
-/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
-/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
-/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+CREATE DATABASE IF NOT EXISTS lime_db
+  CHARACTER SET utf8mb4
+  COLLATE utf8mb4_general_ci;
 
---
--- Table structure for table `institution`
---
+USE lime_db;
 
-DROP TABLE IF EXISTS `institution`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `institution` (
-  `institution_id` int NOT NULL AUTO_INCREMENT,
-  `institution_name` varchar(255) NOT NULL,
-  `type` enum('University','College','TVET','Other') DEFAULT NULL,
-  `country` varchar(100) DEFAULT 'South Africa',
-  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+CREATE TABLE IF NOT EXISTS `user` (
+  `user_id` INT NOT NULL AUTO_INCREMENT,
+  `email` VARCHAR(255) NOT NULL,
+  `password` VARCHAR(255) NOT NULL,
+  `role` ENUM('student','company') NOT NULL,
+  `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`user_id`),
+  UNIQUE KEY `uq_user_email` (`email`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+CREATE TABLE IF NOT EXISTS `institution` (
+  `institution_id` INT NOT NULL AUTO_INCREMENT,
+  `institution_name` VARCHAR(255) NOT NULL,
+  `type` ENUM('University','College','TVET','Other') DEFAULT NULL,
+  `country` VARCHAR(100) DEFAULT 'South Africa',
+  `created_at` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`institution_id`),
-  UNIQUE KEY `institution_name` (`institution_name`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
+  UNIQUE KEY `uq_institution_name` (`institution_name`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Table structure for table `project`
---
-
-DROP TABLE IF EXISTS `project`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `project` (
-  `project_id` int NOT NULL AUTO_INCREMENT,
-  `student_id` int DEFAULT NULL,
-  `project_type` enum('Project','Assignment') DEFAULT NULL,
-  `title` varchar(50) NOT NULL,
-  `project_description` varchar(250) DEFAULT NULL,
-  `filepath` varchar(512) DEFAULT NULL,
-  `date_posted` date NOT NULL DEFAULT (curdate()),
-  PRIMARY KEY (`project_id`),
-  KEY `student_id` (`student_id`),
-  CONSTRAINT `project_ibfk_1` FOREIGN KEY (`student_id`) REFERENCES `student` (`student_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Table structure for table `project_skill`
---
-
-DROP TABLE IF EXISTS `project_skill`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `project_skill` (
-  `project_id` int NOT NULL,
-  `skill_id` int NOT NULL,
-  PRIMARY KEY (`project_id`,`skill_id`),
-  KEY `skill_id` (`skill_id`),
-  CONSTRAINT `project_skill_ibfk_1` FOREIGN KEY (`project_id`) REFERENCES `project` (`project_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `project_skill_ibfk_2` FOREIGN KEY (`skill_id`) REFERENCES `skill` (`skill_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Table structure for table `skill`
---
-
-DROP TABLE IF EXISTS `skill`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `skill` (
-  `skill_id` int NOT NULL AUTO_INCREMENT,
-  `skill_name` varchar(100) DEFAULT NULL,
-  PRIMARY KEY (`skill_id`),
-  UNIQUE KEY `skill_name` (`skill_name`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Table structure for table `student`
---
-
-DROP TABLE IF EXISTS `student`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `student` (
-  `student_id` int NOT NULL AUTO_INCREMENT,
-  `username_id` varchar(50) DEFAULT NULL,
-  `institution_id` int DEFAULT NULL,
-  `first_name` varchar(50) NOT NULL,
-  `surname` varchar(50) NOT NULL,
-  `student_number` int DEFAULT NULL,
-  `approval_status` enum('Pending','Approved','Rejected') DEFAULT 'Pending',
-  `linkedIn` varchar(250) DEFAULT NULL,
-  `github` varchar(250) DEFAULT NULL,
-  `registeredDate` date NOT NULL DEFAULT (curdate()),
+CREATE TABLE IF NOT EXISTS `student` (
+  `student_id` INT NOT NULL AUTO_INCREMENT,
+  `user_id` INT NOT NULL,
+  `institution_id` INT DEFAULT NULL,
+  `first_name` VARCHAR(100) NOT NULL,
+  `surname` VARCHAR(100) NOT NULL,
+  `institution` VARCHAR(150) DEFAULT NULL COMMENT 'Legacy text field kept temporarily during migration to institution_id',
+  `linkedin_url` VARCHAR(255) DEFAULT NULL,
+  `github_url` VARCHAR(255) DEFAULT NULL,
+  `profile_picture` VARCHAR(255) DEFAULT NULL,
+  `date_registered` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `student_id_number` VARCHAR(50) DEFAULT NULL,
+  `verification_status` ENUM('Pending','Verified') DEFAULT 'Pending',
   PRIMARY KEY (`student_id`),
-  KEY `username_id` (`username_id`),
-  KEY `institution_id` (`institution_id`),
-  CONSTRAINT `student_ibfk_1` FOREIGN KEY (`username_id`) REFERENCES `user` (`username_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `student_ibfk_2` FOREIGN KEY (`institution_id`) REFERENCES `institution` (`institution_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `student_chk_1` CHECK (((`linkedIn` is null) or regexp_like(`linkedIn`,_utf8mb4'^https?://([a-z0-9-]+\\.)*linkedin\\.com/.*$'))),
-  CONSTRAINT `student_chk_2` CHECK (((`github` is null) or regexp_like(`github`,_utf8mb4'^https?://([a-z0-9-]+\\.)*github\\.com/.*$')))
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
+  UNIQUE KEY `uq_student_user` (`user_id`),
+  KEY `idx_student_institution` (`institution_id`),
+  CONSTRAINT `fk_student_user`
+    FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`) ON DELETE CASCADE,
+  CONSTRAINT `fk_student_institution`
+    FOREIGN KEY (`institution_id`) REFERENCES `institution` (`institution_id`) ON DELETE SET NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Table structure for table `studentskills`
---
+CREATE TABLE IF NOT EXISTS `company` (
+  `company_id` INT NOT NULL AUTO_INCREMENT,
+  `user_id` INT NOT NULL,
+  `name` VARCHAR(150) NOT NULL,
+  `registration_num` VARCHAR(100) DEFAULT NULL,
+  `official_email` VARCHAR(255) DEFAULT NULL,
+  `domain` VARCHAR(150) DEFAULT NULL,
+  `industry` VARCHAR(100) DEFAULT NULL,
+  `website` VARCHAR(255) DEFAULT NULL,
+  `verification_status` ENUM('Pending','Approved','Rejected') DEFAULT 'Pending',
+  `date_registered` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`company_id`),
+  UNIQUE KEY `uq_company_user` (`user_id`),
+  CONSTRAINT `fk_company_user`
+    FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
-DROP TABLE IF EXISTS `studentskills`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `studentskills` (
-  `student_id` int NOT NULL,
-  `skill_id` int NOT NULL,
+CREATE TABLE IF NOT EXISTS `skill` (
+  `skill_id` INT NOT NULL AUTO_INCREMENT,
+  `skill_name` VARCHAR(100) NOT NULL,
+  `category` VARCHAR(100) DEFAULT NULL,
+  PRIMARY KEY (`skill_id`),
+  UNIQUE KEY `uq_skill_name` (`skill_name`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+CREATE TABLE IF NOT EXISTS `project` (
+  `project_id` INT NOT NULL AUTO_INCREMENT,
+  `student_id` INT NOT NULL,
+  `type` ENUM('Project','Assignment') NOT NULL,
+  `title` VARCHAR(200) NOT NULL,
+  `description` TEXT DEFAULT NULL,
+  `filepath` VARCHAR(255) DEFAULT NULL,
+  `date_posted` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `ai_generated_description` TEXT DEFAULT NULL,
+  `ai_suggested_improvements` TEXT DEFAULT NULL,
+  PRIMARY KEY (`project_id`),
+  KEY `idx_project_student` (`student_id`),
+  CONSTRAINT `fk_project_student`
+    FOREIGN KEY (`student_id`) REFERENCES `student` (`student_id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+CREATE TABLE IF NOT EXISTS `projectskill` (
+  `project_id` INT NOT NULL,
+  `skill_id` INT NOT NULL,
+  PRIMARY KEY (`project_id`,`skill_id`),
+  KEY `idx_projectskill_skill` (`skill_id`),
+  CONSTRAINT `fk_projectskill_project`
+    FOREIGN KEY (`project_id`) REFERENCES `project` (`project_id`) ON DELETE CASCADE,
+  CONSTRAINT `fk_projectskill_skill`
+    FOREIGN KEY (`skill_id`) REFERENCES `skill` (`skill_id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+CREATE TABLE IF NOT EXISTS `studentskill` (
+  `student_id` INT NOT NULL,
+  `skill_id` INT NOT NULL,
+  `source` ENUM('AI','Manual') DEFAULT 'Manual',
   PRIMARY KEY (`student_id`,`skill_id`),
-  KEY `skill_id` (`skill_id`),
-  CONSTRAINT `studentskills_ibfk_1` FOREIGN KEY (`student_id`) REFERENCES `student` (`student_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `studentskills_ibfk_2` FOREIGN KEY (`skill_id`) REFERENCES `skill` (`skill_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
+  KEY `idx_studentskill_skill` (`skill_id`),
+  CONSTRAINT `fk_studentskill_student`
+    FOREIGN KEY (`student_id`) REFERENCES `student` (`student_id`) ON DELETE CASCADE,
+  CONSTRAINT `fk_studentskill_skill`
+    FOREIGN KEY (`skill_id`) REFERENCES `skill` (`skill_id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Table structure for table `user`
---
+CREATE TABLE IF NOT EXISTS `opportunity` (
+  `opportunity_id` INT NOT NULL AUTO_INCREMENT,
+  `company_id` INT NOT NULL,
+  `title` VARCHAR(200) NOT NULL,
+  `description` TEXT DEFAULT NULL,
+  `type` ENUM('Internship','Workshop','WIL') NOT NULL,
+  `required_skills` VARCHAR(255) DEFAULT NULL,
+  `location` VARCHAR(150) DEFAULT NULL,
+  `date_posted` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `deadline` DATE DEFAULT NULL,
+  `status` ENUM('Open','Closed') DEFAULT 'Open',
+  PRIMARY KEY (`opportunity_id`),
+  KEY `idx_opportunity_company` (`company_id`),
+  CONSTRAINT `fk_opportunity_company`
+    FOREIGN KEY (`company_id`) REFERENCES `company` (`company_id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
-DROP TABLE IF EXISTS `user`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `user` (
-  `username_id` varchar(50) NOT NULL,
-  `email` varchar(100) NOT NULL,
-  `password` varchar(50) NOT NULL,
-  `role` enum('student','company') DEFAULT NULL,
-  PRIMARY KEY (`username_id`),
-  UNIQUE KEY `email` (`email`),
-  CONSTRAINT `user_chk_1` CHECK (regexp_like(`email`,_utf8mb4'^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$'))
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+CREATE TABLE IF NOT EXISTS `application` (
+  `application_id` INT NOT NULL AUTO_INCREMENT,
+  `student_id` INT NOT NULL,
+  `opportunity_id` INT NOT NULL,
+  `apply_date` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `status` ENUM('Pending','Accepted','Rejected') DEFAULT 'Pending',
+  PRIMARY KEY (`application_id`),
+  KEY `idx_application_student` (`student_id`),
+  KEY `idx_application_opportunity` (`opportunity_id`),
+  CONSTRAINT `fk_application_student`
+    FOREIGN KEY (`student_id`) REFERENCES `student` (`student_id`) ON DELETE CASCADE,
+  CONSTRAINT `fk_application_opportunity`
+    FOREIGN KEY (`opportunity_id`) REFERENCES `opportunity` (`opportunity_id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
-/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
-/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
-/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
-/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+CREATE TABLE IF NOT EXISTS `message` (
+  `message_id` INT NOT NULL AUTO_INCREMENT,
+  `sender_user_id` INT NOT NULL,
+  `receiver_user_id` INT NOT NULL,
+  `content` TEXT NOT NULL,
+  `timestamp` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `is_read` TINYINT(1) DEFAULT 0,
+  PRIMARY KEY (`message_id`),
+  KEY `idx_message_sender` (`sender_user_id`),
+  KEY `idx_message_receiver` (`receiver_user_id`),
+  CONSTRAINT `fk_message_sender`
+    FOREIGN KEY (`sender_user_id`) REFERENCES `user` (`user_id`) ON DELETE CASCADE,
+  CONSTRAINT `fk_message_receiver`
+    FOREIGN KEY (`receiver_user_id`) REFERENCES `user` (`user_id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+CREATE TABLE IF NOT EXISTS `notification` (
+  `notification_id` INT NOT NULL AUTO_INCREMENT,
+  `user_id` INT NOT NULL,
+  `type` VARCHAR(100) DEFAULT NULL,
+  `content` TEXT NOT NULL,
+  `timestamp` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `is_read` TINYINT(1) DEFAULT 0,
+  PRIMARY KEY (`notification_id`),
+  KEY `idx_notification_user` (`user_id`),
+  CONSTRAINT `fk_notification_user`
+    FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+CREATE TABLE IF NOT EXISTS `recommendation` (
+  `recommendation_id` INT NOT NULL AUTO_INCREMENT,
+  `student_id` INT NOT NULL,
+  `opportunity_id` INT NOT NULL,
+  `relevance_score` DECIMAL(5,2) DEFAULT NULL,
+  `ai_data` TEXT DEFAULT NULL,
+  `date_generated` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`recommendation_id`),
+  KEY `idx_recommendation_student` (`student_id`),
+  KEY `idx_recommendation_opportunity` (`opportunity_id`),
+  CONSTRAINT `fk_recommendation_student`
+    FOREIGN KEY (`student_id`) REFERENCES `student` (`student_id`) ON DELETE CASCADE,
+  CONSTRAINT `fk_recommendation_opportunity`
+    FOREIGN KEY (`opportunity_id`) REFERENCES `opportunity` (`opportunity_id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+CREATE TABLE IF NOT EXISTS `admin` (
+  `admin_id` INT NOT NULL AUTO_INCREMENT,
+  `first_name` VARCHAR(100) NOT NULL,
+  `surname` VARCHAR(100) NOT NULL,
+  `email` VARCHAR(255) NOT NULL,
+  `password` VARCHAR(255) NOT NULL,
+  `permission_lvl` VARCHAR(50) DEFAULT NULL,
+  PRIMARY KEY (`admin_id`),
+  UNIQUE KEY `uq_admin_email` (`email`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;

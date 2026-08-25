@@ -1,3 +1,7 @@
+<?php
+require_once __DIR__ . '/../src/helpers/auth.php';
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -431,7 +435,16 @@
     </main>
   </div>
 
+  <script>
+window.LIME_USER = {
+    name: <?= json_encode($firstName) ?>,
+    email: <?= json_encode($email) ?>,
+    role: <?= json_encode($role) ?>
+};
+</script>
+
   <script src="lime-nav.js"></script>
+
   <script>
     // Handle nav link active state
     document.querySelectorAll('.lime-nav-link').forEach(link => {
